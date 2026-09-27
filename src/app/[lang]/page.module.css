@@ -10,8 +10,7 @@
 .tagline {
   font-size: var(--step-5);
   font-weight: 700;
-  font-stretch: 80%;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
   color: var(--accent);
 }
 

@@ -28,8 +28,13 @@
   --accent: var(--c-oxblood);
   --line: color-mix(in srgb, var(--fg) 20%, transparent);
 
-  /* Tipografía (provisoria hasta tener los archivos de marca) */
-  --font-body: var(--font-sans), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /*
+   * Tipografía: la de su carta es Helvetica con su oblicua (a de dos pisos en la
+   * itálica, c/e/s cerradas). Usamos la del sistema: Helvetica real en Apple,
+   * Arial en Windows, 0 KB de descarga. La licencia web de Helvetica queda
+   * como opción para cuando el sitio sea de Ámbar.
+   */
+  --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
   --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
   --step-1: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);

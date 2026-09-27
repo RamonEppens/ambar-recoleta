@@ -1,23 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Archivo } from "next/font/google";
 import { SiteHeader } from "@/components/SiteHeader";
 import { hasLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import "@/styles/globals.css";
-
-/*
- * Tipografía provisoria: grotesca neutra como la de su carta, con itálica real
- * (la usan en las descripciones de los platos) y eje de ancho variable.
- * Se reemplaza cuando tengamos los archivos de marca.
- */
-const archivo = Archivo({
-  subsets: ["latin"],
-  axes: ["wdth"],
-  style: ["normal", "italic"],
-  variable: "--font-sans",
-  display: "swap",
-});
 
 const indexable = process.env.ALLOW_INDEXING === "true";
 
@@ -50,7 +36,7 @@ export default async function RootLayout({
   const dict = await getDictionary(lang);
 
   return (
-    <html lang={lang} className={archivo.variable}>
+    <html lang={lang}>
       <body>
         <a className="skip-link" href="#contenido">
           {dict.a11y.skip}
