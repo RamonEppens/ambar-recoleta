@@ -1,0 +1,83 @@
+/*
+ * Tokens de diseño de Ámbar.
+ * Los colores salen de su propio material: el isotipo, el papel de la carta,
+ * la cortina y los almohadones del patio. El ámbar vive en las fotos (la luz),
+ * no en la interfaz.
+ *
+ * Breakpoints (las variables CSS no funcionan dentro de @media, así que se documentan acá):
+ *   48rem  (768px)   tablet
+ *   68rem  (1088px)  desktop
+ */
+
+:root {
+  /* Paleta base: nunca se usa directo en componentes */
+  --c-oxblood: #5c2113; /* isotipo */
+  --c-crema: #e6dbce; /* papel de la carta */
+  --c-crema-sombra: #cdbfaf;
+  --c-tinta: #2b1a14; /* texto sobre crema, 12.2:1 */
+  --c-humo: #6b5a50; /* texto secundario sobre crema, 4.8:1 (no usar sobre crema-sombra) */
+  --c-noche: #14110b; /* cortina */
+  --c-humo-noche: #a89a8d; /* texto secundario sobre noche, 6.9:1 */
+  --c-terciopelo: #243249; /* almohadones y cortina azul */
+
+  /* Roles: esto es lo que usan los componentes */
+  --bg: var(--c-crema);
+  --bg-raised: var(--c-crema-sombra);
+  --fg: var(--c-tinta);
+  --fg-muted: var(--c-humo);
+  --accent: var(--c-oxblood);
+  --line: color-mix(in srgb, var(--fg) 20%, transparent);
+
+  /*
+   * Tipografía: la de su carta es Helvetica con su oblicua (a de dos pisos en la
+   * itálica, c/e/s cerradas). Usamos la del sistema: Helvetica real en Apple,
+   * Arial en Windows, 0 KB de descarga. La licencia web de Helvetica queda
+   * como opción para cuando el sitio sea de Ámbar.
+   */
+  --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --step--1: clamp(0.83rem, 0.8rem + 0.15vw, 0.9rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-1: clamp(1.2rem, 1.1rem + 0.5vw, 1.5rem);
+  --step-2: clamp(1.44rem, 1.25rem + 0.9vw, 2rem);
+  --step-3: clamp(1.73rem, 1.4rem + 1.6vw, 2.75rem);
+  --step-4: clamp(2.07rem, 1.5rem + 2.8vw, 4rem);
+  --step-5: clamp(2.5rem, 1.5rem + 5vw, 6rem);
+  --tracking-carta: 0.3em; /* los títulos espaciados de la carta: "M a r t i n i s" */
+
+  /* Espacio */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2.5rem;
+  --space-6: 4rem;
+  --space-7: 6rem;
+  --space-8: 9rem;
+  --gutter: clamp(1rem, 4vw, 3rem);
+  --max-width: 80rem;
+  --measure: 62ch;
+
+  /* Movimiento */
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration: 240ms;
+}
+
+/*
+ * Modos: una sección con data-mode="noche" cambia los roles y todos sus hijos
+ * se adaptan solos. Es la base del recorrido tarde → cena → noche.
+ */
+[data-mode="noche"] {
+  --bg: var(--c-noche);
+  --bg-raised: color-mix(in srgb, var(--c-noche) 85%, var(--c-crema));
+  --fg: var(--c-crema);
+  --fg-muted: var(--c-humo-noche);
+  --accent: var(--c-crema);
+}
+
+[data-mode="terciopelo"] {
+  --bg: var(--c-terciopelo);
+  --bg-raised: color-mix(in srgb, var(--c-terciopelo) 85%, var(--c-crema));
+  --fg: var(--c-crema);
+  --fg-muted: var(--c-crema-sombra);
+  --accent: var(--c-crema);
+}
