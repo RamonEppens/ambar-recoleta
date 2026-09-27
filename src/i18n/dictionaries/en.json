@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "title": "Ámbar Recoleta",
+    "description": "Restaurant, bar and dance floor across from the Recoleta Cemetery. Junín 1725, Buenos Aires."
+  },
+  "a11y": {
+    "skip": "Skip to content",
+    "home": "Ámbar, home",
+    "language": "Language"
+  },
+  "home": {
+    "tagline": "Eat well, drink, dance.",
+    "place": "All at Junín 1725, across from the Recoleta Cemetery.",
+    "hours": "Tuesday to Saturday from 5 pm. Saturdays from 2 pm.",
+    "reserve": "Book a table"
+  }
+}

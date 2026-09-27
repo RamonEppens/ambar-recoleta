@@ -1,0 +1,44 @@
+/* Home provisoria: solo prueba tokens, tipografía y los dos idiomas. Se rediseña en el PR de la home. */
+.main {
+  display: grid;
+  gap: var(--space-4);
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--space-7) var(--gutter);
+}
+
+.tagline {
+  font-size: var(--step-5);
+  font-weight: 700;
+  font-stretch: 80%;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+
+.place {
+  max-width: var(--measure);
+  font-size: var(--step-1);
+}
+
+.hours {
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+.reserve {
+  justify-self: start;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid currentColor;
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-carta);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.reserve:hover {
+  background: var(--fg);
+  color: var(--bg);
+}

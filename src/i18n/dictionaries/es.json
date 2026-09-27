@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "title": "Ámbar Recoleta",
+    "description": "Restaurante, barra y pista frente al Cementerio de la Recoleta. Junín 1725."
+  },
+  "a11y": {
+    "skip": "Saltar al contenido",
+    "home": "Ámbar, inicio",
+    "language": "Idioma"
+  },
+  "home": {
+    "tagline": "Cenar rico, escabiar, bailar.",
+    "place": "Todo en Junín 1725, frente al Cementerio de la Recoleta.",
+    "hours": "Martes a sábado desde las 17. Sábados desde las 14.",
+    "reserve": "Reservá una mesa"
+  }
+}
