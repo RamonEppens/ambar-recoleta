@@ -11,7 +11,39 @@
   "home": {
     "tagline": "Cenar rico, escabiar, bailar.",
     "place": "Todo en Junín 1725, frente al Cementerio de la Recoleta.",
-    "hours": "Martes a sábado desde las 17. Sábados desde las 14.",
     "reserve": "Reservá una mesa"
+  },
+  "dias": [
+    "domingo",
+    "lunes",
+    "martes",
+    "miércoles",
+    "jueves",
+    "viernes",
+    "sábado"
+  ],
+  "ahora": {
+    "label": "Ahora",
+    "aperitivo": "Carta aperitiva",
+    "cena": "Carta de cena",
+    "cocina": "cocina hasta {hora}",
+    "barra": "Cocina cerrada · barra hasta {hora}",
+    "dj": "DJ en vivo",
+    "cerradoHoy": "Cerrado · abrimos hoy a {hora}",
+    "cerradoManana": "Cerrado · abrimos mañana a {hora}",
+    "cerrado": "Cerrado · abrimos el {dia} a {hora}"
+  },
+  "footer": {
+    "direccion": "Junín 1725, Recoleta",
+    "ciudad": "Buenos Aires",
+    "comoLlegar": "Cómo llegar",
+    "horarios": "Horarios",
+    "rangoDias": "{desde} a {hasta}",
+    "cocina": "Cocina hasta {hora}",
+    "cerrado": "{dias}: cerrado",
+    "y": "y",
+    "reservar": "Reservar",
+    "seguinos": "Seguinos",
+    "musica": "Los sets, en Colonia Radio"
   }
 }

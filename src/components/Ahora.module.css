@@ -1,0 +1,33 @@
+.ahora {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--space-2);
+  min-height: 1.5em;
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+/* Punto de estado: lleno si está abierto, vacío si está cerrado */
+.ahora[data-abierto]::before {
+  content: "";
+  align-self: center;
+  width: 0.5em;
+  height: 0.5em;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+}
+
+.ahora[data-abierto="true"]::before {
+  background: var(--accent);
+}
+
+.label {
+  letter-spacing: var(--tracking-carta);
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.dj {
+  font-style: italic;
+}

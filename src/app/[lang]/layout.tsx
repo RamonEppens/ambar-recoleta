@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { hasLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
@@ -43,6 +44,7 @@ export default async function RootLayout({
         </a>
         <SiteHeader lang={lang} dict={dict} />
         {children}
+        <SiteFooter lang={lang} dict={dict} />
       </body>
     </html>
   );
