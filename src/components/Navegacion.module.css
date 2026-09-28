@@ -1,0 +1,72 @@
+/* Móvil: botón "Menú" que despliega un panel debajo del header. Desde tablet: lista en línea. */
+
+.toggle {
+  padding: var(--space-2) 0;
+  border: 0;
+  background: none;
+  color: var(--fg);
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-carta);
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.lista {
+  display: none;
+  padding: 0;
+  list-style: none;
+}
+
+.lista[data-abierto="true"] {
+  position: absolute;
+  inset: 100% 0 auto;
+  z-index: 20;
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--gutter) var(--space-5);
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.link {
+  display: inline-block;
+  padding-block: var(--space-2);
+  font-size: var(--step-2);
+  text-decoration: none;
+}
+
+.link[aria-current="page"] {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+.reservar {
+  margin-top: var(--space-2);
+}
+
+@media (min-width: 60rem) {
+  .toggle {
+    display: none;
+  }
+
+  .lista,
+  .lista[data-abierto="true"] {
+    position: static;
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+
+  .link {
+    font-size: var(--step--1);
+    letter-spacing: var(--tracking-carta);
+    text-transform: uppercase;
+  }
+
+  .reservar {
+    margin: 0 0 0 var(--space-3);
+  }
+}
