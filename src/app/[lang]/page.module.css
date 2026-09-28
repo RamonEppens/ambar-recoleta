@@ -19,11 +19,6 @@
   font-size: var(--step-1);
 }
 
-.hours {
-  font-style: italic;
-  color: var(--fg-muted);
-}
-
 .reserve {
   justify-self: start;
   padding: var(--space-3) var(--space-4);

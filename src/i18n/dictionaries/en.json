@@ -11,7 +11,39 @@
   "home": {
     "tagline": "Eat well, drink, dance.",
     "place": "All at Junín 1725, across from the Recoleta Cemetery.",
-    "hours": "Tuesday to Saturday from 5 pm. Saturdays from 2 pm.",
     "reserve": "Book a table"
+  },
+  "dias": [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday"
+  ],
+  "ahora": {
+    "label": "Now",
+    "aperitivo": "Aperitivo menu",
+    "cena": "Dinner menu",
+    "cocina": "kitchen until {hora}",
+    "barra": "Kitchen closed · bar until {hora}",
+    "dj": "Live DJ",
+    "cerradoHoy": "Closed · opening today at {hora}",
+    "cerradoManana": "Closed · opening tomorrow at {hora}",
+    "cerrado": "Closed · opening {dia} at {hora}"
+  },
+  "footer": {
+    "direccion": "Junín 1725, Recoleta",
+    "ciudad": "Buenos Aires",
+    "comoLlegar": "Get directions",
+    "horarios": "Hours",
+    "rangoDias": "{desde} to {hasta}",
+    "cocina": "Kitchen until {hora}",
+    "cerrado": "{dias}: closed",
+    "y": "and",
+    "reservar": "Book a table",
+    "seguinos": "Follow us",
+    "musica": "The sets, on Colonia Radio"
   }
 }
