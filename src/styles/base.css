@@ -101,3 +101,34 @@ a {
     scroll-behavior: auto !important;
   }
 }
+
+/* Botones: en mayúsculas espaciadas, como los títulos de la carta */
+.boton {
+  display: inline-block;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--bg);
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-carta);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    background-color var(--duration) var(--ease),
+    color var(--duration) var(--ease);
+}
+
+.boton:hover {
+  background: transparent;
+  color: var(--accent);
+}
+
+.boton-secundario {
+  background: transparent;
+  color: var(--accent);
+}
+
+.boton-secundario:hover {
+  background: var(--accent);
+  color: var(--bg);
+}

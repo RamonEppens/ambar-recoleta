@@ -54,6 +54,11 @@
   --space-7: 6rem;
   --space-8: 9rem;
   --gutter: clamp(1rem, 4vw, 3rem);
+  --section: clamp(
+    3rem,
+    9vw,
+    7rem
+  ); /* aire entre secciones: chico en móvil, amplio en desktop */
   --max-width: 80rem;
   --measure: 62ch;
 
