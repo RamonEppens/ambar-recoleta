@@ -108,5 +108,29 @@
     "horarioTragos": "All night, until closing",
     "rangoDias": "{desde} to {hasta}",
     "separador": " · "
+  },
+  "espacio": {
+    "titulo": "The space",
+    "bajada": "Nearly 500 square meters across from the Recoleta Cemetery. Three rooms, one night.",
+    "datos": ["498 m²", "Patio, dining room and bar", "Junín 1725"],
+    "datosLabel": "At a glance",
+    "patio": {
+      "etiqueta": "The patio",
+      "titulo": "A roof that opens.",
+      "texto": "Palms lit from below that cast shadows on the wall, leather armchairs and chairs that don't match, on purpose. With the sky above when the weather allows.",
+      "link": "See the aperitivo menu"
+    },
+    "salon": {
+      "etiqueta": "The dining room",
+      "titulo": "For a dinner that takes its time.",
+      "texto": "White tablecloths, globe wall lamps, candles on the tables and blue velvet curtains. Booths for staying on after dessert.",
+      "link": "Book a table"
+    },
+    "barra": {
+      "etiqueta": "The bar",
+      "titulo": "Marble, light and music.",
+      "texto": "The marble bar under the arch of light. Up front, the Colonia Radio booth faces the street: DJs play live and every set is recorded.",
+      "link": "Discover the music"
+    }
   }
 }

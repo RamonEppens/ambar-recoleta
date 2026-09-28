@@ -108,5 +108,29 @@
     "horarioTragos": "Toda la noche, hasta el cierre",
     "rangoDias": "{desde} a {hasta}",
     "separador": " · "
+  },
+  "espacio": {
+    "titulo": "El espacio",
+    "bajada": "Casi 500 metros cuadrados frente al Cementerio de la Recoleta. Tres ambientes, una sola noche.",
+    "datos": ["498 m²", "Patio, salón y barra", "Junín 1725"],
+    "datosLabel": "En números",
+    "patio": {
+      "etiqueta": "El patio",
+      "titulo": "Un techo que se abre.",
+      "texto": "Palmeras iluminadas desde abajo que dibujan sombras en la pared, sillones de cuero y sillas que no combinan, a propósito. Con cielo arriba cuando el tiempo acompaña.",
+      "link": "Ver la carta aperitiva"
+    },
+    "salon": {
+      "etiqueta": "El salón",
+      "titulo": "Para cenar con tiempo.",
+      "texto": "Manteles blancos, apliques de globo, velas en las mesas y cortinas de terciopelo azul. Boxes para quedarse después del postre.",
+      "link": "Reservar una mesa"
+    },
+    "barra": {
+      "etiqueta": "La barra",
+      "titulo": "Mármol, luz y música.",
+      "texto": "La barra de mármol bajo el arco de luz. Adelante, la cabina de Colonia Radio mira a la vereda: los DJs tocan en vivo y cada set se graba.",
+      "link": "Conocé la música"
+    }
   }
 }

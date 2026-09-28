@@ -2,8 +2,8 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import type { FotoId } from "@/data/fotos";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { Foto } from "../Foto";
-import { Persiana, type Modo } from "../Persiana";
+import { Foto } from "./Foto";
+import { Persiana, type Modo } from "./Persiana";
 import styles from "./Momento.module.css";
 
 type MomentoProps = {
@@ -22,7 +22,7 @@ type MomentoProps = {
   children?: ReactNode;
 };
 
-/** Una de las secciones de la home: la tarde, la cena, la previa, lo que viene después. */
+/** Sección de texto + fotos con su modo de color. La usan la home (los momentos de la noche) y El espacio (los ambientes). */
 export function Momento({
   id,
   modo,
