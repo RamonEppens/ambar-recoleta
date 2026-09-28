@@ -1,0 +1,97 @@
+.momento {
+  padding-bottom: var(--section);
+}
+
+.grilla {
+  display: grid;
+  gap: var(--space-5);
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--section) var(--gutter) 0;
+}
+
+@media (min-width: 48rem) {
+  .grilla {
+    grid-template-columns: 5fr 6fr;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .grilla[data-lado="izquierda"] .fotos {
+    order: -1;
+  }
+}
+
+.texto {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+  max-width: 34rem;
+}
+
+.etiqueta {
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-carta);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.titulo {
+  font-size: var(--step-4);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.bajada {
+  font-size: var(--step-1);
+  max-width: var(--measure);
+}
+
+.link {
+  justify-self: start;
+  padding-block: var(--space-1);
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-carta);
+  text-transform: uppercase;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+
+.link::after {
+  content: " →";
+}
+
+/* Collage: la foto principal y una segunda más chica que se le superpone en una esquina */
+.fotos {
+  position: relative;
+  padding-bottom: var(--space-5);
+}
+
+.principal {
+  width: 100%;
+  height: auto;
+}
+
+.secundaria {
+  position: absolute;
+  right: calc(var(--gutter) * -0.5);
+  bottom: 0;
+  width: 42%;
+  height: auto;
+  border: var(--space-2) solid var(--bg);
+}
+
+.grilla[data-lado="izquierda"] .secundaria {
+  right: auto;
+  left: calc(var(--gutter) * -0.5);
+}
+
+@media (max-width: 47.99rem) {
+  .secundaria {
+    right: 0;
+  }
+
+  .grilla[data-lado="izquierda"] .secundaria {
+    left: 0;
+  }
+}

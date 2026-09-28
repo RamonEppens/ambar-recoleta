@@ -9,9 +9,38 @@
     "language": "Language"
   },
   "home": {
-    "tagline": "Eat well, drink, dance.",
-    "place": "All at Junín 1725, across from the Recoleta Cemetery.",
-    "reserve": "Book a table"
+    "hero": {
+      "titulo": "We're a bar and a restaurant",
+      "aparte": "(both at once, obviously)",
+      "bajada": "We're your dinner, your pre-drinks and, if the night calls for it, everything that comes after.",
+      "lugar": "Junín 1725, across from the Recoleta Cemetery.",
+      "reservar": "Book a table",
+      "carta": "See the menu"
+    },
+    "patio": {
+      "etiqueta": "Your afternoon",
+      "titulo": "Sky above, palms all around.",
+      "texto": "On Saturdays we open at {hora}. The patio is for starting early: a vermouth, some oysters, the aperitivo menu.",
+      "link": "See the space"
+    },
+    "cena": {
+      "etiqueta": "Your dinner",
+      "titulo": "French cooking, with a local accent.",
+      "texto": "Plates to share, bold and fresh flavors. Order two at a time and let them keep coming.",
+      "link": "See the full menu"
+    },
+    "previa": {
+      "etiqueta": "Your pre-drinks",
+      "titulo": "Drinks for drinking, not for looking at.",
+      "texto": "Clear flavors, no clarifications, no ceremony. Finish it and order another.",
+      "link": "See all the drinks"
+    },
+    "despues": {
+      "etiqueta": "And, if the night calls for it",
+      "titulo": "Everything that comes after.",
+      "texto": "Fridays and Saturdays, live DJs from {hora}. Every set is recorded and aired on Colonia Radio.",
+      "link": "Listen to the sets"
+    }
   },
   "dias": [
     "Sunday",
@@ -45,5 +74,18 @@
     "reservar": "Book a table",
     "seguinos": "Follow us",
     "musica": "The sets, on Colonia Radio"
+  },
+  "fotos": {
+    "barraCopasLuz": "Three martini glasses filled with ice on the bar, the warm light of the arch reflected on the marble.",
+    "djSetLiving": "A DJ plays at the back of the room while people chat on the couches.",
+    "espressoMartiniColonia": "An espresso martini resting on a turntable slipmat with the Colonia Radio logo.",
+    "mesaCena": "A table set for four, with green velvet folding chairs and a lit candle.",
+    "ostrasMarmol": "Three oysters with herbs on a marble table, next to a drink and a sauce.",
+    "patioTarde": "Tubular chairs with orange cushions on the patio, in the late-afternoon light.",
+    "platosCenital": "A full table seen from above: beef Wellington, steak au poivre with fries and duck breast on vintage porcelain.",
+    "platosOstrasPapas": "Oysters, fries, tuna tataki and a drink on a table, with the blue curtain behind.",
+    "rinconCuero": "A leather armchair next to a small wooden table with a lit lamp.",
+    "salonCortina": "The dining room by candlelight: white tablecloths, globe wall lamps and a velvet curtain.",
+    "tragosDeLaCasa": "Five house cocktails on a table, with the blue curtain behind."
   }
 }

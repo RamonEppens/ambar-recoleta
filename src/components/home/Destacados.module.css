@@ -1,0 +1,23 @@
+.lista {
+  display: grid;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+.plato {
+  display: grid;
+  gap: var(--space-1);
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.nombre {
+  font-size: var(--step-0);
+}
+
+.descripcion {
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--fg-muted);
+}

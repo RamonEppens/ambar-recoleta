@@ -9,9 +9,38 @@
     "language": "Idioma"
   },
   "home": {
-    "tagline": "Cenar rico, escabiar, bailar.",
-    "place": "Todo en Junín 1725, frente al Cementerio de la Recoleta.",
-    "reserve": "Reservá una mesa"
+    "hero": {
+      "titulo": "Somos un bar y restaurante",
+      "aparte": "(a la vez, obvio)",
+      "bajada": "Somos tu cena, tu previa y, si pinta, todo lo que viene después.",
+      "lugar": "Junín 1725, frente al Cementerio de la Recoleta.",
+      "reservar": "Reservá una mesa",
+      "carta": "Ver la carta"
+    },
+    "patio": {
+      "etiqueta": "Tu tarde",
+      "titulo": "Cielo arriba, palmeras alrededor.",
+      "texto": "Los sábados abrimos {hora}. El patio es para arrancar temprano: un vermut, unas ostras, la carta aperitiva.",
+      "link": "Conocé el espacio"
+    },
+    "cena": {
+      "etiqueta": "Tu cena",
+      "titulo": "Cocina francesa, con acento de acá.",
+      "texto": "Platos para compartir, sabores fuertes y frescos. Pedí de a dos y que vayan llegando.",
+      "link": "Ver la carta completa"
+    },
+    "previa": {
+      "etiqueta": "Tu previa",
+      "titulo": "Tragos para tomar, no para mirar.",
+      "texto": "Sabores claros, sin clarificados ni ceremonia. Te lo tomás y pedís otro.",
+      "link": "Ver todos los tragos"
+    },
+    "despues": {
+      "etiqueta": "Y, si pinta",
+      "titulo": "Todo lo que viene después.",
+      "texto": "Viernes y sábados, DJs en vivo desde {hora}. Cada set se graba y sale por Colonia Radio.",
+      "link": "Escuchar los sets"
+    }
   },
   "dias": [
     "domingo",
@@ -45,5 +74,18 @@
     "reservar": "Reservar",
     "seguinos": "Seguinos",
     "musica": "Los sets, en Colonia Radio"
+  },
+  "fotos": {
+    "barraCopasLuz": "Tres copas de martini llenas de hielo sobre la barra, con la luz cálida del arco reflejada en el mármol.",
+    "djSetLiving": "Un DJ pasa música al fondo del salón mientras la gente charla sentada en sillones.",
+    "espressoMartiniColonia": "Un espresso martini apoyado sobre una bandeja giradiscos con el logo de Colonia Radio.",
+    "mesaCena": "Una mesa puesta para cuatro, con sillas plegables de terciopelo verde y una vela encendida.",
+    "ostrasMarmol": "Tres ostras con hierbas sobre una mesa de mármol, junto a un trago y una salsa.",
+    "patioTarde": "Sillas de caño con almohadones naranjas en el patio, con luz de atardecer.",
+    "platosCenital": "Una mesa llena vista desde arriba: lomo Wellington, bife al poivre con papas y magret de pato en platos de porcelana antigua.",
+    "platosOstrasPapas": "Ostras, papas fritas, tataki de atún y un trago sobre una mesa, con la cortina azul de fondo.",
+    "rinconCuero": "Un sillón de cuero junto a una mesita de madera con una lámpara encendida.",
+    "salonCortina": "El salón a la luz de las velas: mesas con mantel blanco, apliques de globo y una cortina de terciopelo.",
+    "tragosDeLaCasa": "Cinco tragos de la casa sobre una mesa, con la cortina azul de fondo."
   }
 }
