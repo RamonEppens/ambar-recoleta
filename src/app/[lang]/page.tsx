@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Destacados } from "@/components/home/Destacados";
 import { Hero } from "@/components/home/Hero";
-import { Momento } from "@/components/home/Momento";
+import { Momento } from "@/components/Momento";
 import { semana } from "@/data/horarios";
 import { completar } from "@/i18n/completar";
 import { hasLocale } from "@/i18n/config";
