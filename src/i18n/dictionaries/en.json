@@ -87,5 +87,26 @@
     "rinconCuero": "A leather armchair next to a small wooden table with a lit lamp.",
     "salonCortina": "The dining room by candlelight: white tablecloths, globe wall lamps and a velvet curtain.",
     "tragosDeLaCasa": "Five house cocktails on a table, with the blue curtain behind."
+  },
+  "nav": {
+    "principal": "Site sections",
+    "carta": "Menu",
+    "espacio": "The space",
+    "musica": "Music",
+    "visitanos": "Visit us",
+    "reservar": "Book",
+    "menu": "Menu",
+    "cerrar": "Close"
+  },
+  "carta": {
+    "titulo": "The menu",
+    "bajada": "French cooking with a local accent, made for sharing. Clear drinks, no ceremony.",
+    "indice": "Jump to",
+    "precios": "Prices in Argentine pesos, for reference: the menu changes often and today's is at the bar.",
+    "horarioAperitivo": "{dias}, {rango}",
+    "horarioCena": "From {desde} · kitchen until {hasta}",
+    "horarioTragos": "All night, until closing",
+    "rangoDias": "{desde} to {hasta}",
+    "separador": " · "
   }
 }

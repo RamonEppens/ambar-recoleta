@@ -14,3 +14,16 @@ describe("agruparSemana", () => {
     });
   });
 });
+
+describe("agruparSemana con otro rango", () => {
+  it("agrupa el horario de la carta aperitiva", () => {
+    const aperitivo = agruparSemana(semana, (j) => ({
+      abre: j.abre,
+      cierra: j.aperitivoHasta,
+    }));
+    expect(aperitivo.tramos).toEqual([
+      { desde: 2, hasta: 5, abre: "17:00", cierra: "20:00" },
+      { desde: 6, hasta: 6, abre: "14:00", cierra: "20:00" },
+    ]);
+  });
+});

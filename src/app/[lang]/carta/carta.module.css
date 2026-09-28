@@ -1,0 +1,132 @@
+/* Imita su carta impresa: nombre a la izquierda, precio a la derecha, descripción en itálica. */
+
+.encabezado {
+  display: grid;
+  gap: var(--space-4);
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--space-6) var(--gutter) var(--space-5);
+}
+
+.titulo {
+  font-size: var(--step-5);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--accent);
+}
+
+.bajada {
+  max-width: 36ch;
+  font-size: var(--step-1);
+}
+
+/* Índice: queda pegado arriba al hacer scroll para saltar entre cartas */
+.indice {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin-inline: calc(var(--gutter) * -1);
+  padding: var(--space-3) var(--gutter);
+  background: var(--bg);
+  border-block: 1px solid var(--line);
+}
+
+.indice ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-5);
+  padding: 0;
+  list-style: none;
+}
+
+.indice a {
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-carta);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.indice a:hover {
+  text-decoration: underline;
+}
+
+.carta {
+  scroll-margin-top: var(--space-5);
+}
+
+.contenido {
+  display: grid;
+  gap: var(--space-5);
+  max-width: 46rem; /* una carta se lee en una columna angosta, como el papel */
+  margin-inline: auto;
+  padding: var(--space-6) var(--gutter);
+}
+
+.cabecera {
+  display: grid;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.nombreCarta {
+  font-size: var(--step-3);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.horario {
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+.seccion {
+  display: grid;
+  gap: var(--space-3);
+}
+
+/* "C h i c o s", "M a r t i n i s": el título espaciado de su carta */
+.nombreSeccion {
+  font-size: var(--step-0);
+  font-weight: 400;
+  letter-spacing: var(--tracking-carta);
+  text-align: center;
+}
+
+.platos {
+  display: grid;
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.plato {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-1) var(--space-4);
+}
+
+.nombre {
+  font-size: var(--step-0);
+}
+
+.precio {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.descripcion {
+  grid-column: 1 / -1;
+  max-width: 52ch;
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+.nota {
+  padding: 0 var(--gutter) var(--section);
+  font-size: var(--step--1);
+  font-style: italic;
+  text-align: center;
+  color: var(--fg-muted);
+}

@@ -87,5 +87,26 @@
     "rinconCuero": "Un sillón de cuero junto a una mesita de madera con una lámpara encendida.",
     "salonCortina": "El salón a la luz de las velas: mesas con mantel blanco, apliques de globo y una cortina de terciopelo.",
     "tragosDeLaCasa": "Cinco tragos de la casa sobre una mesa, con la cortina azul de fondo."
+  },
+  "nav": {
+    "principal": "Secciones del sitio",
+    "carta": "La carta",
+    "espacio": "El espacio",
+    "musica": "Música",
+    "visitanos": "Visitanos",
+    "reservar": "Reservar",
+    "menu": "Menú",
+    "cerrar": "Cerrar"
+  },
+  "carta": {
+    "titulo": "La carta",
+    "bajada": "Cocina francesa con acento de acá, para compartir. Tragos claros, sin ceremonia.",
+    "indice": "Ir a",
+    "precios": "Precios en pesos argentinos, de referencia: la carta cambia seguido y la del día está en el local.",
+    "horarioAperitivo": "{dias}, de {rango}",
+    "horarioCena": "Desde {desde} · cocina hasta {hasta}",
+    "horarioTragos": "Toda la noche, hasta el cierre",
+    "rangoDias": "{desde} a {hasta}",
+    "separador": " · "
   }
 }
