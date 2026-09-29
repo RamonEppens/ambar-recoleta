@@ -1,0 +1,22 @@
+.horarios {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.tabla div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  max-width: 22rem;
+  padding-block: var(--space-1);
+  border-bottom: 1px solid var(--line);
+}
+
+.tabla dd {
+  font-variant-numeric: tabular-nums;
+}
+
+.nota {
+  font-style: italic;
+  color: var(--fg-muted);
+}

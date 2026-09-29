@@ -93,7 +93,6 @@
     "carta": "Menu",
     "espacio": "The space",
     "musica": "Music",
-    "visitanos": "Visit us",
     "reservar": "Book",
     "menu": "Menu",
     "cerrar": "Close"
@@ -131,6 +130,25 @@
       "titulo": "Marble, light and music.",
       "texto": "The marble bar under the arch of light. Up front, the Colonia Radio booth faces the street: DJs play live and every set is recorded.",
       "link": "Discover the music"
+    },
+    "comoLlegar": "Getting here",
+    "visitanos": {
+      "etiqueta": "Visit us",
+      "titulo": "Junín 1725, across from the Recoleta Cemetery.",
+      "mapa": "Sketch of the block: Ámbar is at Junín 1725, on the sidewalk across from the Recoleta Cemetery.",
+      "calle": "Junín",
+      "cementerio": "Recoleta Cemetery",
+      "ambar": "Ámbar · 1725",
+      "abrirMapa": "Open in Google Maps",
+      "horarios": "Hours",
+      "reservasTitulo": "Bookings",
+      "reservasTexto": "Book your table online, through Meitre.",
+      "reservar": "Book a table",
+      "eventosTitulo": "Private events",
+      "eventosTexto": "We host private events. Tell us the date, how many you are and what you have in mind.",
+      "eventosBoton": "Ask on WhatsApp",
+      "eventosTelefono": "Or call",
+      "eventosMensaje": "Hi! I'd like to ask about a private event at Ámbar."
     }
   }
 }

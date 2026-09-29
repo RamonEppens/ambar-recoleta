@@ -93,7 +93,6 @@
     "carta": "La carta",
     "espacio": "El espacio",
     "musica": "Música",
-    "visitanos": "Visitanos",
     "reservar": "Reservar",
     "menu": "Menú",
     "cerrar": "Cerrar"
@@ -131,6 +130,25 @@
       "titulo": "Mármol, luz y música.",
       "texto": "La barra de mármol bajo el arco de luz. Adelante, la cabina de Colonia Radio mira a la vereda: los DJs tocan en vivo y cada set se graba.",
       "link": "Conocé la música"
+    },
+    "comoLlegar": "Cómo llegar",
+    "visitanos": {
+      "etiqueta": "Visitanos",
+      "titulo": "Junín 1725, frente al Cementerio de la Recoleta.",
+      "mapa": "Croquis de la cuadra: Ámbar está en Junín 1725, sobre la vereda de enfrente del Cementerio de la Recoleta.",
+      "calle": "Junín",
+      "cementerio": "Cementerio de la Recoleta",
+      "ambar": "Ámbar · 1725",
+      "abrirMapa": "Abrir en Google Maps",
+      "horarios": "Horarios",
+      "reservasTitulo": "Reservas",
+      "reservasTexto": "Reservá tu mesa online, por Meitre.",
+      "reservar": "Reservar una mesa",
+      "eventosTitulo": "Eventos privados",
+      "eventosTexto": "Hacemos eventos privados. Contanos la fecha, cuántos son y qué tenés en mente.",
+      "eventosBoton": "Consultar por WhatsApp",
+      "eventosTelefono": "O llamá al",
+      "eventosMensaje": "¡Hola! Quiero consultar por un evento privado en Ámbar."
     }
   }
 }

@@ -1,0 +1,51 @@
+.mapa {
+  width: 100%;
+  height: auto;
+  color: var(--fg-muted);
+  font-family: var(--font-body);
+}
+
+.manzana {
+  opacity: 0.35;
+}
+
+.rotulo {
+  fill: var(--fg);
+  font-size: 16px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.calle {
+  stroke: var(--fg-muted);
+  stroke-width: 1;
+  stroke-dasharray: 6 6;
+}
+
+.nombreCalle {
+  fill: var(--fg-muted);
+  font-size: 14px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.lote {
+  fill: none;
+  stroke: var(--fg-muted);
+  stroke-opacity: 0.45;
+}
+
+.ambar {
+  fill: color-mix(in srgb, var(--accent) 15%, transparent);
+  stroke: var(--accent);
+}
+
+.punto {
+  fill: var(--accent);
+}
+
+.rotuloAmbar {
+  fill: var(--accent);
+  font-size: 16px;
+  font-weight: 700;
+}
