@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Momento } from "@/components/Momento";
-import { enlaces } from "@/data/enlaces";
+import { Horarios } from "@/components/Horarios";
+import { MapaCuadra } from "@/components/MapaCuadra";
+import { enlaces, linkWhatsApp, telefonoEventos } from "@/data/enlaces";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
 import styles from "./espacio.module.css";
@@ -18,7 +20,8 @@ export async function generateMetadata({
 /*
  * Los tres ambientes, en el orden en que se usan durante la noche:
  * el patio a la tarde (crema), el salón en la cena (terciopelo) y la barra de noche.
- * Reutiliza el mismo componente Momento de la home.
+ * Reutiliza el mismo componente Momento de la home. Al final, Visitanos:
+ * cómo llegar, horarios, reservas y eventos privados.
  */
 export default async function EspacioPage({
   params,
@@ -27,6 +30,7 @@ export default async function EspacioPage({
   if (!hasLocale(lang)) notFound();
   const dict = await getDictionary(lang);
   const t = dict.espacio;
+  const v = t.visitanos;
 
   return (
     <main id="contenido">
@@ -37,6 +41,11 @@ export default async function EspacioPage({
           {t.datos.map((dato) => (
             <li key={dato}>{dato}</li>
           ))}
+          <li>
+            <a href="#visitanos" className={styles.saltar}>
+              {t.comoLlegar} ↓
+            </a>
+          </li>
         </ul>
       </header>
 
@@ -76,6 +85,78 @@ export default async function EspacioPage({
         fotos={["barraCopasLuz", "espressoMartiniColonia"]}
         alts={dict.fotos}
       />
+      <section
+        id="visitanos"
+        className={styles.visitanos}
+        data-mode="noche"
+        aria-labelledby="visitanos-titulo"
+      >
+        <div className={styles.visitanosGrilla}>
+          <div className={styles.columna}>
+            <p className={styles.etiqueta}>{v.etiqueta}</p>
+            <h2 id="visitanos-titulo" className={styles.visitanosTitulo}>
+              {v.titulo}
+            </h2>
+            <MapaCuadra
+              titulo={v.mapa}
+              calle={v.calle}
+              cementerio={v.cementerio}
+              ambar={v.ambar}
+            />
+            <a className={styles.link} href={enlaces.mapa}>
+              {v.abrirMapa}
+            </a>
+          </div>
+
+          <div className={styles.columna}>
+            <section
+              aria-labelledby="visitanos-horarios"
+              className={styles.bloque}
+            >
+              <h3 id="visitanos-horarios" className={styles.subtitulo}>
+                {v.horarios}
+              </h3>
+              <Horarios lang={lang} dict={dict} />
+            </section>
+
+            <section
+              aria-labelledby="visitanos-reservas"
+              className={styles.bloque}
+            >
+              <h3 id="visitanos-reservas" className={styles.subtitulo}>
+                {v.reservasTitulo}
+              </h3>
+              <p>{v.reservasTexto}</p>
+              <a className="boton" href={enlaces.reservas}>
+                {v.reservar}
+              </a>
+            </section>
+
+            <section
+              aria-labelledby="visitanos-eventos"
+              className={styles.bloque}
+            >
+              <h3 id="visitanos-eventos" className={styles.subtitulo}>
+                {v.eventosTitulo}
+              </h3>
+              <p>{v.eventosTexto}</p>
+              <a
+                className="boton boton-secundario"
+                href={linkWhatsApp(v.eventosMensaje)}
+              >
+                {v.eventosBoton}
+              </a>
+              <p className={styles.nota}>
+                {v.eventosTelefono}{" "}
+                <a href={`tel:+${telefonoEventos.internacional}`}>
+                  {telefonoEventos.visible}
+                </a>
+                .
+              </p>
+            </section>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

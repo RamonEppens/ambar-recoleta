@@ -30,7 +30,6 @@ function Menu({ lang, t, pathname }: NavegacionProps & { pathname: string }) {
     { href: `/${lang}/carta`, texto: t.carta },
     { href: `/${lang}/espacio`, texto: t.espacio },
     { href: `/${lang}/musica`, texto: t.musica },
-    { href: `/${lang}/visitanos`, texto: t.visitanos },
   ];
 
   // Escape cierra el menú y devuelve el foco al botón, como en cualquier menú accesible.
