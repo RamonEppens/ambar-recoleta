@@ -1,0 +1,48 @@
+.main {
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: var(--space-4);
+  min-height: 100svh;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--space-6) var(--gutter);
+}
+
+.home {
+  color: var(--accent);
+}
+
+.isotipo {
+  height: 3.5rem;
+  width: auto;
+}
+
+.codigo {
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-carta);
+  color: var(--fg-muted);
+}
+
+.titulo {
+  font-size: var(--step-5);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.texto {
+  font-size: var(--step-1);
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+
+.ingles {
+  margin-top: var(--space-5);
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--fg-muted);
+}

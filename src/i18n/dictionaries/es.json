@@ -150,5 +150,26 @@
       "eventosTelefono": "O llamá al",
       "eventosMensaje": "¡Hola! Quiero consultar por un evento privado en Ámbar."
     }
+  },
+  "musica": {
+    "titulo": "Música",
+    "bajada": "Viernes y sábados, DJs en vivo desde {hora}. Al DJ no le decimos qué poner.",
+    "colonia": {
+      "etiqueta": "Colonia Radio",
+      "titulo": "Cada set, transmitido y grabado.",
+      "texto": "Colonia Radio es un proyecto de streaming para DJs, de electrónica y de vinilos. La cabina está adelante, mirando a la vereda: lo que suena en vivo se transmite y queda grabado.",
+      "link": "Ir a Colonia Radio"
+    },
+    "sets": {
+      "titulo": "Sets grabados en Ámbar",
+      "reproducir": "Reproducir",
+      "nota": "Sin consignas: ni música tranqui para la hora de la cena ni reggaetón a las 12. Cada DJ elige."
+    }
+  },
+  "noEncontrada": {
+    "titulo": "Esta mesa no existe.",
+    "texto": "La página que buscás no está. La carta, sí.",
+    "carta": "Ver la carta",
+    "inicio": "Ir al inicio"
   }
 }

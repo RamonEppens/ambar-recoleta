@@ -150,5 +150,26 @@
       "eventosTelefono": "Or call",
       "eventosMensaje": "Hi! I'd like to ask about a private event at Ámbar."
     }
+  },
+  "musica": {
+    "titulo": "Music",
+    "bajada": "Fridays and Saturdays, live DJs from {hora}. We don't tell the DJ what to play.",
+    "colonia": {
+      "etiqueta": "Colonia Radio",
+      "titulo": "Every set, streamed and recorded.",
+      "texto": "Colonia Radio is a streaming project for DJs, electronic and vinyl alike. The booth is up front, facing the street: whatever plays live is streamed and recorded.",
+      "link": "Go to Colonia Radio"
+    },
+    "sets": {
+      "titulo": "Sets recorded at Ámbar",
+      "reproducir": "Play",
+      "nota": "No brief: no quiet dinner music, no reggaeton at midnight. Every DJ chooses."
+    }
+  },
+  "noEncontrada": {
+    "titulo": "This table doesn't exist.",
+    "texto": "The page you're looking for isn't here. The menu is.",
+    "carta": "See the menu",
+    "inicio": "Go home"
   }
 }
