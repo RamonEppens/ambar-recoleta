@@ -6,13 +6,7 @@
  */
 import { z } from "zod";
 
-export const slug = z
-  .string()
-  .regex(
-    /^[a-z0-9]+(-[a-z0-9]+)*$/,
-    "Debe ser un slug: minúsculas, números y guiones.",
-  )
-  .max(80);
+export { slug } from "@/lib/esquemas";
 
 export const filtrosPlatos = z.strictObject({
   carta: z.enum(["aperitivo", "cena", "tragos"]).optional(),

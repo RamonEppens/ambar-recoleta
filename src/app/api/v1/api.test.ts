@@ -12,6 +12,9 @@ vi.mock("@/lib/datos", () => ({
   getExperiencias: vi.fn(),
   getExperiencia: vi.fn(),
 }));
+// Las escrituras del admin se prueban en admin.test.ts.
+vi.mock("@/lib/auth", () => ({ exigirAdminApi: vi.fn() }));
+vi.mock("@/lib/revalidar", () => ({ revalidarSitio: vi.fn() }));
 
 const datos = await import("@/lib/datos");
 const platos = await import("./platos/route");

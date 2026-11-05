@@ -1,0 +1,50 @@
+.campo {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.campo label {
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.campo :is(input, textarea, select) {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: color-mix(in srgb, var(--bg) 60%, white);
+  color: var(--fg);
+  font: inherit;
+}
+
+.campo textarea {
+  min-height: 5.5rem;
+  resize: vertical;
+}
+
+.campo :is(input, textarea, select):hover {
+  border-color: var(--fg-muted);
+}
+
+.campo[data-error="true"] :is(input, textarea, select) {
+  border-color: var(--accent);
+  border-width: 2px;
+}
+
+.ayuda {
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+.error {
+  font-size: var(--step--1);
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* Marca visible además del color (no depender solo del rojo) */
+.error::before {
+  content: "✕ ";
+}

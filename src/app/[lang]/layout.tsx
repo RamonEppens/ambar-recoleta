@@ -9,11 +9,13 @@ import "@/styles/globals.css";
 
 const indexable = process.env.ALLOW_INDEXING === "true";
 
-// Genera /es y /en en el build; cualquier otro idioma (/fr) da 404.
+// Genera /es y /en en el build. Cualquier otro idioma (/fr) da 404 por el
+// notFound() del layout. No se usa `dynamicParams = false`: en Next 16.3 hace
+// que una página regenerada con revalidatePath (al editar desde el admin)
+// pase a dar 404 para siempre. Se comprobó en local, ver bitácora.
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
-export const dynamicParams = false;
 
 // ISR (clase 07): las páginas se generan en el build y se regeneran como mucho
 // cada hora. Además, el admin fuerza la regeneración al editar (revalidatePath).

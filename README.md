@@ -55,6 +55,7 @@ src/
 │   │   ├── musica/
 │   │   └── experiencias/    # Catálogo y [slug] (detalle)
 │   ├── api/v1/              # API REST (Route Handlers)
+│   ├── admin/               # Panel del admin (layout raíz propio)
 │   ├── global-not-found.tsx # 404 propia (bilingüe)
 │   ├── robots.ts            # robots.txt (bloquea hasta ALLOW_INDEXING=true)
 │   └── icon.svg             # Favicon
@@ -144,14 +145,17 @@ Nadie puede crear un pedido o una consulta directamente desde el navegador: solo
 
 ## API
 
-API REST de solo lectura en `/api/v1`, con Route Handlers de Next (el equivalente a las rutas de Express de la clase 10). Los recursos van en plural y la acción la da el verbo HTTP.
+API REST en `/api/v1`, con Route Handlers de Next (el equivalente a las rutas de Express de la clase 10). Los recursos van en plural y la acción la da el verbo HTTP.
 
-| Método y ruta                    | Qué devuelve                                      | Parámetros                                                                    |
-| -------------------------------- | ------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `GET /api/v1/platos`             | Platos y tragos activos                           | `carta` (`aperitivo`, `cena`, `tragos`), `q`, `precioMax`, `pagina`, `limite` |
-| `GET /api/v1/platos/:slug`       | Un plato, con su carta y sección                  | —                                                                             |
-| `GET /api/v1/experiencias`       | Experiencias a la venta, con los cupos al momento | —                                                                             |
-| `GET /api/v1/experiencias/:slug` | Una experiencia                                   | —                                                                             |
+| Método y ruta                                         | Qué devuelve                                      | Parámetros                                                                    |
+| ----------------------------------------------------- | ------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `GET /api/v1/platos`                                  | Platos y tragos activos                           | `carta` (`aperitivo`, `cena`, `tragos`), `q`, `precioMax`, `pagina`, `limite` |
+| `GET /api/v1/platos/:slug`                            | Un plato, con su carta y sección                  | —                                                                             |
+| `GET /api/v1/experiencias`                            | Experiencias a la venta, con los cupos al momento | —                                                                             |
+| `GET /api/v1/experiencias/:slug`                      | Una experiencia                                   | —                                                                             |
+| `POST /api/v1/platos` · `/experiencias`               | Crea (solo admin) → 201                           | Cuerpo JSON validado con Zod                                                  |
+| `PATCH /api/v1/platos/:slug` · `/experiencias/:slug`  | Cambia los campos enviados (solo admin)           | Cuerpo JSON parcial                                                           |
+| `DELETE /api/v1/platos/:slug` · `/experiencias/:slug` | Borra (solo admin) → 204                          | —                                                                             |
 
 Ejemplo: `/api/v1/platos?q=ciervo&precioMax=30000` → `{ "datos": [...], "total": 2, "pagina": 1, "limite": 50 }`
 
@@ -172,10 +176,29 @@ Ejemplo: `/api/v1/platos?q=ciervo&precioMax=30000` → `{ "datos": [...], "total
 | Código | Cuándo                                                                                      |
 | ------ | ------------------------------------------------------------------------------------------- |
 | 400    | Parámetros inválidos, con el detalle de cada campo                                          |
+| 401    | Escritura sin sesión                                                                        |
+| 403    | Escritura con sesión, pero sin rol `admin`                                                  |
 | 404    | El plato o la experiencia no existe                                                         |
+| 409    | Slug repetido, o borrar una experiencia que ya se vendió                                    |
 | 500    | Falla inesperada (por ejemplo, la base no responde). El detalle va al log, nunca al cliente |
 
 **Quién la usa.** La página de cada experiencia es estática, pero pide sus cupos en vivo a `/api/v1/experiencias/:slug`, porque el stock cambia con cada compra. El buscador de la carta usa la misma función de búsqueda que `/api/v1/platos` (`src/lib/catalogo.ts`).
+
+## Admin
+
+Panel en `/admin` para editar la carta y las experiencias sin tocar código. Es un layout raíz aparte (sin idioma, nunca se indexa).
+
+- **Ingreso** con email y contraseña de Supabase Auth. La sesión queda en una cookie `httpOnly` (`@supabase/ssr`), que el JavaScript del navegador no puede leer.
+- **Tres barreras**: el proxy manda al ingreso a quien no tiene sesión; el panel y la API exigen el rol `admin` (401 / 403); y RLS en la base rechaza cualquier escritura de alguien que no sea admin.
+- **Formularios** controlados: validan mientras se escribe con el mismo esquema de Zod que usa la API (`src/lib/esquemas.ts`), envían con `fetch` y muestran carga, error y los errores de la API en cada campo.
+- **Al guardar**, el sitio público se regenera en la próxima visita (`revalidatePath`), sin esperar la hora del ISR.
+
+**Crear el primer admin:** en Supabase → Authentication → Users → _Add user_ (con email y contraseña, _Auto Confirm User_). Después, en el SQL Editor:
+
+```sql
+update perfiles set rol = 'admin'
+where id = (select id from auth.users where email = 'tu@email.com');
+```
 
 ## Accesibilidad
 
@@ -232,9 +255,9 @@ Las variables con prefijo `NEXT_PUBLIC_` llegan al navegador; las demás quedan 
 | ------------------------------------------------- | --------------------------------------- |
 | E1 · Repo + pipeline + preview                    | ✅                                      |
 | E2 · Landing + vistas clave responsivas           | ✅                                      |
-| E3 · Formularios dinámicos con fetch + validación | En curso                                |
+| E3 · Formularios dinámicos con fetch + validación | Admin ✅ · consulta de eventos en curso |
 | E4 · Catálogo navegable + API básica              | ✅                                      |
-| E5 · CRUD en Supabase + admin                     | Base de datos y RLS ✅ · admin en curso |
+| E5 · CRUD en Supabase + admin                     | ✅                                      |
 | E6 · Checkout + webhook                           | En curso                                |
 
 ## Créditos

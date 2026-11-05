@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { defaultLocale, hasLocale, locales } from "@/i18n/config";
+import { refrescarSesion } from "@/lib/supabase/proxy";
 
 /**
  * Elige el idioma a partir del header Accept-Language del navegador.
@@ -14,9 +15,30 @@ function preferredLocale(request: NextRequest) {
   return candidates.find(hasLocale) ?? defaultLocale;
 }
 
+/**
+ * El admin no tiene idioma. Sin sesión, cualquier página del admin manda al
+ * formulario de ingreso (el equivalente de un 401 para una página).
+ * Si ingresó, igual falta ver si es admin: eso se revisa en el layout del admin.
+ */
+async function protegerAdmin(request: NextRequest) {
+  const { respuesta, usuario } = await refrescarSesion(request);
+  const esIngreso = request.nextUrl.pathname === "/admin/ingresar";
+  if (!usuario && !esIngreso) {
+    const ingreso = new URL("/admin/ingresar", request.url);
+    return NextResponse.redirect(ingreso);
+  }
+  if (usuario && esIngreso) {
+    return NextResponse.redirect(new URL("/admin", request.url));
+  }
+  return respuesta;
+}
+
 /** Toda URL sin idioma (/, /carta) redirige a su versión con idioma (/es, /es/carta). */
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  if (pathname === "/admin" || pathname.startsWith("/admin/"))
+    return protegerAdmin(request);
+
   const pathnameHasLocale = locales.some(
     (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
   );

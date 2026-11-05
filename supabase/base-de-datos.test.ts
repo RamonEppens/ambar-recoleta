@@ -14,6 +14,7 @@ const MIGRACIONES = [
   "20261104000002_seguridad.sql",
   "20261104000003_semilla.sql",
   "20261104000004_experiencias_foto.sql",
+  "20261104000005_proteger_vendidas.sql",
 ];
 
 let db: PGlite;
@@ -230,6 +231,13 @@ describe("confirmar_pago (webhook de Mercado Pago)", () => {
         )
       ).estado,
     ).toBe("senada");
+  });
+
+  it("una experiencia que ya se vendió no se puede borrar", async () => {
+    await crearPedido("ronda-de-la-casa", [1]);
+    await expect(
+      db.exec(`delete from experiencias where slug = 'ronda-de-la-casa'`),
+    ).rejects.toThrow(/pedido_items_experiencia_id_fkey/);
   });
 
   it("una seña sin consulta es inválida", async () => {
