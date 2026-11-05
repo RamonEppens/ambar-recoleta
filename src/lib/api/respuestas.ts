@@ -54,6 +54,48 @@ export function validar<T extends z.ZodType>(
   );
 }
 
+/** El cuerpo del pedido como JSON; si no es JSON válido, 400. */
+export async function leerJson(request: Request): Promise<unknown> {
+  try {
+    return await request.json();
+  } catch {
+    throw new ErrorApi(400, "json_invalido", "El cuerpo no es JSON válido.");
+  }
+}
+
+/**
+ * Traduce los errores de Postgres que son culpa del pedido (no del servidor)
+ * a códigos HTTP. Cualquier otro error sigue de largo y termina en 500.
+ */
+export function errorDeBase(error: { code?: string; message: string }) {
+  switch (error.code) {
+    case "23505": // unique_violation
+      return new ErrorApi(409, "ya_existe", "Ya existe uno con ese slug.", [
+        { campo: "slug", mensaje: "Ya está en uso." },
+      ]);
+    case "23503": // foreign_key_violation
+      return new ErrorApi(
+        409,
+        "en_uso",
+        "Está relacionado con otros datos (por ejemplo, pedidos). Desactivalo en vez de borrarlo.",
+      );
+    case "23514": // check_violation
+      return new ErrorApi(
+        400,
+        "datos_invalidos",
+        "La base rechazó un valor fuera de rango.",
+      );
+    case "42501": // RLS: sin permiso
+      return new ErrorApi(
+        403,
+        "sin_permiso",
+        "Tu usuario no puede hacer esto.",
+      );
+    default:
+      return new Error(`Supabase: ${error.message}`);
+  }
+}
+
 /** Respuesta exitosa. Las lecturas públicas se pueden cachear un minuto en la CDN. */
 export function ok(datos: unknown, { status = 200, cache = false } = {}) {
   return Response.json(datos, {

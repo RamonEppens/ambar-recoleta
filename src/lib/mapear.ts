@@ -2,6 +2,7 @@
  * Funciones puras que convierten las filas de Supabase en los tipos del sitio.
  * No tocan la red: por eso se pueden testear sin base de datos.
  */
+import type { DatosExperiencia, DatosPlato } from "./esquemas";
 import type { Carta, Experiencia, Jornada, Semana, SetGrabado } from "./tipos";
 
 export type FilaHorario = {
@@ -134,3 +135,35 @@ export function buscarPlato(cartas: Carta[], slug: string) {
     }
   return null;
 }
+
+/* ---- Del formulario del admin a la fila de la base (camelCase → snake_case) ---- */
+
+const quitarIndefinidos = (fila: Record<string, unknown>) =>
+  Object.fromEntries(Object.entries(fila).filter(([, v]) => v !== undefined));
+
+/** Acepta datos parciales (PATCH): solo se escriben las columnas que llegaron. */
+export const aFilaPlato = (d: Partial<DatosPlato>) =>
+  quitarIndefinidos({
+    seccion_id: d.seccionId,
+    slug: d.slug,
+    nombre: d.nombre,
+    descripcion_es: d.descripcionEs,
+    descripcion_en: d.descripcionEn,
+    precio: d.precio,
+    activo: d.activo,
+    orden: d.orden,
+  });
+
+export const aFilaExperiencia = (d: Partial<DatosExperiencia>) =>
+  quitarIndefinidos({
+    slug: d.slug,
+    nombre_es: d.nombreEs,
+    nombre_en: d.nombreEn,
+    descripcion_es: d.descripcionEs,
+    descripcion_en: d.descripcionEn,
+    precio: d.precio,
+    cupos: d.cupos,
+    activa: d.activa,
+    foto: d.foto,
+    orden: d.orden,
+  });
