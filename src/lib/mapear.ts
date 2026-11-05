@@ -50,6 +50,7 @@ export type FilaExperiencia = {
   descripcion_en: string;
   precio: number;
   cupos: number;
+  foto: string | null;
 };
 
 /** Postgres devuelve las horas como "17:00:00"; el sitio usa "17:00". */
@@ -121,6 +122,7 @@ export const aExperiencia = (f: FilaExperiencia): Experiencia => ({
   descripcion: { es: f.descripcion_es, en: f.descripcion_en },
   precio: f.precio,
   cupos: f.cupos,
+  foto: f.foto,
 });
 
 /** Busca un plato o trago por slug en todas las cartas. */

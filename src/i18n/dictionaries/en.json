@@ -95,7 +95,8 @@
     "musica": "Music",
     "reservar": "Book",
     "menu": "Menu",
-    "cerrar": "Close"
+    "cerrar": "Close",
+    "regalar": "Gifts"
   },
   "carta": {
     "titulo": "The menu",
@@ -106,7 +107,15 @@
     "horarioCena": "From {desde} · kitchen until {hasta}",
     "horarioTragos": "All night, until closing",
     "rangoDias": "{desde} to {hasta}",
-    "separador": " · "
+    "separador": " · ",
+    "buscar": {
+      "etiqueta": "Search the menu",
+      "pista": "A dish, a drink or an ingredient",
+      "resultados": "{n} results",
+      "resultadoUno": "1 result",
+      "ninguno": "Nothing matches “{q}”. Try another word.",
+      "borrar": "Clear search"
+    }
   },
   "espacio": {
     "titulo": "The space",
@@ -171,5 +180,20 @@
     "texto": "The page you're looking for isn't here. The menu is.",
     "carta": "See the menu",
     "inicio": "Go home"
+  },
+  "experiencias": {
+    "titulo": "Gifts",
+    "bajada": "A night at Ámbar, for someone else. Pay here and they get a code to show at the bar.",
+    "demo": "Demo content for a university project: Ámbar does not sell experiences online today.",
+    "cupos": "{n} left",
+    "cupoUno": "1 left",
+    "agotada": "Sold out",
+    "comoFunciona": "How it works",
+    "pasos": [
+      "Choose the experience and pay with Mercado Pago.",
+      "You get a code for each gift.",
+      "Whoever receives it shows the code at Ámbar."
+    ],
+    "todas": "All experiences"
   }
 }

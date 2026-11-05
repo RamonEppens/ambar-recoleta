@@ -31,3 +31,7 @@ export const fotos = {
 };
 
 export type FotoId = keyof typeof fotos;
+
+/** La base guarda el nombre de la foto como texto: esto confirma que existe. */
+export const esFotoId = (id: string | null): id is FotoId =>
+  id !== null && Object.hasOwn(fotos, id);

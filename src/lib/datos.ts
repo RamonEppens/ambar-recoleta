@@ -72,15 +72,27 @@ export const getSets = cache(async () => {
   return sets.map(aSet);
 });
 
+const COLUMNAS_EXPERIENCIA =
+  "id, slug, nombre_es, nombre_en, descripcion_es, descripcion_en, precio, cupos, foto";
+
+// RLS ya filtra las experiencias inactivas para el público.
 export const getExperiencias = cache(async () => {
   const db = clientePublico();
   const experiencias = await filas<FilaExperiencia>(
-    db
-      .from("experiencias")
-      .select(
-        "id, slug, nombre_es, nombre_en, descripcion_es, descripcion_en, precio, cupos",
-      )
-      .order("orden"),
+    db.from("experiencias").select(COLUMNAS_EXPERIENCIA).order("orden"),
   );
   return experiencias.map(aExperiencia);
+});
+
+/** Una experiencia por slug, o `null` si no existe (o está inactiva). */
+export const getExperiencia = cache(async (slug: string) => {
+  const db = clientePublico();
+  const [fila] = await filas<FilaExperiencia>(
+    db
+      .from("experiencias")
+      .select(COLUMNAS_EXPERIENCIA)
+      .eq("slug", slug)
+      .limit(1),
+  );
+  return fila ? aExperiencia(fila) : null;
 });

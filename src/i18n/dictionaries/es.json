@@ -95,7 +95,8 @@
     "musica": "Música",
     "reservar": "Reservar",
     "menu": "Menú",
-    "cerrar": "Cerrar"
+    "cerrar": "Cerrar",
+    "regalar": "Para regalar"
   },
   "carta": {
     "titulo": "La carta",
@@ -106,7 +107,15 @@
     "horarioCena": "Desde {desde} · cocina hasta {hasta}",
     "horarioTragos": "Toda la noche, hasta el cierre",
     "rangoDias": "{desde} a {hasta}",
-    "separador": " · "
+    "separador": " · ",
+    "buscar": {
+      "etiqueta": "Buscar en la carta",
+      "pista": "Un plato, un trago o un ingrediente",
+      "resultados": "{n} resultados",
+      "resultadoUno": "1 resultado",
+      "ninguno": "Nada con «{q}». Probá con otra palabra.",
+      "borrar": "Borrar búsqueda"
+    }
   },
   "espacio": {
     "titulo": "El espacio",
@@ -171,5 +180,20 @@
     "texto": "La página que buscás no está. La carta, sí.",
     "carta": "Ver la carta",
     "inicio": "Ir al inicio"
+  },
+  "experiencias": {
+    "titulo": "Para regalar",
+    "bajada": "Una noche en Ámbar, para otra persona. Pagás acá y le llega un código para presentar en el local.",
+    "demo": "Contenido de demostración del trabajo práctico: hoy Ámbar no vende experiencias por la web.",
+    "cupos": "Quedan {n}",
+    "cupoUno": "Queda 1",
+    "agotada": "Agotada",
+    "comoFunciona": "Cómo funciona",
+    "pasos": [
+      "Elegís la experiencia y pagás con Mercado Pago.",
+      "Te llega un código por cada regalo.",
+      "Quien lo recibe lo presenta al llegar a Ámbar."
+    ],
+    "todas": "Todas las experiencias"
   }
 }

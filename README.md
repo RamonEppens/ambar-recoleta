@@ -13,12 +13,13 @@ Sitio web para **Ámbar**, bar y restaurante en Junín 1725, frente al Cementeri
 
 Hasta ahora el local solo tenía Instagram, con la carta y los horarios en historias que vencen a las 24 horas. El sitio los deja siempre disponibles y en dos idiomas, para el turista que está frente al Cementerio.
 
-| Página     | Ruta          | Contenido                                                                                                  |
-| ---------- | ------------- | ---------------------------------------------------------------------------------------------------------- |
-| Inicio     | `/es`         | La noche en cuatro momentos, platos y tragos destacados                                                    |
-| La carta   | `/es/carta`   | Carta aperitiva, de cena y tragos, con precios y horario de cada carta                                     |
-| El espacio | `/es/espacio` | Patio, salón y barra. Al final, **Visitanos**: croquis de la cuadra, horarios, reservas y eventos privados |
-| Música     | `/es/musica`  | DJs de viernes y sábado, Colonia Radio y los sets grabados en Ámbar                                        |
+| Página       | Ruta               | Contenido                                                                                                  |
+| ------------ | ------------------ | ---------------------------------------------------------------------------------------------------------- |
+| Inicio       | `/es`              | La noche en cuatro momentos, platos y tragos destacados                                                    |
+| La carta     | `/es/carta`        | Carta aperitiva, de cena y tragos, con precios y horario de cada carta                                     |
+| El espacio   | `/es/espacio`      | Patio, salón y barra. Al final, **Visitanos**: croquis de la cuadra, horarios, reservas y eventos privados |
+| Música       | `/es/musica`       | DJs de viernes y sábado, Colonia Radio y los sets grabados en Ámbar                                        |
+| Para regalar | `/es/experiencias` | Catálogo de experiencias para regalar (demo del TP) y una página por experiencia                           |
 
 Todas las páginas existen también en inglés (`/en/...`).
 
@@ -31,7 +32,8 @@ Todas las páginas existen también en inglés (`/en/...`).
 | CSS Modules + variables CSS                              | Estilos y sistema de diseño (`src/styles/tokens.css`)                               |
 | `next/image`                                             | Fotos optimizadas (formato y tamaño según la pantalla)                              |
 | [Supabase](https://supabase.com) (PostgreSQL)            | Base de datos, seguridad por filas (RLS) y autenticación                            |
-| Vitest                                                   | Tests unitarios de la lógica (horarios, precios, links)                             |
+| Zod                                                      | Validación de los datos que recibe la API                                           |
+| Vitest                                                   | Tests unitarios de la lógica y de la API                                            |
 | PGlite                                                   | PostgreSQL en WebAssembly: corre las migraciones reales dentro de los tests         |
 | ESLint + Prettier                                        | Calidad y formato de código                                                         |
 | GitHub Actions                                           | Integración continua en cada PR                                                     |
@@ -48,9 +50,11 @@ src/
 │   ├── [lang]/              # Todas las páginas, con el idioma como segmento dinámico
 │   │   ├── layout.tsx       # Layout raíz: <html lang>, header, footer, metadata
 │   │   ├── page.tsx         # Inicio
-│   │   ├── carta/
+│   │   ├── carta/           # Incluye el buscador (CartaFiltrable, Client Component)
 │   │   ├── espacio/
-│   │   └── musica/
+│   │   ├── musica/
+│   │   └── experiencias/    # Catálogo y [slug] (detalle)
+│   ├── api/v1/              # API REST (Route Handlers)
 │   ├── global-not-found.tsx # 404 propia (bilingüe)
 │   ├── robots.ts            # robots.txt (bloquea hasta ALLOW_INDEXING=true)
 │   └── icon.svg             # Favicon
@@ -58,6 +62,8 @@ src/
 ├── data/                    # Datos estáticos: fotos y enlaces externos
 ├── i18n/                    # Configuración de idiomas y diccionarios es.json / en.json
 ├── lib/
+│   ├── api/                 # Esquemas de Zod y manejo de errores centralizado
+│   ├── catalogo.ts          # Búsqueda y filtros de la carta (los usan la API y el buscador)
 │   ├── datos.ts             # Lecturas de Supabase (carta, horarios, sets, experiencias)
 │   ├── mapear.ts            # Filas de la base → tipos del sitio (puro, testeado)
 │   ├── supabase/            # Clientes de Supabase
@@ -65,7 +71,7 @@ src/
 ├── styles/                  # Tokens de diseño, reset y estilos base
 └── proxy.ts                 # Redirige "/" al idioma del navegador
 supabase/
-├── migrations/              # SQL: esquema → seguridad (RLS) → semilla
+├── migrations/              # SQL en orden: esquema → seguridad (RLS) → semilla → cambios
 └── base-de-datos.test.ts    # Prueba las migraciones y las políticas RLS
 ```
 
@@ -134,21 +140,57 @@ Nadie puede crear un pedido o una consulta directamente desde el navegador: solo
 
 **`confirmar_pago()`** marca un pedido como pagado, descuenta los cupos y genera los códigos de regalo **en una sola transacción**. Si no alcanza el stock, se revierte todo. Si Mercado Pago avisa dos veces el mismo pago, la segunda llamada no hace nada.
 
-**Pruebas.** `supabase/base-de-datos.test.ts` corre las tres migraciones sobre un PostgreSQL real (PGlite) y verifica las políticas actuando como visitante, usuario común y admin. Corre en cada PR.
+**Pruebas.** `supabase/base-de-datos.test.ts` corre todas las migraciones sobre un PostgreSQL real (PGlite) y verifica las políticas actuando como visitante, usuario común y admin. Corre en cada PR.
+
+## API
+
+API REST de solo lectura en `/api/v1`, con Route Handlers de Next (el equivalente a las rutas de Express de la clase 10). Los recursos van en plural y la acción la da el verbo HTTP.
+
+| Método y ruta                    | Qué devuelve                                      | Parámetros                                                                    |
+| -------------------------------- | ------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `GET /api/v1/platos`             | Platos y tragos activos                           | `carta` (`aperitivo`, `cena`, `tragos`), `q`, `precioMax`, `pagina`, `limite` |
+| `GET /api/v1/platos/:slug`       | Un plato, con su carta y sección                  | —                                                                             |
+| `GET /api/v1/experiencias`       | Experiencias a la venta, con los cupos al momento | —                                                                             |
+| `GET /api/v1/experiencias/:slug` | Una experiencia                                   | —                                                                             |
+
+Ejemplo: `/api/v1/platos?q=ciervo&precioMax=30000` → `{ "datos": [...], "total": 2, "pagina": 1, "limite": 50 }`
+
+**Validación.** Cada parámetro se valida con un esquema de Zod (`src/lib/api/esquemas.ts`). Un parámetro desconocido o mal escrito también es un error.
+
+**Errores.** Todas las rutas pasan por `conErrores` (`src/lib/api/respuestas.ts`), que responde siempre con la misma forma:
+
+```json
+{
+  "error": {
+    "codigo": "datos_invalidos",
+    "mensaje": "…",
+    "detalles": [{ "campo": "precioMax", "mensaje": "…" }]
+  }
+}
+```
+
+| Código | Cuándo                                                                                      |
+| ------ | ------------------------------------------------------------------------------------------- |
+| 400    | Parámetros inválidos, con el detalle de cada campo                                          |
+| 404    | El plato o la experiencia no existe                                                         |
+| 500    | Falla inesperada (por ejemplo, la base no responde). El detalle va al log, nunca al cliente |
+
+**Quién la usa.** La página de cada experiencia es estática, pero pide sus cupos en vivo a `/api/v1/experiencias/:slug`, porque el stock cambia con cada compra. El buscador de la carta usa la misma función de búsqueda que `/api/v1/platos` (`src/lib/catalogo.ts`).
 
 ## Accesibilidad
 
 - HTML semántico (`header`, `nav`, `main`, `section`, `address`, `dl`) y un único `h1` por página.
 - Enlace "Saltar al contenido", foco visible y navegación completa con teclado.
 - Menú móvil con `aria-expanded`; Escape lo cierra y devuelve el foco al botón.
+- El buscador de la carta tiene etiqueta y anuncia la cantidad de resultados a los lectores de pantalla (`aria-live`).
 - `prefers-reduced-motion` respetado.
-- El CI **bloquea el merge** si la accesibilidad de Lighthouse baja de 95.
+- El CI **bloquea el merge** si la accesibilidad de Lighthouse baja de 95 (inicio, carta, catálogo y una experiencia).
 
 ## Cómo correrlo
 
 Requisitos: Node.js 24 (ver `.nvmrc`) y un proyecto de Supabase.
 
-1. En el **SQL Editor** de Supabase, ejecutar en orden los tres archivos de `supabase/migrations/`.
+1. En el **SQL Editor** de Supabase, ejecutar en orden los archivos de `supabase/migrations/` (el número del nombre marca el orden).
 2. Copiar `.env.example` como `.env.local` y completar las claves (Supabase → Project Settings → API Keys).
 3. Instalar y correr:
 
@@ -157,14 +199,14 @@ npm install
 npm run dev        # http://localhost:3000
 ```
 
-| Script              | Qué hace                                |
-| ------------------- | --------------------------------------- |
-| `npm run dev`       | Servidor de desarrollo                  |
-| `npm run build`     | Build de producción                     |
-| `npm run lint`      | ESLint                                  |
-| `npm run typecheck` | Genera los tipos de rutas y corre `tsc` |
-| `npm test`          | Tests unitarios (Vitest)                |
-| `npm run format`    | Formatea con Prettier                   |
+| Script              | Qué hace                                    |
+| ------------------- | ------------------------------------------- |
+| `npm run dev`       | Servidor de desarrollo                      |
+| `npm run build`     | Build de producción                         |
+| `npm run lint`      | ESLint                                      |
+| `npm run typecheck` | Genera los tipos de rutas y corre `tsc`     |
+| `npm test`          | Tests (Vitest): lógica, API y base de datos |
+| `npm run format`    | Formatea con Prettier                       |
 
 ### Variables de entorno
 
@@ -191,7 +233,7 @@ Las variables con prefijo `NEXT_PUBLIC_` llegan al navegador; las demás quedan 
 | E1 · Repo + pipeline + preview                    | ✅                                      |
 | E2 · Landing + vistas clave responsivas           | ✅                                      |
 | E3 · Formularios dinámicos con fetch + validación | En curso                                |
-| E4 · Catálogo navegable + API básica              | En curso                                |
+| E4 · Catálogo navegable + API básica              | ✅                                      |
 | E5 · CRUD en Supabase + admin                     | Base de datos y RLS ✅ · admin en curso |
 | E6 · Checkout + webhook                           | En curso                                |
 

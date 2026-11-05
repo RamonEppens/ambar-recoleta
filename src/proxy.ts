@@ -27,6 +27,6 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  // Ignora los archivos internos de Next y cualquier archivo con extensión (robots.txt, icon.svg…).
-  matcher: ["/((?!_next|.*\\..*).*)"],
+  // Ignora la API, los archivos internos de Next y cualquier archivo con extensión (robots.txt, icon.svg…).
+  matcher: ["/((?!api/|_next|.*\\..*).*)"],
 };
