@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { enlaces } from "@/data/enlaces";
@@ -43,6 +44,9 @@ export function SiteFooter({
           <ul className={styles.enlaces}>
             <li>
               <a href={enlaces.reservas}>{t.reservar}</a>
+            </li>
+            <li>
+              <Link href={`/${lang}/eventos`}>{t.eventos}</Link>
             </li>
             <li>
               <a href={enlaces.instagram}>Instagram</a>

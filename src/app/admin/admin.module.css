@@ -200,3 +200,29 @@
   background: color-mix(in srgb, var(--accent) 8%, transparent);
   font-weight: 700;
 }
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.mensaje {
+  max-width: 40ch;
+  margin-top: var(--space-1);
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+.selectEstado {
+  min-height: 2.75rem;
+  padding: 0 var(--space-2);
+  border: 1px solid var(--fg);
+  background: transparent;
+  color: var(--fg);
+  font: inherit;
+  font-size: var(--step--1);
+}
+
+.tabla td {
+  vertical-align: top;
+}

@@ -126,3 +126,29 @@ export async function experienciaAdmin(slug: string) {
       .maybeSingle(),
   );
 }
+
+export type FilaConsultaAdmin = {
+  id: string;
+  nombre: string;
+  email: string;
+  telefono: string | null;
+  fecha: string;
+  personas: number;
+  tipo: string;
+  mensaje: string | null;
+  estado: string;
+  created_at: string;
+};
+
+/** Consultas de eventos, las próximas primero. RLS: solo el admin las puede leer. */
+export async function consultasAdmin() {
+  const cliente = await db();
+  return revisar<FilaConsultaAdmin[]>(
+    await cliente
+      .from("consultas_eventos")
+      .select(
+        "id, nombre, email, telefono, fecha, personas, tipo, mensaje, estado, created_at",
+      )
+      .order("fecha"),
+  );
+}

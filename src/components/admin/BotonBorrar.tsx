@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { pedirJson } from "./useFormulario";
+import { pedirJson } from "@/components/formulario/useFormulario";
 import styles from "./Formulario.module.css";
 
 /**

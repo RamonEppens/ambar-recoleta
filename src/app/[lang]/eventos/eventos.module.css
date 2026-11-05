@@ -1,0 +1,130 @@
+/* Eventos privados: en terciopelo, el color de la cortina del salón. */
+
+.pagina {
+  display: grid;
+  gap: var(--space-6);
+  padding: var(--space-6) var(--gutter) var(--section);
+}
+
+.intro {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+
+.titulo {
+  font-size: var(--step-5);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.bajada {
+  max-width: 36ch;
+  font-size: var(--step-1);
+}
+
+.foto {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+}
+
+.demo,
+.alternativa {
+  max-width: 48ch;
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+.demo {
+  font-style: italic;
+}
+
+.alternativa a {
+  color: var(--fg);
+}
+
+.form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.fila {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr));
+  gap: var(--space-4);
+}
+
+/* Los inputs sobre terciopelo: fondo un poco más claro que la página */
+.form :is(input, select, textarea) {
+  background: var(--bg-raised);
+  border-color: color-mix(in srgb, var(--fg) 35%, transparent);
+  color: var(--fg);
+}
+
+.form input[type="date"] {
+  color-scheme: dark;
+}
+
+.form button[type="submit"] {
+  justify-self: start;
+}
+
+.form button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.errorGeneral {
+  padding: var(--space-3);
+  border-left: 3px solid var(--fg);
+  background: color-mix(in srgb, var(--fg) 10%, transparent);
+  font-weight: 700;
+}
+
+/* Fuera de la pantalla, no `display: none`: los bots suelen saltear los campos ocultos. */
+.trampa {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.exito {
+  display: grid;
+  gap: var(--space-4);
+  justify-items: start;
+  padding: var(--space-5);
+  border: 1px solid var(--line);
+}
+
+.exitoTitulo {
+  font-size: var(--step-3);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.linkBoton {
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+@media (min-width: 68rem) {
+  .pagina {
+    grid-template-columns: 5fr 6fr;
+    gap: var(--space-7);
+    max-width: var(--max-width);
+    margin-inline: auto;
+  }
+
+  .formulario {
+    padding-top: var(--space-4);
+  }
+}

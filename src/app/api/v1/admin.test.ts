@@ -17,33 +17,7 @@ const { revalidarSitio } = await import("@/lib/revalidar");
 const platos = await import("./platos/route");
 const plato = await import("./platos/[slug]/route");
 const experiencia = await import("./experiencias/[slug]/route");
-
-/**
- * Imita el cliente de Supabase: cada método devuelve el mismo objeto (para
- * encadenar .from().insert().select()…) y al final responde `resultado`.
- * Guarda las llamadas para revisar qué se le pidió a la base.
- */
-function baseFalsa(resultado: { data: unknown; error: unknown }) {
-  const llamadas: [string, unknown[]][] = [];
-  const consulta: Record<string, unknown> = {
-    then: (resolver: (r: unknown) => void) => resolver(resultado),
-  };
-  for (const metodo of [
-    "from",
-    "insert",
-    "update",
-    "delete",
-    "select",
-    "eq",
-    "single",
-    "maybeSingle",
-  ])
-    consulta[metodo] = (...args: unknown[]) => {
-      llamadas.push([metodo, args]);
-      return consulta;
-    };
-  return { db: consulta, llamadas };
-}
+const { baseFalsa } = await import("@/test/dobles");
 
 function comoAdmin(resultado: { data: unknown; error: unknown }) {
   const falsa = baseFalsa(resultado);

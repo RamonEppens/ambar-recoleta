@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Momento } from "@/components/Momento";
 import { Horarios } from "@/components/Horarios";
@@ -141,14 +142,15 @@ export default async function EspacioPage({
                 {v.eventosTitulo}
               </h3>
               <p>{v.eventosTexto}</p>
-              <a
+              <Link
                 className="boton boton-secundario"
-                href={linkWhatsApp(v.eventosMensaje)}
+                href={`/${lang}/eventos`}
               >
                 {v.eventosBoton}
-              </a>
+              </Link>
               <p className={styles.nota}>
-                {v.eventosTelefono}{" "}
+                <a href={linkWhatsApp(v.eventosMensaje)}>{v.eventosWhatsApp}</a>
+                . {v.eventosTelefono}{" "}
                 <a href={`tel:+${telefonoEventos.internacional}`}>
                   {telefonoEventos.visible}
                 </a>
