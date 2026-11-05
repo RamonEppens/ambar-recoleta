@@ -43,5 +43,6 @@ export type Experiencia = {
   nombre: Texto;
   descripcion: Texto;
   precio: number; // en pesos
-  cupos: number;
+  cupos: number; // stock: cuántas quedan
+  foto: string | null; // nombre de una foto de src/data/fotos.ts
 };

@@ -1,5 +1,5 @@
 /**
- * Pruebas de la base de datos: corren las tres migraciones reales sobre un
+ * Pruebas de la base de datos: corren todas las migraciones reales sobre un
  * PostgreSQL de verdad (PGlite: Postgres compilado a WebAssembly, corre dentro
  * de Node sin Docker) y verifican las políticas RLS actuando como visitante
  * anónimo, usuario común y admin. Así la seguridad se prueba en cada PR.
@@ -13,6 +13,7 @@ const MIGRACIONES = [
   "20261104000001_esquema.sql",
   "20261104000002_seguridad.sql",
   "20261104000003_semilla.sql",
+  "20261104000004_experiencias_foto.sql",
 ];
 
 let db: PGlite;

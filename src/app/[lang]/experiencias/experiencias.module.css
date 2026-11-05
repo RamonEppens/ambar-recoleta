@@ -1,0 +1,185 @@
+/* Catálogo de experiencias: la misma voz de la carta (nombre, itálica, precio) con foto. */
+
+.encabezado {
+  display: grid;
+  gap: var(--space-4);
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--space-6) var(--gutter) var(--space-5);
+}
+
+.titulo {
+  font-size: var(--step-5);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.bajada {
+  max-width: 36ch;
+  font-size: var(--step-1);
+}
+
+.demo {
+  max-width: 52ch;
+  font-size: var(--step--1);
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+/* auto-fit + minmax: 1 columna en el celular, 2 en tablet, 3 en desktop, sin media queries */
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(18rem, 100%), 1fr));
+  gap: var(--space-6) var(--space-5);
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: 0 var(--gutter) var(--section);
+  list-style: none;
+}
+
+.tarjeta {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto auto 1fr;
+  gap: var(--space-2) var(--space-4);
+  align-content: start;
+}
+
+.foto {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  margin-bottom: var(--space-2);
+}
+
+.nombre {
+  font-size: var(--step-2);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.nombre a {
+  text-decoration: none;
+}
+
+/* El link del nombre cubre toda la tarjeta: se puede tocar en cualquier parte */
+.nombre a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.tarjeta:hover .nombre a,
+.nombre a:focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+.precio {
+  align-self: baseline;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.descripcion {
+  grid-column: 1 / -1;
+  max-width: 44ch;
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+/* ---- Detalle ---- */
+
+.detalle {
+  display: grid;
+  max-width: var(--max-width);
+  margin-inline: auto;
+}
+
+.fotoDetalle {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  max-height: 80svh;
+  object-fit: cover;
+}
+
+.info {
+  display: grid;
+  gap: var(--space-5);
+  align-content: start;
+  padding: var(--space-5) var(--gutter) var(--section);
+}
+
+.volver a {
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-carta);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.volver a:hover {
+  text-decoration: underline;
+}
+
+.compra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-4);
+  padding-block: var(--space-4);
+  border-block: 1px solid var(--line);
+}
+
+.precioDetalle {
+  font-size: var(--step-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.cupos {
+  font-style: italic;
+  color: var(--fg-muted);
+}
+
+.cupos[data-agotada="true"] {
+  font-style: normal;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.subtitulo {
+  margin-bottom: var(--space-3);
+  font-size: var(--step-0);
+  font-weight: 400;
+  letter-spacing: var(--tracking-carta);
+  text-transform: uppercase;
+}
+
+.pasos {
+  display: grid;
+  gap: var(--space-2);
+  max-width: 44ch;
+  padding-left: 1.25em;
+}
+
+@media (min-width: 68rem) {
+  .detalle {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-6);
+    padding: var(--space-6) var(--gutter) var(--section);
+  }
+
+  .fotoDetalle {
+    position: sticky;
+    top: var(--space-5);
+  }
+
+  .info {
+    padding: 0;
+  }
+}
