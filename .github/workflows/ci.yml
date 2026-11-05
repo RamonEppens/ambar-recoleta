@@ -13,6 +13,11 @@ jobs:
   checks:
     name: checks
     runs-on: ubuntu-latest
+    # Credenciales desde GitHub Secrets (clase 13): nunca escritas en el YAML.
+    # Solo las públicas: el build lee la carta y los horarios de Supabase.
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

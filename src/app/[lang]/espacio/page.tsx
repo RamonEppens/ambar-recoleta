@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Momento } from "@/components/Momento";
 import { Horarios } from "@/components/Horarios";
+import { getSemana } from "@/lib/datos";
 import { MapaCuadra } from "@/components/MapaCuadra";
 import { enlaces, linkWhatsApp, telefonoEventos } from "@/data/enlaces";
 import { hasLocale } from "@/i18n/config";
@@ -28,7 +29,7 @@ export default async function EspacioPage({
 }: PageProps<"/[lang]/espacio">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const dict = await getDictionary(lang);
+  const [dict, semana] = await Promise.all([getDictionary(lang), getSemana()]);
   const t = dict.espacio;
   const v = t.visitanos;
 
@@ -116,7 +117,7 @@ export default async function EspacioPage({
               <h3 id="visitanos-horarios" className={styles.subtitulo}>
                 {v.horarios}
               </h3>
-              <Horarios lang={lang} dict={dict} />
+              <Horarios lang={lang} dict={dict} semana={semana} />
             </section>
 
             <section

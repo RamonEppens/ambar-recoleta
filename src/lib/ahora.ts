@@ -1,8 +1,7 @@
-import {
-  semana as semanaAmbar,
-  ZONA_HORARIA,
-  type Jornada,
-} from "../data/horarios";
+import type { Jornada, Semana } from "./tipos";
+
+/** Los horarios de Ámbar están en hora de Buenos Aires (UTC−3 todo el año). */
+export const ZONA_HORARIA = "America/Argentina/Buenos_Aires";
 
 const DIA = 24 * 60;
 
@@ -78,10 +77,7 @@ function estadoEnJornada(jornada: Jornada, minuto: number): Ahora | null {
  * Primero mira la jornada de hoy; si no, la de ayer (la noche que sigue después
  * de medianoche); si no, está cerrado y busca la próxima apertura.
  */
-export function calcularAhora(
-  fecha: Date,
-  semana: readonly (Jornada | null)[] = semanaAmbar,
-): Ahora {
+export function calcularAhora(fecha: Date, semana: Semana): Ahora {
   const { dia, minuto } = relojBuenosAires(fecha);
 
   const hoy = semana[dia];

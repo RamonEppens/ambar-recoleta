@@ -5,11 +5,11 @@ import { formatearPrecio } from "./precio";
 const normalizar = (texto: string) => texto.replace(/\s/g, " ");
 
 describe("formatearPrecio", () => {
-  it("convierte miles a pesos con formato argentino", () => {
-    expect(normalizar(formatearPrecio(29, "es"))).toBe("$ 29.000");
+  it("formatea pesos con formato argentino", () => {
+    expect(normalizar(formatearPrecio(29000, "es"))).toBe("$ 29.000");
   });
 
   it("en inglés aclara la moneda", () => {
-    expect(normalizar(formatearPrecio(29, "en"))).toBe("ARS 29,000");
+    expect(normalizar(formatearPrecio(29000, "en"))).toBe("ARS 29,000");
   });
 });

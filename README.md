@@ -30,7 +30,9 @@ Todas las páginas existen también en inglés (`/en/...`).
 | TypeScript                                               | Tipado estático                                                                     |
 | CSS Modules + variables CSS                              | Estilos y sistema de diseño (`src/styles/tokens.css`)                               |
 | `next/image`                                             | Fotos optimizadas (formato y tamaño según la pantalla)                              |
+| [Supabase](https://supabase.com) (PostgreSQL)            | Base de datos, seguridad por filas (RLS) y autenticación                            |
 | Vitest                                                   | Tests unitarios de la lógica (horarios, precios, links)                             |
+| PGlite                                                   | PostgreSQL en WebAssembly: corre las migraciones reales dentro de los tests         |
 | ESLint + Prettier                                        | Calidad y formato de código                                                         |
 | GitHub Actions                                           | Integración continua en cada PR                                                     |
 | Lighthouse CI                                            | Auditoría de accesibilidad y performance en el CI                                   |
@@ -53,16 +55,23 @@ src/
 │   ├── robots.ts            # robots.txt (bloquea hasta ALLOW_INDEXING=true)
 │   └── icon.svg             # Favicon
 ├── components/              # Componentes reutilizables (Momento, Horarios, Navegacion…)
-├── data/                    # Fuentes de datos: carta, horarios, fotos, sets, enlaces
+├── data/                    # Datos estáticos: fotos y enlaces externos
 ├── i18n/                    # Configuración de idiomas y diccionarios es.json / en.json
-├── lib/                     # Lógica pura y testeable (ahora, hora, precio, semana)
+├── lib/
+│   ├── datos.ts             # Lecturas de Supabase (carta, horarios, sets, experiencias)
+│   ├── mapear.ts            # Filas de la base → tipos del sitio (puro, testeado)
+│   ├── supabase/            # Clientes de Supabase
+│   └── …                    # Lógica pura y testeable (ahora, hora, precio, semana)
 ├── styles/                  # Tokens de diseño, reset y estilos base
 └── proxy.ts                 # Redirige "/" al idioma del navegador
+supabase/
+├── migrations/              # SQL: esquema → seguridad (RLS) → semilla
+└── base-de-datos.test.ts    # Prueba las migraciones y las políticas RLS
 ```
 
 ## Decisiones de diseño y técnicas
 
-- **Una sola fuente de verdad para los horarios** (`src/data/horarios.ts`). La usan el indicador "Ahora", el pie, la carta, la home y Música. Si cambia un horario, cambia en todo el sitio.
+- **Una sola fuente de verdad para los horarios** (tabla `horarios` en Supabase). La usan el indicador "Ahora", el pie, la carta, la home y Música. Si cambia un horario, cambia en todo el sitio.
 - **Indicador "Ahora"** (carta aperitiva / cena / barra / cerrado). Usa la **hora de Buenos Aires** aunque el visitante esté en otra zona horaria, y entiende que el viernes a la 01:30 sigue siendo "la noche del viernes". Es un Client Component con `useSyncExternalStore`: en el build estático no existe "ahora", así que se calcula en el navegador.
 - **Idiomas** con el patrón oficial de Next (`app/[lang]`). Los diccionarios están tipados: si a `en.json` le falta una clave de `es.json`, falla el typecheck.
 - **Paleta tomada de su material** (isotipo, papel de la carta, cortina, almohadones del patio), con contraste verificado ≥ 4.5:1. Los componentes usan roles de color (`--bg`, `--fg`, `--accent`), y `data-mode="noche"` invierte una sección entera.
@@ -70,6 +79,62 @@ src/
 - **Fotos** optimizadas con `next/image` y textos alternativos en los dos idiomas. Si falta el `alt` de una foto, falla el typecheck.
 - **Videos con patrón fachada:** se muestra la miniatura y el reproductor de YouTube carga recién al apretar play (`youtube-nocookie.com`).
 - **Croquis SVG** de la cuadra en lugar de un iframe de Google Maps: pesa casi nada y no carga scripts de terceros.
+
+## Base de datos
+
+PostgreSQL en Supabase. Las migraciones están en `supabase/migrations/` y se ejecutan **en orden** en el SQL Editor de Supabase.
+
+```mermaid
+erDiagram
+    cartas ||--o{ secciones : tiene
+    secciones ||--o{ platos : tiene
+    experiencias ||--o{ pedido_items : "se vende en"
+    pedidos ||--|{ pedido_items : contiene
+    consultas_eventos ||--o| pedidos : "se seña con"
+    auth_users ||--|| perfiles : "tiene rol"
+
+    cartas { text id PK "aperitivo | cena | tragos" }
+    secciones { uuid id PK
+        text carta_id FK }
+    platos { uuid id PK
+        uuid seccion_id FK
+        int precio "pesos"
+        bool activo }
+    horarios { smallint dia PK "0 = domingo"
+        time abre
+        time cierra }
+    sets { uuid id PK
+        text youtube_id UK }
+    experiencias { uuid id PK
+        int precio
+        int cupos "stock" }
+    consultas_eventos { uuid id PK
+        date fecha
+        text estado }
+    pedidos { uuid id PK "external_reference de Mercado Pago"
+        text estado
+        uuid consulta_id FK }
+    pedido_items { uuid id PK
+        uuid pedido_id FK
+        uuid experiencia_id FK
+        text codigo "código de regalo" }
+    perfiles { uuid id PK
+        text rol "admin | usuario" }
+```
+
+**Seguridad (Row Level Security).** Todas las tablas tienen RLS activado, con una política por operación:
+
+| Quién                    | Puede                                                                       |
+| ------------------------ | --------------------------------------------------------------------------- |
+| Visitante (anónimo)      | Leer la carta, los horarios, los sets publicados y las experiencias activas |
+| Usuario con rol `admin`  | Además: crear, editar y borrar el catálogo; leer consultas y pedidos        |
+| Servidor (clave secreta) | Crear consultas y pedidos después de validarlos, y confirmar pagos          |
+
+Nadie puede crear un pedido o una consulta directamente desde el navegador: solo pasando por la API, que valida los datos.
+
+**`confirmar_pago()`** marca un pedido como pagado, descuenta los cupos y genera los códigos de regalo **en una sola transacción**. Si no alcanza el stock, se revierte todo. Si Mercado Pago avisa dos veces el mismo pago, la segunda llamada no hace nada.
+
+**Pruebas.** `supabase/base-de-datos.test.ts` corre las tres migraciones sobre un PostgreSQL real (PGlite) y verifica las políticas actuando como visitante, usuario común y admin. Corre en cada PR.
 
 ## Accesibilidad
 
@@ -81,7 +146,11 @@ src/
 
 ## Cómo correrlo
 
-Requisitos: Node.js 24 (ver `.nvmrc`).
+Requisitos: Node.js 24 (ver `.nvmrc`) y un proyecto de Supabase.
+
+1. En el **SQL Editor** de Supabase, ejecutar en orden los tres archivos de `supabase/migrations/`.
+2. Copiar `.env.example` como `.env.local` y completar las claves (Supabase → Project Settings → API Keys).
+3. Instalar y correr:
 
 ```bash
 npm install
@@ -99,27 +168,32 @@ npm run dev        # http://localhost:3000
 
 ### Variables de entorno
 
-| Variable         | Dónde               | Para qué                                                            |
-| ---------------- | ------------------- | ------------------------------------------------------------------- |
-| `ALLOW_INDEXING` | Vercel (producción) | `true` habilita la indexación en buscadores. Sin definir: `noindex` |
+| Variable                               | Dónde                                 | Para qué                                                            |
+| -------------------------------------- | ------------------------------------- | ------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`             | `.env.local`, Vercel y GitHub Secrets | URL del proyecto de Supabase                                        |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | `.env.local`, Vercel y GitHub Secrets | Clave publicable: solo puede lo que RLS permite                     |
+| `ALLOW_INDEXING`                       | Vercel (producción)                   | `true` habilita la indexación en buscadores. Sin definir: `noindex` |
+
+Las variables con prefijo `NEXT_PUBLIC_` llegan al navegador; las demás quedan solo en el servidor. Las claves nunca se suben al repositorio (`.env*` está en `.gitignore`).
 
 ## Flujo de trabajo
 
 - `main` está protegida: solo se modifica por **pull request** con el check `checks` en verde.
-- Cada PR corre en GitHub Actions: formato → lint → tipos → tests → build → Lighthouse (`/es` y `/en`).
+- Cada PR corre en GitHub Actions: formato → lint → tipos → tests (incluida la base de datos) → build → Lighthouse (`/es` y `/en`). Las claves de Supabase llegan al CI como GitHub Secrets.
+- Las páginas se generan estáticas en el build y se regeneran como mucho cada hora (ISR).
 - Vercel despliega un **preview** por PR y **producción** en cada merge a `main`.
 - Commits con prefijos (`feat:`, `fix:`, `chore:`, `ci:`, `docs:`) y una plantilla de PR con checklist.
 
 ## Entregables
 
-| Entregable                                        | Estado   |
-| ------------------------------------------------- | -------- |
-| E1 · Repo + pipeline + preview                    | ✅       |
-| E2 · Landing + vistas clave responsivas           | ✅       |
-| E3 · Formularios dinámicos con fetch + validación | En curso |
-| E4 · Catálogo navegable + API básica              | En curso |
-| E5 · CRUD en Supabase + admin                     | En curso |
-| E6 · Checkout + webhook                           | En curso |
+| Entregable                                        | Estado                                  |
+| ------------------------------------------------- | --------------------------------------- |
+| E1 · Repo + pipeline + preview                    | ✅                                      |
+| E2 · Landing + vistas clave responsivas           | ✅                                      |
+| E3 · Formularios dinámicos con fetch + validación | En curso                                |
+| E4 · Catálogo navegable + API básica              | En curso                                |
+| E5 · CRUD en Supabase + admin                     | Base de datos y RLS ✅ · admin en curso |
+| E6 · Checkout + webhook                           | En curso                                |
 
 ## Créditos
 

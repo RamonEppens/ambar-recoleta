@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Persiana, type Modo } from "@/components/Persiana";
-import { cartas, type Carta } from "@/data/carta";
-import { semana } from "@/data/horarios";
 import { completar } from "@/i18n/completar";
 import { hasLocale, type Locale } from "@/i18n/config";
 import { getDictionary, type Dictionary } from "@/i18n/dictionaries";
 import { horaEnFrase, rangoHorario } from "@/lib/hora";
+import { getCartas, getSemana } from "@/lib/datos";
 import { formatearPrecio } from "@/lib/precio";
 import { agruparSemana } from "@/lib/semana";
+import type { Carta, Semana } from "@/lib/tipos";
 import styles from "./carta.module.css";
 
 export async function generateMetadata({
@@ -31,7 +31,12 @@ const mayuscula = (texto: string) =>
   texto.charAt(0).toUpperCase() + texto.slice(1);
 
 /** Cuándo se sirve cada carta, calculado desde los horarios (la misma fuente que "Ahora"). */
-function horarioDe(id: Carta["id"], lang: Locale, dict: Dictionary) {
+function horarioDe(
+  id: Carta["id"],
+  lang: Locale,
+  dict: Dictionary,
+  semana: Semana,
+) {
   const t = dict.carta;
   const primera = semana.find((jornada) => jornada !== null);
 
@@ -70,12 +75,13 @@ export default async function CartaPage({
 }: PageProps<"/[lang]/carta">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const dict = await getDictionary(lang);
+  const [dict, enOrden, semana] = await Promise.all([
+    getDictionary(lang),
+    getCartas(),
+    getSemana(),
+  ]);
   const t = dict.carta;
-
-  // Orden de la noche: primero el aperitivo, después la cena, después los tragos.
-  const orden: Carta["id"][] = ["aperitivo", "cena", "tragos"];
-  const enOrden = orden.map((id) => cartas.find((carta) => carta.id === id)!);
+  // El orden (aperitivo → cena → tragos) viene de la columna `orden` de la tabla cartas.
 
   return (
     <main id="contenido">
@@ -111,7 +117,7 @@ export default async function CartaPage({
                   {carta.titulo[lang]}
                 </h2>
                 <p className={styles.horario}>
-                  {horarioDe(carta.id, lang, dict)}
+                  {horarioDe(carta.id, lang, dict, semana)}
                 </p>
               </div>
 

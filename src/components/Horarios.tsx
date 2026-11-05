@@ -1,9 +1,9 @@
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { completar } from "@/i18n/completar";
-import { semana } from "@/data/horarios";
 import { horaEnFrase, rangoHorario } from "@/lib/hora";
 import { agruparSemana } from "@/lib/semana";
+import type { Semana } from "@/lib/tipos";
 import styles from "./Horarios.module.css";
 
 const mayuscula = (texto: string) =>
@@ -13,7 +13,15 @@ const mayuscula = (texto: string) =>
  * Tabla de horarios agrupada ("Martes a jueves · 17 a 01 hs"), con la cocina y
  * los días cerrados. La usan el pie de página y la sección Visitanos.
  */
-export function Horarios({ lang, dict }: { lang: Locale; dict: Dictionary }) {
+export function Horarios({
+  lang,
+  dict,
+  semana,
+}: {
+  lang: Locale;
+  dict: Dictionary;
+  semana: Semana;
+}) {
   const t = dict.footer;
   const { tramos, cerrados } = agruparSemana(semana);
   const cocinaHasta = semana.find((jornada) => jornada !== null)?.cocinaHasta;

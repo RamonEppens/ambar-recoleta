@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
+import type { Semana } from "@/lib/tipos";
 import { Ahora } from "./Ahora";
 import { Isotipo } from "./Isotipo";
 import { LanguageSwitch } from "./LanguageSwitch";
@@ -12,11 +13,19 @@ import styles from "./SiteHeader.module.css";
  * y la fila principal con el isotipo y la navegación.
  * Solo "Ahora", el selector de idioma y el menú bajan JavaScript al navegador.
  */
-export function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary }) {
+export function SiteHeader({
+  lang,
+  dict,
+  semana,
+}: {
+  lang: Locale;
+  dict: Dictionary;
+  semana: Semana;
+}) {
   return (
     <header className={styles.header}>
       <div className={styles.franja}>
-        <Ahora lang={lang} t={dict.ahora} dias={dict.dias} />
+        <Ahora lang={lang} t={dict.ahora} dias={dict.dias} semana={semana} />
         <LanguageSwitch current={lang} label={dict.a11y.language} />
       </div>
       <div className={styles.principal}>
