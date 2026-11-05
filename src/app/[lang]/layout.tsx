@@ -4,6 +4,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { hasLocale, locales } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { getSemana } from "@/lib/datos";
 import "@/styles/globals.css";
 
 const indexable = process.env.ALLOW_INDEXING === "true";
@@ -13,6 +14,10 @@ export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 export const dynamicParams = false;
+
+// ISR (clase 07): las páginas se generan en el build y se regeneran como mucho
+// cada hora. Además, el admin fuerza la regeneración al editar (revalidatePath).
+export const revalidate = 3600;
 
 export async function generateMetadata({
   params,
@@ -34,7 +39,7 @@ export default async function RootLayout({
 }: LayoutProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const dict = await getDictionary(lang);
+  const [dict, semana] = await Promise.all([getDictionary(lang), getSemana()]);
 
   return (
     <html lang={lang}>
@@ -42,9 +47,9 @@ export default async function RootLayout({
         <a className="skip-link" href="#contenido">
           {dict.a11y.skip}
         </a>
-        <SiteHeader lang={lang} dict={dict} />
+        <SiteHeader lang={lang} dict={dict} semana={semana} />
         {children}
-        <SiteFooter lang={lang} dict={dict} />
+        <SiteFooter lang={lang} dict={dict} semana={semana} />
       </body>
     </html>
   );

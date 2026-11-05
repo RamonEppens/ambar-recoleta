@@ -2,10 +2,10 @@ import { notFound } from "next/navigation";
 import { Destacados } from "@/components/home/Destacados";
 import { Hero } from "@/components/home/Hero";
 import { Momento } from "@/components/Momento";
-import { semana } from "@/data/horarios";
 import { completar } from "@/i18n/completar";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { getCartas, getSemana } from "@/lib/datos";
 import { horaEnFrase } from "@/lib/hora";
 
 /*
@@ -17,10 +17,14 @@ import { horaEnFrase } from "@/lib/hora";
 export default async function Home({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const dict = await getDictionary(lang);
+  const [dict, semana, cartas] = await Promise.all([
+    getDictionary(lang),
+    getSemana(),
+    getCartas(),
+  ]);
   const t = dict.home;
 
-  // Los horarios del texto salen del mismo archivo que usan "Ahora" y el pie.
+  // Los horarios del texto salen de la misma tabla que usan "Ahora" y el pie.
   const sabado = semana[6];
   const djDesde = semana.find((jornada) => jornada?.djDesde)?.djDesde;
 
@@ -57,6 +61,7 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         <Destacados
           ids={["tartar-ciervo", "bife-poivre", "chipa-frito"]}
           lang={lang}
+          cartas={cartas}
         />
       </Momento>
 
@@ -72,7 +77,11 @@ export default async function Home({ params }: PageProps<"/[lang]">) {
         alts={dict.fotos}
         lado="izquierda"
       >
-        <Destacados ids={["del-este", "dirty", "vermut"]} lang={lang} />
+        <Destacados
+          ids={["del-este", "dirty", "vermut"]}
+          lang={lang}
+          cartas={cartas}
+        />
       </Momento>
 
       <Momento

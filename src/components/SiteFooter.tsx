@@ -1,15 +1,24 @@
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { enlaces } from "@/data/enlaces";
+import type { Semana } from "@/lib/tipos";
 import { Horarios } from "./Horarios";
 import { Isotipo } from "./Isotipo";
 import styles from "./SiteFooter.module.css";
 
 /**
- * Server Component: los horarios (componente Horarios) salen del mismo archivo que usa "Ahora".
+ * Server Component: los horarios llegan desde el layout (Supabase), los mismos que usa "Ahora".
  * Va en modo noche: es el final del recorrido de la página.
  */
-export function SiteFooter({ lang, dict }: { lang: Locale; dict: Dictionary }) {
+export function SiteFooter({
+  lang,
+  dict,
+  semana,
+}: {
+  lang: Locale;
+  dict: Dictionary;
+  semana: Semana;
+}) {
   const t = dict.footer;
 
   return (
@@ -27,7 +36,7 @@ export function SiteFooter({ lang, dict }: { lang: Locale; dict: Dictionary }) {
           <h2 id="footer-horarios" className={styles.titulo}>
             {t.horarios}
           </h2>
-          <Horarios lang={lang} dict={dict} />
+          <Horarios lang={lang} dict={dict} semana={semana} />
         </section>
 
         <nav className={styles.bloque} aria-label={t.seguinos}>

@@ -4,11 +4,10 @@ import { Momento } from "@/components/Momento";
 import { Persiana } from "@/components/Persiana";
 import { VideoSet } from "@/components/VideoSet";
 import { enlaces } from "@/data/enlaces";
-import { semana } from "@/data/horarios";
-import { sets } from "@/data/sets";
 import { completar } from "@/i18n/completar";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
+import { getSemana, getSets } from "@/lib/datos";
 import { horaEnFrase } from "@/lib/hora";
 import styles from "./musica.module.css";
 
@@ -27,10 +26,14 @@ export default async function MusicaPage({
 }: PageProps<"/[lang]/musica">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const dict = await getDictionary(lang);
+  const [dict, semana, sets] = await Promise.all([
+    getDictionary(lang),
+    getSemana(),
+    getSets(),
+  ]);
   const t = dict.musica;
 
-  // El horario de los DJs sale del mismo archivo que "Ahora" y la home.
+  // El horario de los DJs sale de la misma tabla que "Ahora" y la home.
   const djDesde = semana.find((jornada) => jornada?.djDesde)?.djDesde;
 
   return (

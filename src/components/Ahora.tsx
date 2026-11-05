@@ -6,6 +6,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import { completar } from "@/i18n/completar";
 import { calcularAhora, type Ahora as Estado } from "@/lib/ahora";
 import { horaEnFrase } from "@/lib/hora";
+import type { Semana } from "@/lib/tipos";
 import styles from "./Ahora.module.css";
 
 /*
@@ -52,9 +53,14 @@ function describir(
   }
 }
 
-type AhoraProps = { lang: Locale; t: Dictionary["ahora"]; dias: string[] };
+type AhoraProps = {
+  lang: Locale;
+  t: Dictionary["ahora"];
+  dias: string[];
+  semana: Semana;
+};
 
-export function Ahora({ lang, t, dias }: AhoraProps) {
+export function Ahora({ lang, t, dias, semana }: AhoraProps) {
   const minuto = useSyncExternalStore<number | null>(
     suscribir,
     minutoActual,
@@ -64,7 +70,7 @@ export function Ahora({ lang, t, dias }: AhoraProps) {
   // Mismo alto antes y después de calcular la hora: el header no "salta".
   if (minuto === null) return <p className={styles.ahora} aria-hidden="true" />;
 
-  const estado = calcularAhora(new Date(minuto * 60_000));
+  const estado = calcularAhora(new Date(minuto * 60_000), semana);
   const abierto = estado.estado !== "cerrado";
 
   return (

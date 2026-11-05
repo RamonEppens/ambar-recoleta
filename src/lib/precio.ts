@@ -14,9 +14,10 @@ const formatos: Record<Locale, Intl.NumberFormat> = {
 };
 
 /**
- * Ámbar publica los precios en miles de pesos ("29" = $29.000).
- * En la web los mostramos completos: un turista no sabe que "29" son miles.
+ * Ámbar publica los precios en miles de pesos ("29" = $29.000). En la base se
+ * guardan completos (29000) y en la web se muestran con formato: un turista no
+ * sabe que "29" son miles.
  */
-export function formatearPrecio(miles: number, locale: Locale) {
-  return formatos[locale].format(miles * 1000);
+export function formatearPrecio(pesos: number, locale: Locale) {
+  return formatos[locale].format(pesos);
 }

@@ -1,4 +1,4 @@
-import type { Jornada } from "../data/horarios";
+import type { Jornada, Semana } from "./tipos";
 
 export type Tramo = {
   desde: number;
@@ -23,7 +23,7 @@ const horarioDelLocal = (jornada: Jornada): Rango => ({
  * el de la carta aperitiva (de `abre` a `aperitivoHasta`).
  */
 export function agruparSemana(
-  semana: readonly (Jornada | null)[],
+  semana: Semana,
   rango: (jornada: Jornada) => Rango = horarioDelLocal,
 ) {
   const tramos: Tramo[] = [];

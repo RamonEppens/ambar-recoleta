@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { semana } from "../data/horarios";
+import { semanaEjemplo as semana } from "./ejemplos/semana";
 import { agruparSemana } from "./semana";
 
 describe("agruparSemana", () => {
