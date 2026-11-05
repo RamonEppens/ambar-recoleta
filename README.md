@@ -19,6 +19,7 @@ Hasta ahora el local solo tenía Instagram, con la carta y los horarios en histo
 | La carta     | `/es/carta`        | Carta aperitiva, de cena y tragos, con precios y horario de cada carta                                     |
 | El espacio   | `/es/espacio`      | Patio, salón y barra. Al final, **Visitanos**: croquis de la cuadra, horarios, reservas y eventos privados |
 | Música       | `/es/musica`       | DJs de viernes y sábado, Colonia Radio y los sets grabados en Ámbar                                        |
+| Eventos      | `/es/eventos`      | Consulta por un evento privado: formulario con validación en vivo (demo del TP)                            |
 | Para regalar | `/es/experiencias` | Catálogo de experiencias para regalar (demo del TP) y una página por experiencia                           |
 
 Todas las páginas existen también en inglés (`/en/...`).
@@ -155,6 +156,8 @@ API REST en `/api/v1`, con Route Handlers de Next (el equivalente a las rutas de
 | `GET /api/v1/experiencias/:slug`                      | Una experiencia                                   | —                                                                             |
 | `POST /api/v1/platos` · `/experiencias`               | Crea (solo admin) → 201                           | Cuerpo JSON validado con Zod                                                  |
 | `PATCH /api/v1/platos/:slug` · `/experiencias/:slug`  | Cambia los campos enviados (solo admin)           | Cuerpo JSON parcial                                                           |
+| `POST /api/v1/consultas`                              | Guarda una consulta de evento → 201               | Cuerpo JSON validado con Zod                                                  |
+| `PATCH /api/v1/consultas/:id`                         | Cambia el estado de una consulta (solo admin)     | `{ "estado": "contactada" }`                                                  |
 | `DELETE /api/v1/platos/:slug` · `/experiencias/:slug` | Borra (solo admin) → 204                          | —                                                                             |
 
 Ejemplo: `/api/v1/platos?q=ciervo&precioMax=30000` → `{ "datos": [...], "total": 2, "pagina": 1, "limite": 50 }`
@@ -186,7 +189,7 @@ Ejemplo: `/api/v1/platos?q=ciervo&precioMax=30000` → `{ "datos": [...], "total
 
 ## Admin
 
-Panel en `/admin` para editar la carta y las experiencias sin tocar código. Es un layout raíz aparte (sin idioma, nunca se indexa).
+Panel en `/admin` para editar la carta y las experiencias sin tocar código, y ver las consultas de eventos. Es un layout raíz aparte (sin idioma, nunca se indexa).
 
 - **Ingreso** con email y contraseña de Supabase Auth. La sesión queda en una cookie `httpOnly` (`@supabase/ssr`), que el JavaScript del navegador no puede leer.
 - **Tres barreras**: el proxy manda al ingreso a quien no tiene sesión; el panel y la API exigen el rol `admin` (401 / 403); y RLS en la base rechaza cualquier escritura de alguien que no sea admin.
@@ -233,11 +236,12 @@ npm run dev        # http://localhost:3000
 
 ### Variables de entorno
 
-| Variable                               | Dónde                                 | Para qué                                                            |
-| -------------------------------------- | ------------------------------------- | ------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SUPABASE_URL`             | `.env.local`, Vercel y GitHub Secrets | URL del proyecto de Supabase                                        |
-| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | `.env.local`, Vercel y GitHub Secrets | Clave publicable: solo puede lo que RLS permite                     |
-| `ALLOW_INDEXING`                       | Vercel (producción)                   | `true` habilita la indexación en buscadores. Sin definir: `noindex` |
+| Variable                               | Dónde                                 | Para qué                                                                                         |
+| -------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `NEXT_PUBLIC_SUPABASE_URL`             | `.env.local`, Vercel y GitHub Secrets | URL del proyecto de Supabase                                                                     |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | `.env.local`, Vercel y GitHub Secrets | Clave publicable: solo puede lo que RLS permite                                                  |
+| `SUPABASE_SECRET_KEY`                  | `.env.local` y Vercel (tipo Secret)   | Clave secreta: saltea RLS. Solo la usa el servidor para guardar consultas y pedidos ya validados |
+| `ALLOW_INDEXING`                       | Vercel (producción)                   | `true` habilita la indexación en buscadores. Sin definir: `noindex`                              |
 
 Las variables con prefijo `NEXT_PUBLIC_` llegan al navegador; las demás quedan solo en el servidor. Las claves nunca se suben al repositorio (`.env*` está en `.gitignore`).
 
@@ -251,14 +255,14 @@ Las variables con prefijo `NEXT_PUBLIC_` llegan al navegador; las demás quedan 
 
 ## Entregables
 
-| Entregable                                        | Estado                                  |
-| ------------------------------------------------- | --------------------------------------- |
-| E1 · Repo + pipeline + preview                    | ✅                                      |
-| E2 · Landing + vistas clave responsivas           | ✅                                      |
-| E3 · Formularios dinámicos con fetch + validación | Admin ✅ · consulta de eventos en curso |
-| E4 · Catálogo navegable + API básica              | ✅                                      |
-| E5 · CRUD en Supabase + admin                     | ✅                                      |
-| E6 · Checkout + webhook                           | En curso                                |
+| Entregable                                        | Estado   |
+| ------------------------------------------------- | -------- |
+| E1 · Repo + pipeline + preview                    | ✅       |
+| E2 · Landing + vistas clave responsivas           | ✅       |
+| E3 · Formularios dinámicos con fetch + validación | ✅       |
+| E4 · Catálogo navegable + API básica              | ✅       |
+| E5 · CRUD en Supabase + admin                     | ✅       |
+| E6 · Checkout + webhook                           | En curso |
 
 ## Créditos
 

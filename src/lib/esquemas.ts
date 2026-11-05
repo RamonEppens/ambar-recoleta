@@ -85,3 +85,64 @@ export function erroresPorCampo(error: z.ZodError) {
   }
   return errores;
 }
+
+/* ---- Consulta de eventos privados (formulario público) ---- */
+
+export const TIPOS_EVENTO = [
+  "cumpleanos",
+  "empresa",
+  "casamiento",
+  "otro",
+] as const;
+export type TipoEvento = (typeof TIPOS_EVENTO)[number];
+
+/** "2026-11-05" en Buenos Aires, aunque el servidor o el visitante estén en otra zona. */
+export function hoyEnBuenosAires(ahora = new Date()) {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Argentina/Buenos_Aires",
+  }).format(ahora);
+}
+
+const enUnAnio = (hoy: string) =>
+  `${Number(hoy.slice(0, 4)) + 1}${hoy.slice(4)}`;
+
+/*
+ * El formulario público está en dos idiomas, así que los mensajes de error
+ * son CLAVES ("fecha_pasada") que el componente traduce con el diccionario.
+ * La API devuelve las mismas claves en `detalles`.
+ */
+export const esquemaConsulta = z.strictObject({
+  nombre: z.string().trim().min(2, "nombre_corto").max(80, "nombre_largo"),
+  email: z
+    .email({ error: "email_invalido" })
+    .max(120, { error: "email_invalido" }),
+  telefono: z
+    .string()
+    .trim()
+    .max(30, "telefono_invalido")
+    .regex(/^[+\d\s()-]*$/, "telefono_invalido"),
+  fecha: z.iso
+    .date({ error: "fecha_invalida" })
+    .refine((fecha) => fecha >= hoyEnBuenosAires(), "fecha_pasada")
+    .refine((fecha) => fecha <= enUnAnio(hoyEnBuenosAires()), "fecha_lejana"),
+  personas: z
+    .number({ error: "personas_invalidas" })
+    .int("personas_invalidas")
+    .min(1, "personas_invalidas")
+    .max(300, "personas_maximo"),
+  tipo: z.enum(TIPOS_EVENTO, { error: "tipo_invalido" }),
+  mensaje: z.string().trim().max(1000, "mensaje_largo"),
+  /**
+   * Trampa para bots ("honeypot"): un campo oculto que una persona nunca
+   * completa. Si llega con algo, la API responde OK pero no guarda nada.
+   */
+  sitio: z.string().max(200).optional(),
+});
+export type DatosConsulta = z.infer<typeof esquemaConsulta>;
+
+export const ESTADOS_CONSULTA = [
+  "nueva",
+  "contactada",
+  "senada",
+  "descartada",
+] as const;

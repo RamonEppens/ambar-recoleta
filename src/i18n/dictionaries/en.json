@@ -73,7 +73,8 @@
     "y": "and",
     "reservar": "Book a table",
     "seguinos": "Follow us",
-    "musica": "The sets, on Colonia Radio"
+    "musica": "The sets, on Colonia Radio",
+    "eventos": "Private events"
   },
   "fotos": {
     "barraCopasLuz": "Three martini glasses filled with ice on the bar, the warm light of the arch reflected on the marble.",
@@ -155,9 +156,10 @@
       "reservar": "Book a table",
       "eventosTitulo": "Private events",
       "eventosTexto": "We host private events. Tell us the date, how many you are and what you have in mind.",
-      "eventosBoton": "Ask on WhatsApp",
+      "eventosBoton": "Ask about an event",
       "eventosTelefono": "Or call",
-      "eventosMensaje": "Hi! I'd like to ask about a private event at Ámbar."
+      "eventosMensaje": "Hi! I'd like to ask about a private event at Ámbar.",
+      "eventosWhatsApp": "Or message us on WhatsApp"
     }
   },
   "musica": {
@@ -195,5 +197,55 @@
       "Whoever receives it shows the code at Ámbar."
     ],
     "todas": "All experiences"
+  },
+  "eventos": {
+    "titulo": "Private events",
+    "bajada": "Birthdays, company dinners, small weddings or a night for your people. Tell us what you have in mind and we'll get back to you.",
+    "demo": "University project demo: inquiries from this form do not reach Ámbar. For a real event, message them on WhatsApp.",
+    "campos": {
+      "nombre": "Name",
+      "email": "Email",
+      "telefono": "Phone (optional)",
+      "fecha": "Date",
+      "personas": "How many people",
+      "tipo": "Type of event",
+      "elegir": "Choose one",
+      "mensaje": "Tell us more (optional)",
+      "sitio": "Leave this field empty"
+    },
+    "ayudaPersonas": "Up to 300.",
+    "ayudaMensaje": "Time, dinner or just the bar, anything special…",
+    "tipos": {
+      "cumpleanos": "Birthday",
+      "empresa": "Company",
+      "casamiento": "Wedding",
+      "otro": "Other"
+    },
+    "enviar": "Send inquiry",
+    "enviando": "Sending…",
+    "alternativa": "Rather talk directly?",
+    "whatsapp": "Message us on WhatsApp",
+    "exito": {
+      "titulo": "We got your inquiry!",
+      "texto": "We'll write to {email} to plan it. To speed things up, send us the summary on WhatsApp.",
+      "whatsapp": "Send the summary on WhatsApp",
+      "otra": "Send another inquiry"
+    },
+    "mensajeWhatsApp": "Hi! I wrote to you from the website about an event: {tipo} for {personas} people on {fecha}. I'm {nombre}.",
+    "errores": {
+      "nombre_corto": "Write your name (at least 2 letters).",
+      "nombre_largo": "80 characters max.",
+      "email_invalido": "Check the email (e.g. name@mail.com).",
+      "telefono_invalido": "Only numbers, spaces, dashes and +.",
+      "fecha_invalida": "Choose a date.",
+      "fecha_pasada": "That date has passed.",
+      "fecha_lejana": "We take inquiries up to a year ahead.",
+      "personas_invalidas": "Write how many people.",
+      "personas_maximo": "For more than 300 people, message us on WhatsApp.",
+      "tipo_invalido": "Choose the type of event.",
+      "mensaje_largo": "1000 characters max.",
+      "red": "No connection. Check your internet and try again.",
+      "general": "We couldn't send your inquiry. Please try again later."
+    }
   }
 }

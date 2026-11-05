@@ -8,7 +8,7 @@ import { erroresPorCampo } from "@/lib/esquemas";
 type Estado =
   | { tipo: "editando" }
   | { tipo: "enviando" }
-  | { tipo: "error"; mensaje: string };
+  | { tipo: "error"; mensaje: string; codigo?: string };
 
 type ErrorApi = {
   error?: {
@@ -19,7 +19,8 @@ type ErrorApi = {
 };
 
 /**
- * Estado y validación de un formulario controlado del admin (E3).
+ * Estado y validación de un formulario controlado (E3). Lo usan el admin y
+ * el formulario público de eventos.
  *
  * - Valida con el MISMO esquema de Zod que la API, en cada cambio.
  * - Un error se muestra cuando el campo perdió el foco o se intentó enviar:
@@ -33,6 +34,10 @@ export function useFormulario<Valores extends object, T extends z.ZodType>({
   aDatos,
   enviar,
   alGuardar,
+  textos = {
+    sinConexion: "Sin conexión. Revisá internet y probá de nuevo.",
+    noGuardado: "No se pudo guardar.",
+  },
 }: {
   esquema: T;
   /** Lo que muestran los inputs (los números, como texto: así se ve lo que se escribió). */
@@ -41,6 +46,8 @@ export function useFormulario<Valores extends object, T extends z.ZodType>({
   aDatos: (valores: Valores) => unknown;
   enviar: (datos: z.output<T>) => Promise<Response>;
   alGuardar: (datos: z.output<T>) => void;
+  /** Textos de los errores generales (el sitio público los pasa traducidos). */
+  textos?: { sinConexion: string; noGuardado: string };
 }) {
   const router = useRouter();
   const [valores, setValores] = useState<Valores>(inicial);
@@ -105,13 +112,11 @@ export function useFormulario<Valores extends object, T extends z.ZodType>({
       );
       setEstado({
         tipo: "error",
-        mensaje: e?.mensaje ?? "No se pudo guardar.",
+        mensaje: e?.mensaje ?? textos.noGuardado,
+        codigo: e?.codigo,
       });
     } catch {
-      setEstado({
-        tipo: "error",
-        mensaje: "Sin conexión. Revisá internet y probá de nuevo.",
-      });
+      setEstado({ tipo: "error", mensaje: textos.sinConexion, codigo: "red" });
     }
   }
 

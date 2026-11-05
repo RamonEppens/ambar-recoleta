@@ -7,6 +7,7 @@ import styles from "../admin.module.css";
 const secciones = [
   { href: "/admin/platos", texto: "Carta" },
   { href: "/admin/experiencias", texto: "Experiencias" },
+  { href: "/admin/consultas", texto: "Consultas" },
 ];
 
 export function NavAdmin() {

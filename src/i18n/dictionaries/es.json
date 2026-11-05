@@ -73,7 +73,8 @@
     "y": "y",
     "reservar": "Reservar",
     "seguinos": "Seguinos",
-    "musica": "Los sets, en Colonia Radio"
+    "musica": "Los sets, en Colonia Radio",
+    "eventos": "Eventos privados"
   },
   "fotos": {
     "barraCopasLuz": "Tres copas de martini llenas de hielo sobre la barra, con la luz cálida del arco reflejada en el mármol.",
@@ -155,9 +156,10 @@
       "reservar": "Reservar una mesa",
       "eventosTitulo": "Eventos privados",
       "eventosTexto": "Hacemos eventos privados. Contanos la fecha, cuántos son y qué tenés en mente.",
-      "eventosBoton": "Consultar por WhatsApp",
+      "eventosBoton": "Consultar por un evento",
       "eventosTelefono": "O llamá al",
-      "eventosMensaje": "¡Hola! Quiero consultar por un evento privado en Ámbar."
+      "eventosMensaje": "¡Hola! Quiero consultar por un evento privado en Ámbar.",
+      "eventosWhatsApp": "O escribinos por WhatsApp"
     }
   },
   "musica": {
@@ -195,5 +197,55 @@
       "Quien lo recibe lo presenta al llegar a Ámbar."
     ],
     "todas": "Todas las experiencias"
+  },
+  "eventos": {
+    "titulo": "Eventos privados",
+    "bajada": "Cumpleaños, cenas de empresa, casamientos chicos o una noche para los tuyos. Contanos qué tenés en mente y te escribimos.",
+    "demo": "Demostración del trabajo práctico: las consultas de este formulario no le llegan a Ámbar. Para un evento real, escribiles por WhatsApp.",
+    "campos": {
+      "nombre": "Nombre",
+      "email": "Email",
+      "telefono": "Teléfono (opcional)",
+      "fecha": "Fecha",
+      "personas": "Cuántas personas",
+      "tipo": "Tipo de evento",
+      "elegir": "Elegí uno",
+      "mensaje": "Contanos más (opcional)",
+      "sitio": "No completar este campo"
+    },
+    "ayudaPersonas": "Hasta 300.",
+    "ayudaMensaje": "Horario, si querés cena o solo barra, algo especial…",
+    "tipos": {
+      "cumpleanos": "Cumpleaños",
+      "empresa": "Empresa",
+      "casamiento": "Casamiento",
+      "otro": "Otro"
+    },
+    "enviar": "Enviar consulta",
+    "enviando": "Enviando…",
+    "alternativa": "¿Preferís hablar directo?",
+    "whatsapp": "Escribinos por WhatsApp",
+    "exito": {
+      "titulo": "¡Recibimos tu consulta!",
+      "texto": "Te escribimos a {email} para coordinar. Si querés adelantar, mandanos el resumen por WhatsApp.",
+      "whatsapp": "Mandar el resumen por WhatsApp",
+      "otra": "Hacer otra consulta"
+    },
+    "mensajeWhatsApp": "¡Hola! Les escribí desde la web por un evento: {tipo} para {personas} personas el {fecha}. Soy {nombre}.",
+    "errores": {
+      "nombre_corto": "Escribí tu nombre (mínimo 2 letras).",
+      "nombre_largo": "Máximo 80 caracteres.",
+      "email_invalido": "Revisá el email (ej. nombre@mail.com).",
+      "telefono_invalido": "Solo números, espacios, guiones y +.",
+      "fecha_invalida": "Elegí una fecha.",
+      "fecha_pasada": "Esa fecha ya pasó.",
+      "fecha_lejana": "Tomamos consultas hasta un año adelante.",
+      "personas_invalidas": "Escribí cuántas personas son.",
+      "personas_maximo": "Para más de 300 personas, escribinos por WhatsApp.",
+      "tipo_invalido": "Elegí el tipo de evento.",
+      "mensaje_largo": "Máximo 1000 caracteres.",
+      "red": "Sin conexión. Revisá internet y probá de nuevo.",
+      "general": "No pudimos enviar la consulta. Probá de nuevo en un rato."
+    }
   }
 }

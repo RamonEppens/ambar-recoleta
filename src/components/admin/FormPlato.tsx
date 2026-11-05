@@ -3,9 +3,16 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { esquemaPlato, type DatosPlato } from "@/lib/esquemas";
-import { Campo, aNumero, atributosDeCampo } from "./Campo";
+import {
+  Campo,
+  aNumero,
+  atributosDeCampo,
+} from "@/components/formulario/Campo";
 import styles from "./Formulario.module.css";
-import { pedirJson, useFormulario } from "./useFormulario";
+import {
+  pedirJson,
+  useFormulario,
+} from "@/components/formulario/useFormulario";
 
 export type OpcionSeccion = { id: string; nombre: string };
 
