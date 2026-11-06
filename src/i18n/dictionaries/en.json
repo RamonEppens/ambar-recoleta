@@ -74,7 +74,8 @@
     "reservar": "Book a table",
     "seguinos": "Follow us",
     "musica": "The sets, on Colonia Radio",
-    "eventos": "Private events"
+    "eventos": "Private events",
+    "admin": "Staff login"
   },
   "fotos": {
     "barraCopasLuz": "Three martini glasses filled with ice on the bar, the warm light of the arch reflected on the marble.",
@@ -97,7 +98,8 @@
     "reservar": "Book",
     "menu": "Menu",
     "cerrar": "Close",
-    "regalar": "Gifts"
+    "regalar": "Gifts",
+    "carrito": "Cart ({n})"
   },
   "carta": {
     "titulo": "The menu",
@@ -193,7 +195,7 @@
     "comoFunciona": "How it works",
     "pasos": [
       "Choose the experience and pay with Mercado Pago.",
-      "You get a code for each gift.",
+      "You get a code per experience, valid for the quantity you bought.",
       "Whoever receives it shows the code at Ámbar."
     ],
     "todas": "All experiences"
@@ -247,5 +249,69 @@
       "red": "No connection. Check your internet and try again.",
       "general": "We couldn't send your inquiry. Please try again later."
     }
+  },
+  "carrito": {
+    "titulo": "Your cart",
+    "vacio": "You haven't chosen any experience yet.",
+    "verExperiencias": "See experiences",
+    "cantidad": "Quantity of {nombre}",
+    "menos": "One less",
+    "mas": "One more",
+    "quitar": "Remove",
+    "total": "Total",
+    "agotada": "No longer available: remove it to continue.",
+    "datosTitulo": "Under whose name?",
+    "datosTexto": "We show you the codes after payment, and they stay on the order link.",
+    "nombre": "Name",
+    "email": "Email",
+    "pagar": "Pay with Mercado Pago",
+    "yendo": "Going to Mercado Pago…",
+    "seguro": "Payment happens on Mercado Pago: Ámbar never sees or stores your card details.",
+    "nota": "University project test: use a Mercado Pago test account.",
+    "errores": {
+      "nombre_corto": "Write your name (at least 2 letters).",
+      "nombre_largo": "80 characters max.",
+      "email_invalido": "Check the email (e.g. name@mail.com).",
+      "carrito_vacio": "Your cart is empty.",
+      "cantidad_maxima": "10 per experience max.",
+      "sin_cupos": "Not enough spots left for one of the experiences. Lower the quantity.",
+      "experiencia_no_disponible": "One of the experiences is no longer on sale. Remove it from the cart.",
+      "pago_no_disponible": "Mercado Pago didn't respond. Please try again later.",
+      "red": "No connection. Check your internet and try again.",
+      "general": "We couldn't start the payment. Please try again."
+    }
+  },
+  "agregar": {
+    "cantidad": "Quantity",
+    "boton": "Add to cart",
+    "agregado": "Added.",
+    "verCarrito": "View cart",
+    "menos": "One less",
+    "mas": "One more"
+  },
+  "pedido": {
+    "titulo": "Your order",
+    "pagadoTitulo": "Done, it's paid!",
+    "pagadoTexto": "These are your codes. Whoever gets the gift shows the code at Ámbar.",
+    "codigo": "Code",
+    "pendienteTitulo": "Confirming the payment…",
+    "pendienteTexto": "Mercado Pago lets us know in a few seconds. No need to reload.",
+    "demoraTexto": "This is taking longer than usual. Keep this link: once the payment clears, the codes show up here.",
+    "rechazadoTitulo": "The payment didn't go through",
+    "rechazadoTexto": "Nothing was charged. You can try again.",
+    "reintentar": "Back to the cart",
+    "senaPagadaTexto": "We got the deposit. We'll write to you to settle the event details.",
+    "noExiste": "We couldn't find this order.",
+    "total": "Total",
+    "guardar": "Keep this link: it's your receipt."
+  },
+  "sena": {
+    "titulo": "Deposit for your event",
+    "texto": "To hold the date, pay the agreed deposit.",
+    "pagar": "Pay the deposit with Mercado Pago",
+    "yendo": "Going to Mercado Pago…",
+    "yaPagada": "This deposit is already paid. Thank you!",
+    "cerrada": "This link is no longer valid. Ask us for a new one.",
+    "error": "We couldn't start the payment. Please try again."
   }
 }

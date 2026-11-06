@@ -8,6 +8,7 @@ const secciones = [
   { href: "/admin/platos", texto: "Carta" },
   { href: "/admin/experiencias", texto: "Experiencias" },
   { href: "/admin/consultas", texto: "Consultas" },
+  { href: "/admin/pedidos", texto: "Pedidos" },
 ];
 
 export function NavAdmin() {

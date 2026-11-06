@@ -20,6 +20,7 @@ Hasta ahora el local solo tenía Instagram, con la carta y los horarios en histo
 | El espacio   | `/es/espacio`      | Patio, salón y barra. Al final, **Visitanos**: croquis de la cuadra, horarios, reservas y eventos privados |
 | Música       | `/es/musica`       | DJs de viernes y sábado, Colonia Radio y los sets grabados en Ámbar                                        |
 | Eventos      | `/es/eventos`      | Consulta por un evento privado: formulario con validación en vivo (demo del TP)                            |
+| Carrito      | `/es/carrito`      | Carrito (localStorage) y pago con Mercado Pago Checkout Pro                                                |
 | Para regalar | `/es/experiencias` | Catálogo de experiencias para regalar (demo del TP) y una página por experiencia                           |
 
 Todas las páginas existen también en inglés (`/en/...`).
@@ -34,6 +35,7 @@ Todas las páginas existen también en inglés (`/en/...`).
 | `next/image`                                             | Fotos optimizadas (formato y tamaño según la pantalla)                              |
 | [Supabase](https://supabase.com) (PostgreSQL)            | Base de datos, seguridad por filas (RLS) y autenticación                            |
 | Zod                                                      | Validación de los datos que recibe la API                                           |
+| Mercado Pago Checkout Pro                                | Pagos: preferencia, redirección y webhook firmado                                   |
 | Vitest                                                   | Tests unitarios de la lógica y de la API                                            |
 | PGlite                                                   | PostgreSQL en WebAssembly: corre las migraciones reales dentro de los tests         |
 | ESLint + Prettier                                        | Calidad y formato de código                                                         |
@@ -65,6 +67,9 @@ src/
 ├── i18n/                    # Configuración de idiomas y diccionarios es.json / en.json
 ├── lib/
 │   ├── api/                 # Esquemas de Zod y manejo de errores centralizado
+│   ├── mercadopago.ts       # Preferencias, pagos y firma del webhook
+│   ├── pagos.ts             # Conciliación: pago de MP → pedido en la base
+│   ├── carrito.ts           # Carrito en localStorage
 │   ├── catalogo.ts          # Búsqueda y filtros de la carta (los usan la API y el buscador)
 │   ├── datos.ts             # Lecturas de Supabase (carta, horarios, sets, experiencias)
 │   ├── mapear.ts            # Filas de la base → tipos del sitio (puro, testeado)
@@ -148,17 +153,23 @@ Nadie puede crear un pedido o una consulta directamente desde el navegador: solo
 
 API REST en `/api/v1`, con Route Handlers de Next (el equivalente a las rutas de Express de la clase 10). Los recursos van en plural y la acción la da el verbo HTTP.
 
-| Método y ruta                                         | Qué devuelve                                      | Parámetros                                                                    |
-| ----------------------------------------------------- | ------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `GET /api/v1/platos`                                  | Platos y tragos activos                           | `carta` (`aperitivo`, `cena`, `tragos`), `q`, `precioMax`, `pagina`, `limite` |
-| `GET /api/v1/platos/:slug`                            | Un plato, con su carta y sección                  | —                                                                             |
-| `GET /api/v1/experiencias`                            | Experiencias a la venta, con los cupos al momento | —                                                                             |
-| `GET /api/v1/experiencias/:slug`                      | Una experiencia                                   | —                                                                             |
-| `POST /api/v1/platos` · `/experiencias`               | Crea (solo admin) → 201                           | Cuerpo JSON validado con Zod                                                  |
-| `PATCH /api/v1/platos/:slug` · `/experiencias/:slug`  | Cambia los campos enviados (solo admin)           | Cuerpo JSON parcial                                                           |
-| `POST /api/v1/consultas`                              | Guarda una consulta de evento → 201               | Cuerpo JSON validado con Zod                                                  |
-| `PATCH /api/v1/consultas/:id`                         | Cambia el estado de una consulta (solo admin)     | `{ "estado": "contactada" }`                                                  |
-| `DELETE /api/v1/platos/:slug` · `/experiencias/:slug` | Borra (solo admin) → 204                          | —                                                                             |
+| Método y ruta                                         | Qué devuelve                                                                      | Parámetros                                                                    |
+| ----------------------------------------------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `GET /api/v1/platos`                                  | Platos y tragos activos                                                           | `carta` (`aperitivo`, `cena`, `tragos`), `q`, `precioMax`, `pagina`, `limite` |
+| `GET /api/v1/platos/:slug`                            | Un plato, con su carta y sección                                                  | —                                                                             |
+| `GET /api/v1/experiencias`                            | Experiencias a la venta, con los cupos al momento                                 | —                                                                             |
+| `GET /api/v1/experiencias/:slug`                      | Una experiencia                                                                   | —                                                                             |
+| `POST /api/v1/platos` · `/experiencias`               | Crea (solo admin) → 201                                                           | Cuerpo JSON validado con Zod                                                  |
+| `PATCH /api/v1/platos/:slug` · `/experiencias/:slug`  | Cambia los campos enviados (solo admin)                                           | Cuerpo JSON parcial                                                           |
+| `POST /api/v1/pedidos`                                | Crea el pedido con los precios de la base y devuelve la URL de Checkout Pro → 201 | `{ nombre, email, items: [{ slug, cantidad }], idioma }`                      |
+| `GET /api/v1/pedidos/:id`                             | Estado del pedido (los códigos, recién pagado)                                    | —                                                                             |
+| `POST /api/v1/pedidos/:id/pago`                       | Nueva URL de pago para un pedido pendiente (señas)                                | `{ idioma }`                                                                  |
+| `POST /api/v1/pedidos/:id/verificar`                  | Verifica un pago contra Mercado Pago (página de vuelta)                           | `{ paymentId }`                                                               |
+| `POST /api/v1/webhooks/mercadopago`                   | Aviso de Mercado Pago, con la firma validada                                      | Lo llama Mercado Pago                                                         |
+| `POST /api/v1/consultas/:id/sena`                     | Pide la seña de un evento (solo admin) → link de pago                             | `{ monto }`                                                                   |
+| `POST /api/v1/consultas`                              | Guarda una consulta de evento → 201                                               | Cuerpo JSON validado con Zod                                                  |
+| `PATCH /api/v1/consultas/:id`                         | Cambia el estado de una consulta (solo admin)                                     | `{ "estado": "contactada" }`                                                  |
+| `DELETE /api/v1/platos/:slug` · `/experiencias/:slug` | Borra (solo admin) → 204                                                          | —                                                                             |
 
 Ejemplo: `/api/v1/platos?q=ciervo&precioMax=30000` → `{ "datos": [...], "total": 2, "pagina": 1, "limite": 50 }`
 
@@ -182,14 +193,46 @@ Ejemplo: `/api/v1/platos?q=ciervo&precioMax=30000` → `{ "datos": [...], "total
 | 401    | Escritura sin sesión                                                                        |
 | 403    | Escritura con sesión, pero sin rol `admin`                                                  |
 | 404    | El plato o la experiencia no existe                                                         |
-| 409    | Slug repetido, o borrar una experiencia que ya se vendió                                    |
+| 409    | Slug repetido, borrar una experiencia vendida, o sin cupos al comprar                       |
+| 502    | Mercado Pago no respondió al crear el pago                                                  |
 | 500    | Falla inesperada (por ejemplo, la base no responde). El detalle va al log, nunca al cliente |
 
 **Quién la usa.** La página de cada experiencia es estática, pero pide sus cupos en vivo a `/api/v1/experiencias/:slug`, porque el stock cambia con cada compra. El buscador de la carta usa la misma función de búsqueda que `/api/v1/platos` (`src/lib/catalogo.ts`).
 
+## Pagos (Mercado Pago Checkout Pro)
+
+```mermaid
+sequenceDiagram
+    actor P as Persona
+    participant S as Sitio (Next)
+    participant DB as Supabase
+    participant MP as Mercado Pago
+    P->>S: Pagar (carrito: slug y cantidad)
+    S->>DB: crear_pedido() con precios y cupos de la base
+    S->>MP: Preferencia (items, payer, back_urls, external_reference = id del pedido)
+    MP-->>S: init_point
+    S-->>P: Redirige a Checkout Pro
+    P->>MP: Paga
+    MP->>S: Webhook (firmado con x-signature)
+    S->>MP: GET /v1/payments/:id (el estado real)
+    S->>DB: confirmar_pago(): pagado, cupos y códigos en una transacción
+    MP-->>P: Vuelve a /pedido/:id (back_url)
+    P->>S: ¿Estado? (cada 3 s)
+    S-->>P: Pagado + códigos
+```
+
+- **El navegador nunca decide el precio ni el estado.** El carrito manda solo qué y cuánto; `crear_pedido()` pone los precios de la base. El pedido pasa a pagado solo cuando el servidor le pregunta a Mercado Pago (`GET /v1/payments/:id`), nunca por la URL de vuelta.
+- **Webhook seguro:** valida la firma HMAC-SHA256 (`x-signature`) con la clave secreta del webhook; si no coincide, 401. Responde 500 si algo falla de nuestro lado, para que Mercado Pago reintente.
+- **Idempotente:** si el aviso llega dos veces, `confirmar_pago()` no hace nada la segunda. Si lo cobrado no coincide con el total, no se confirma.
+- **Si el webhook se demora**, la página de vuelta pide `POST /pedidos/:id/verificar` con el id del pago, y el servidor lo verifica contra Mercado Pago de la misma forma.
+- **Stock:** se controla al crear el pedido (aviso temprano) y otra vez al confirmar (`check (cupos >= 0)`). Si se agotó mientras pagaba, el pedido se cancela y queda en el log para devolver el dinero.
+- **Señas:** el admin pide la seña de una consulta con el monto acordado; `crear_sena()` crea el pedido y da el link `/es/sena/:id` para el cliente. Al pagarse, la consulta queda "señada".
+
+**Para probar:** se paga con la cuenta de prueba compradora de Mercado Pago, en una ventana de incógnito. El webhook se configura en la app de la cuenta de prueba vendedora (Tus integraciones → Webhooks → evento _Pagos_) apuntando a `https://<dominio>/api/v1/webhooks/mercadopago`.
+
 ## Admin
 
-Panel en `/admin` para editar la carta y las experiencias sin tocar código, y ver las consultas de eventos. Es un layout raíz aparte (sin idioma, nunca se indexa).
+Panel en `/admin` para editar la carta y las experiencias sin tocar código, ver las consultas de eventos (y pedir la seña) y los pedidos. Es un layout raíz aparte (sin idioma, nunca se indexa).
 
 - **Ingreso** con email y contraseña de Supabase Auth. La sesión queda en una cookie `httpOnly` (`@supabase/ssr`), que el JavaScript del navegador no puede leer.
 - **Tres barreras**: el proxy manda al ingreso a quien no tiene sesión; el panel y la API exigen el rol `admin` (401 / 403); y RLS en la base rechaza cualquier escritura de alguien que no sea admin.
@@ -241,6 +284,9 @@ npm run dev        # http://localhost:3000
 | `NEXT_PUBLIC_SUPABASE_URL`             | `.env.local`, Vercel y GitHub Secrets | URL del proyecto de Supabase                                                                     |
 | `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | `.env.local`, Vercel y GitHub Secrets | Clave publicable: solo puede lo que RLS permite                                                  |
 | `SUPABASE_SECRET_KEY`                  | `.env.local` y Vercel (tipo Secret)   | Clave secreta: saltea RLS. Solo la usa el servidor para guardar consultas y pedidos ya validados |
+| `MP_ACCESS_TOKEN`                      | `.env.local` y Vercel (tipo Secret)   | Access Token de Mercado Pago (cuenta de prueba vendedora): crea preferencias y consulta pagos    |
+| `MP_WEBHOOK_SECRET`                    | `.env.local` y Vercel (tipo Secret)   | Clave del webhook de Mercado Pago: valida la firma de cada aviso                                 |
+| `SITIO_URL`                            | Vercel (producción)                   | URL pública para las `back_urls` (sin definir: la del pedido)                                    |
 | `ALLOW_INDEXING`                       | Vercel (producción)                   | `true` habilita la indexación en buscadores. Sin definir: `noindex`                              |
 
 Las variables con prefijo `NEXT_PUBLIC_` llegan al navegador; las demás quedan solo en el servidor. Las claves nunca se suben al repositorio (`.env*` está en `.gitignore`).
@@ -255,14 +301,14 @@ Las variables con prefijo `NEXT_PUBLIC_` llegan al navegador; las demás quedan 
 
 ## Entregables
 
-| Entregable                                        | Estado   |
-| ------------------------------------------------- | -------- |
-| E1 · Repo + pipeline + preview                    | ✅       |
-| E2 · Landing + vistas clave responsivas           | ✅       |
-| E3 · Formularios dinámicos con fetch + validación | ✅       |
-| E4 · Catálogo navegable + API básica              | ✅       |
-| E5 · CRUD en Supabase + admin                     | ✅       |
-| E6 · Checkout + webhook                           | En curso |
+| Entregable                                        | Estado |
+| ------------------------------------------------- | ------ |
+| E1 · Repo + pipeline + preview                    | ✅     |
+| E2 · Landing + vistas clave responsivas           | ✅     |
+| E3 · Formularios dinámicos con fetch + validación | ✅     |
+| E4 · Catálogo navegable + API básica              | ✅     |
+| E5 · CRUD en Supabase + admin                     | ✅     |
+| E6 · Checkout + webhook                           | ✅     |
 
 ## Créditos
 

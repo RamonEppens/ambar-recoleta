@@ -9,7 +9,8 @@
         "http://localhost:3000/es/carta",
         "http://localhost:3000/es/experiencias",
         "http://localhost:3000/es/experiencias/cena-para-dos",
-        "http://localhost:3000/es/eventos"
+        "http://localhost:3000/es/eventos",
+        "http://localhost:3000/es/carrito"
       ],
       "numberOfRuns": 1
     },

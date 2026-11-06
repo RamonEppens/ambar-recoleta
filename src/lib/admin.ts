@@ -152,3 +152,33 @@ export async function consultasAdmin() {
       .order("fecha"),
   );
 }
+
+export type FilaPedidoAdmin = {
+  id: string;
+  tipo: string;
+  estado: string;
+  nombre: string;
+  email: string;
+  total: number;
+  mp_payment_id: string | null;
+  created_at: string;
+  pedido_items: {
+    descripcion: string;
+    cantidad: number;
+    codigo: string | null;
+  }[];
+};
+
+/** Pedidos, los más nuevos primero. RLS: solo el admin los lee. */
+export async function pedidosAdmin() {
+  const cliente = await db();
+  return revisar<FilaPedidoAdmin[]>(
+    await cliente
+      .from("pedidos")
+      .select(
+        "id, tipo, estado, nombre, email, total, mp_payment_id, created_at, pedido_items (descripcion, cantidad, codigo)",
+      )
+      .order("created_at", { ascending: false })
+      .limit(100),
+  );
+}
