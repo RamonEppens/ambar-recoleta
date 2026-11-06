@@ -123,11 +123,7 @@
   "espacio": {
     "titulo": "El espacio",
     "bajada": "Casi 500 metros cuadrados frente al Cementerio de la Recoleta. Tres ambientes, una sola noche.",
-    "datos": [
-      "498 m²",
-      "Patio, salón y barra",
-      "Junín 1725"
-    ],
+    "datos": ["498 m²", "Patio, salón y barra", "Junín 1725"],
     "datosLabel": "En números",
     "patio": {
       "etiqueta": "El patio",

@@ -123,11 +123,7 @@
   "espacio": {
     "titulo": "The space",
     "bajada": "Nearly 500 square meters across from the Recoleta Cemetery. Three rooms, one night.",
-    "datos": [
-      "498 m²",
-      "Patio, dining room and bar",
-      "Junín 1725"
-    ],
+    "datos": ["498 m²", "Patio, dining room and bar", "Junín 1725"],
     "datosLabel": "At a glance",
     "patio": {
       "etiqueta": "The patio",
