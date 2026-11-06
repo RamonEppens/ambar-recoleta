@@ -4,18 +4,15 @@
  * de Node sin Docker) y verifican las políticas RLS actuando como visitante
  * anónimo, usuario común y admin. Así la seguridad se prueba en cada PR.
  */
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { PGlite } from "@electric-sql/pglite";
 import { beforeAll, describe, expect, it } from "vitest";
 
-const MIGRACIONES = [
-  "20261104000001_esquema.sql",
-  "20261104000002_seguridad.sql",
-  "20261104000003_semilla.sql",
-  "20261104000004_experiencias_foto.sql",
-  "20261104000005_proteger_vendidas.sql",
-];
+// Todas las migraciones, en el orden de su nombre (como se ejecutan en Supabase).
+const MIGRACIONES = readdirSync(join(__dirname, "migrations"))
+  .filter((archivo) => archivo.endsWith(".sql"))
+  .sort();
 
 let db: PGlite;
 
@@ -23,6 +20,7 @@ let db: PGlite;
 const SIMULACION_SUPABASE = `
   create role anon nologin;
   create role authenticated nologin;
+  create role service_role nologin;
   create schema auth;
   create table auth.users (id uuid primary key default gen_random_uuid(), email text);
   create function auth.uid() returns uuid language sql stable as
@@ -246,5 +244,107 @@ describe("confirmar_pago (webhook de Mercado Pago)", () => {
         `insert into pedidos (tipo, nombre, email, total) values ('sena', 'X', 'x@x.com', 1)`,
       ),
     ).rejects.toThrow(/pedidos_check/);
+  });
+});
+
+describe("checkout: crear_pedido y crear_sena", () => {
+  const items = (lista: [string, number][]) =>
+    JSON.stringify(lista.map(([slug, cantidad]) => ({ slug, cantidad })));
+  const crear = (lista: [string, number][]) =>
+    uno<{ id: string }>(
+      `select crear_pedido('Ana', 'ana@mail.com', '${items(lista)}'::jsonb) id`,
+    );
+
+  it("calcula el total con los precios de la base", async () => {
+    const { id } = await crear([
+      ["la-noche-entera", 2],
+      ["cena-para-dos", 1],
+    ]);
+    const pedido = await uno<{ total: number; estado: string; tipo: string }>(
+      `select total, estado, tipo from pedidos where id = '${id}'`,
+    );
+    const precios = await uno<{ noche: number; cena: number }>(
+      `select (select precio from experiencias where slug = 'la-noche-entera') noche,
+              (select precio from experiencias where slug = 'cena-para-dos') cena`,
+    );
+    expect(pedido).toEqual({
+      total: precios.noche * 2 + precios.cena,
+      estado: "pendiente",
+      tipo: "experiencias",
+    });
+    expect(
+      await uno<{ n: string }>(
+        `select count(*) n from pedido_items where pedido_id = '${id}'`,
+      ),
+    ).toEqual({ n: 2 });
+  });
+
+  it("rechaza una experiencia inactiva o inexistente, sin dejar pedido a medias", async () => {
+    await db.exec(
+      `update experiencias set activa = false where slug = 'cena-para-dos'`,
+    );
+    const antes = await contar("pedidos");
+    await expect(crear([["cena-para-dos", 1]])).rejects.toThrow(
+      /experiencia_no_disponible/,
+    );
+    await expect(crear([["no-existe", 1]])).rejects.toThrow(
+      /experiencia_no_disponible/,
+    );
+    expect(await contar("pedidos")).toBe(antes);
+    await db.exec(
+      `update experiencias set activa = true where slug = 'cena-para-dos'`,
+    );
+  });
+
+  it("avisa si no hay cupos antes de ir a pagar", async () => {
+    await expect(crear([["la-noche-entera", 10_000]])).rejects.toThrow(
+      /sin_cupos/,
+    );
+    await expect(crear([])).rejects.toThrow(/carrito_vacio/);
+  });
+
+  it("el navegador (anon) no puede crear pedidos salteando la API", () =>
+    como("anon", "", async () => {
+      await expect(crear([["cena-para-dos", 1]])).rejects.toThrow(
+        /permission denied/,
+      );
+    }));
+
+  it("solo un admin pide una seña; la seña nueva cancela la anterior", async () => {
+    const { id: consulta } = await uno<{ id: string }>(
+      `insert into consultas_eventos (nombre, email, fecha, personas, tipo)
+       values ('Leo', 'leo@mail.com', '2026-12-20', 30, 'empresa') returning id`,
+    );
+    const usuario = await crearUsuario("comun2@test.com");
+    await como("authenticated", usuario, async () => {
+      await expect(
+        db.query(`select crear_sena('${consulta}', 50000)`),
+      ).rejects.toThrow(/sin_permiso/);
+    });
+
+    const admin = await crearUsuario("admin2@test.com", true);
+    let primera = "";
+    let segunda = "";
+    await como("authenticated", admin, async () => {
+      primera = (
+        await uno<{ id: string }>(`select crear_sena('${consulta}', 50000) id`)
+      ).id;
+      segunda = (
+        await uno<{ id: string }>(`select crear_sena('${consulta}', 60000) id`)
+      ).id;
+    });
+    const estados = await db.query<{
+      id: string;
+      estado: string;
+      total: number;
+    }>(
+      `select id, estado, total from pedidos where consulta_id = '${consulta}'`,
+    );
+    expect(estados.rows).toEqual(
+      expect.arrayContaining([
+        { id: primera, estado: "cancelado", total: 50000 },
+        { id: segunda, estado: "pendiente", total: 60000 },
+      ]),
+    );
   });
 });

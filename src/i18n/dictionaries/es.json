@@ -74,7 +74,8 @@
     "reservar": "Reservar",
     "seguinos": "Seguinos",
     "musica": "Los sets, en Colonia Radio",
-    "eventos": "Eventos privados"
+    "eventos": "Eventos privados",
+    "admin": "Acceso del equipo"
   },
   "fotos": {
     "barraCopasLuz": "Tres copas de martini llenas de hielo sobre la barra, con la luz cálida del arco reflejada en el mármol.",
@@ -97,7 +98,8 @@
     "reservar": "Reservar",
     "menu": "Menú",
     "cerrar": "Cerrar",
-    "regalar": "Para regalar"
+    "regalar": "Para regalar",
+    "carrito": "Carrito ({n})"
   },
   "carta": {
     "titulo": "La carta",
@@ -121,7 +123,11 @@
   "espacio": {
     "titulo": "El espacio",
     "bajada": "Casi 500 metros cuadrados frente al Cementerio de la Recoleta. Tres ambientes, una sola noche.",
-    "datos": ["498 m²", "Patio, salón y barra", "Junín 1725"],
+    "datos": [
+      "498 m²",
+      "Patio, salón y barra",
+      "Junín 1725"
+    ],
     "datosLabel": "En números",
     "patio": {
       "etiqueta": "El patio",
@@ -193,7 +199,7 @@
     "comoFunciona": "Cómo funciona",
     "pasos": [
       "Elegís la experiencia y pagás con Mercado Pago.",
-      "Te llega un código por cada regalo.",
+      "Te llega un código por experiencia, que vale por la cantidad que compraste.",
       "Quien lo recibe lo presenta al llegar a Ámbar."
     ],
     "todas": "Todas las experiencias"
@@ -247,5 +253,69 @@
       "red": "Sin conexión. Revisá internet y probá de nuevo.",
       "general": "No pudimos enviar la consulta. Probá de nuevo en un rato."
     }
+  },
+  "carrito": {
+    "titulo": "Tu carrito",
+    "vacio": "Todavía no elegiste ninguna experiencia.",
+    "verExperiencias": "Ver experiencias",
+    "cantidad": "Cantidad de {nombre}",
+    "menos": "Una menos",
+    "mas": "Una más",
+    "quitar": "Quitar",
+    "total": "Total",
+    "agotada": "Ya no está disponible: quitala para seguir.",
+    "datosTitulo": "¿A nombre de quién?",
+    "datosTexto": "Te mostramos los códigos al terminar de pagar, y quedan en el link del pedido.",
+    "nombre": "Nombre",
+    "email": "Email",
+    "pagar": "Pagar con Mercado Pago",
+    "yendo": "Yendo a Mercado Pago…",
+    "seguro": "El pago se hace en Mercado Pago: Ámbar no ve ni guarda los datos de tu tarjeta.",
+    "nota": "Prueba del TP: usá una cuenta de prueba de Mercado Pago.",
+    "errores": {
+      "nombre_corto": "Escribí tu nombre (mínimo 2 letras).",
+      "nombre_largo": "Máximo 80 caracteres.",
+      "email_invalido": "Revisá el email (ej. nombre@mail.com).",
+      "carrito_vacio": "El carrito está vacío.",
+      "cantidad_maxima": "Máximo 10 por experiencia.",
+      "sin_cupos": "No quedan suficientes cupos de alguna experiencia. Bajá la cantidad.",
+      "experiencia_no_disponible": "Una de las experiencias ya no está a la venta. Quitala del carrito.",
+      "pago_no_disponible": "Mercado Pago no respondió. Probá de nuevo en un rato.",
+      "red": "Sin conexión. Revisá internet y probá de nuevo.",
+      "general": "No pudimos iniciar el pago. Probá de nuevo."
+    }
+  },
+  "agregar": {
+    "cantidad": "Cantidad",
+    "boton": "Agregar al carrito",
+    "agregado": "Agregado.",
+    "verCarrito": "Ver carrito",
+    "menos": "Una menos",
+    "mas": "Una más"
+  },
+  "pedido": {
+    "titulo": "Tu pedido",
+    "pagadoTitulo": "¡Listo, está pago!",
+    "pagadoTexto": "Estos son tus códigos. Quien reciba el regalo lo presenta al llegar a Ámbar.",
+    "codigo": "Código",
+    "pendienteTitulo": "Estamos confirmando el pago…",
+    "pendienteTexto": "Mercado Pago nos avisa en unos segundos. No hace falta que recargues.",
+    "demoraTexto": "Está tardando más de lo normal. Guardá este link: cuando se acredite, los códigos aparecen acá.",
+    "rechazadoTitulo": "El pago no se completó",
+    "rechazadoTexto": "No se cobró nada. Podés intentar de nuevo.",
+    "reintentar": "Volver al carrito",
+    "senaPagadaTexto": "Recibimos la seña. Te escribimos para cerrar los detalles del evento.",
+    "noExiste": "No encontramos este pedido.",
+    "total": "Total",
+    "guardar": "Guardá este link: es tu comprobante."
+  },
+  "sena": {
+    "titulo": "Seña de tu evento",
+    "texto": "Para reservar la fecha, aboná la seña acordada.",
+    "pagar": "Pagar la seña con Mercado Pago",
+    "yendo": "Yendo a Mercado Pago…",
+    "yaPagada": "Esta seña ya está paga. ¡Gracias!",
+    "cerrada": "Este link ya no está vigente. Pedinos uno nuevo.",
+    "error": "No pudimos iniciar el pago. Probá de nuevo."
   }
 }

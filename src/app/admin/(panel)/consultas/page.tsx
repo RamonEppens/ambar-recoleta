@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getDictionary } from "@/i18n/dictionaries";
 import { consultasAdmin } from "@/lib/admin";
 import styles from "../../admin.module.css";
+import { PedirSena } from "./PedirSena";
 import { SelectorEstado } from "./SelectorEstado";
 
 export const metadata: Metadata = { title: "Consultas" };
@@ -62,6 +63,9 @@ export default async function ConsultasAdminPage() {
                     nombre={c.nombre}
                     estado={c.estado}
                   />
+                  {(c.estado === "nueva" || c.estado === "contactada") && (
+                    <PedirSena id={c.id} nombre={c.nombre} />
+                  )}
                 </td>
               </tr>
             ))}

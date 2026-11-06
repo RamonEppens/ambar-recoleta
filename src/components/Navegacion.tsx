@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { enlaces } from "@/data/enlaces";
+import { IndicadorCarrito } from "./carrito/IndicadorCarrito";
 import styles from "./Navegacion.module.css";
 
 type NavegacionProps = { lang: Locale; t: Dictionary["nav"] };
@@ -76,6 +77,11 @@ function Menu({ lang, t, pathname }: NavegacionProps & { pathname: string }) {
             </Link>
           </li>
         ))}
+        <IndicadorCarrito
+          lang={lang}
+          texto={t.carrito}
+          className={styles.link}
+        />
         <li className={styles.reservar}>
           <a className="boton" href={enlaces.reservas}>
             {t.reservar}

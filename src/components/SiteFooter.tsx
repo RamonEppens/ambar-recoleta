@@ -55,6 +55,11 @@ export function SiteFooter({
               <a href={enlaces.colonia}>{t.musica}</a>
             </li>
           </ul>
+          {/* Discreto a propósito: es para el equipo. La seguridad no depende de
+              esconderlo, sino del login, los roles y RLS. */}
+          <Link href="/admin" className={styles.admin}>
+            {t.admin}
+          </Link>
         </nav>
       </div>
     </footer>

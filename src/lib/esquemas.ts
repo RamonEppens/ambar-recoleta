@@ -146,3 +146,30 @@ export const ESTADOS_CONSULTA = [
   "senada",
   "descartada",
 ] as const;
+
+/* ---- Compra de experiencias (carrito) ---- */
+
+export const esquemaComprador = z.strictObject({
+  nombre: z.string().trim().min(2, "nombre_corto").max(80, "nombre_largo"),
+  email: z
+    .email({ error: "email_invalido" })
+    .max(120, { error: "email_invalido" }),
+});
+
+/**
+ * Lo que manda el carrito: QUÉ y CUÁNTO, nunca el precio. El precio lo pone
+ * la base (crear_pedido), así que modificar el carrito en el navegador no sirve.
+ */
+export const esquemaPedido = esquemaComprador.extend({
+  items: z
+    .array(
+      z.strictObject({
+        slug,
+        cantidad: z.number().int().min(1).max(10, "cantidad_maxima"),
+      }),
+    )
+    .min(1, "carrito_vacio")
+    .max(10, "carrito_vacio"),
+  idioma: z.enum(["es", "en"]),
+});
+export type DatosPedido = z.infer<typeof esquemaPedido>;

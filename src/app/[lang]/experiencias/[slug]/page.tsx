@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { AgregarAlCarrito } from "@/components/carrito/AgregarAlCarrito";
 import { Cupos } from "@/components/Cupos";
 import { Foto } from "@/components/Foto";
 import { esFotoId } from "@/data/fotos";
@@ -72,6 +73,13 @@ export default async function ExperienciaPage({
             className={styles.cupos}
           />
         </div>
+
+        <AgregarAlCarrito
+          slug={experiencia.slug}
+          cupos={experiencia.cupos}
+          lang={lang}
+          t={dict.agregar}
+        />
 
         <section aria-labelledby="como-funciona">
           <h2 id="como-funciona" className={styles.subtitulo}>

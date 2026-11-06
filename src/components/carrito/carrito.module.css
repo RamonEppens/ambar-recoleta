@@ -1,0 +1,40 @@
+.contador {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--fg);
+}
+
+.contador button {
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: var(--step-1);
+  cursor: pointer;
+}
+
+.contador button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.contador output {
+  min-width: 2ch;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.agregar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.agregado {
+  flex-basis: 100%;
+  min-height: 1.5em;
+  font-size: var(--step--1);
+}
