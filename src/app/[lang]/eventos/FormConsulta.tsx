@@ -10,6 +10,7 @@ import {
   pedirJson,
   useFormulario,
 } from "@/components/formulario/useFormulario";
+import { useSesion } from "@/components/cuenta/useSesion";
 import { linkWhatsApp } from "@/data/enlaces";
 import { completar } from "@/i18n/completar";
 import type { Locale } from "@/i18n/config";
@@ -48,16 +49,32 @@ const VACIO: Valores = {
  */
 export function FormConsulta(props: Props) {
   const [vuelta, setVuelta] = useState(0);
+  // Con sesión, nombre y email vienen completos (la sesión llega aparte).
+  const sesion = useSesion();
   return (
-    <Formulario key={vuelta} {...props} otraVez={() => setVuelta(vuelta + 1)} />
+    <Formulario
+      key={`${vuelta}-${sesion?.email ?? "invitado"}`}
+      {...props}
+      inicial={{
+        ...VACIO,
+        nombre: sesion?.nombre ?? "",
+        email: sesion?.email ?? "",
+      }}
+      otraVez={() => setVuelta(vuelta + 1)}
+    />
   );
 }
 
-function Formulario({ lang, t, otraVez }: Props & { otraVez: () => void }) {
+function Formulario({
+  lang,
+  t,
+  inicial,
+  otraVez,
+}: Props & { inicial: Valores; otraVez: () => void }) {
   const [enviada, setEnviada] = useState<DatosConsulta | null>(null);
   const { valores, cambiar, tocar, error, estado, alEnviar } = useFormulario({
     esquema: esquemaConsulta,
-    inicial: VACIO,
+    inicial,
     aDatos: (v: Valores) => ({ ...v, personas: aNumero(v.personas) }),
     enviar: (datos) => pedirJson("/api/v1/consultas", "POST", datos),
     alGuardar: setEnviada,

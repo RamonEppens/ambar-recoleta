@@ -10,7 +10,8 @@
         "http://localhost:3000/es/experiencias",
         "http://localhost:3000/es/experiencias/cena-para-dos",
         "http://localhost:3000/es/eventos",
-        "http://localhost:3000/es/carrito"
+        "http://localhost:3000/es/carrito",
+        "http://localhost:3000/es/ingresar"
       ],
       "numberOfRuns": 1
     },

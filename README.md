@@ -13,15 +13,15 @@ Sitio web para **Ámbar**, bar y restaurante en Junín 1725, frente al Cementeri
 
 Hasta ahora el local solo tenía Instagram, con la carta y los horarios en historias que vencen a las 24 horas. El sitio los deja siempre disponibles y en dos idiomas, para el turista que está frente al Cementerio.
 
-| Página       | Ruta               | Contenido                                                                                                  |
-| ------------ | ------------------ | ---------------------------------------------------------------------------------------------------------- |
-| Inicio       | `/es`              | La noche en cuatro momentos, platos y tragos destacados                                                    |
-| La carta     | `/es/carta`        | Carta aperitiva, de cena y tragos, con precios y horario de cada carta                                     |
-| El espacio   | `/es/espacio`      | Patio, salón y barra. Al final, **Visitanos**: croquis de la cuadra, horarios, reservas y eventos privados |
-| Música       | `/es/musica`       | DJs de viernes y sábado, Colonia Radio y los sets grabados en Ámbar                                        |
-| Eventos      | `/es/eventos`      | Consulta por un evento privado: formulario con validación en vivo (demo del TP)                            |
-| Carrito      | `/es/carrito`      | Carrito (localStorage) y pago con Mercado Pago Checkout Pro                                                |
-| Para regalar | `/es/experiencias` | Catálogo de experiencias para regalar (demo del TP) y una página por experiencia                           |
+| Página       | Ruta                                           | Contenido                                                                                              |
+| ------------ | ---------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| Inicio       | `/es`                                          | Portada, las tres cosas que se pueden hacer (comer, regalar, festejar) y cómo llegar                   |
+| La carta     | `/es/carta`                                    | Carta aperitiva, de cena y tragos, con precios y horario de cada carta                                 |
+| Visitanos    | `/es/espacio`                                  | El lugar (patio, salón y barra), la música (DJs y sets de Colonia Radio), horarios, croquis y reservas |
+| Eventos      | `/es/eventos`                                  | Consulta por un evento privado: formulario con validación en vivo (demo del TP)                        |
+| Carrito      | `/es/carrito`                                  | Carrito (localStorage) y pago con Mercado Pago Checkout Pro                                            |
+| Cuenta       | `/es/ingresar` · `/es/registro` · `/es/cuenta` | Crear cuenta o ingresar (email o Google). "Mi cuenta": compras con sus códigos y consultas de eventos  |
+| Para regalar | `/es/experiencias`                             | Catálogo de experiencias para regalar (demo del TP) y una página por experiencia                       |
 
 Todas las páginas existen también en inglés (`/en/...`).
 
@@ -55,7 +55,6 @@ src/
 │   │   ├── page.tsx         # Inicio
 │   │   ├── carta/           # Incluye el buscador (CartaFiltrable, Client Component)
 │   │   ├── espacio/
-│   │   ├── musica/
 │   │   └── experiencias/    # Catálogo y [slug] (detalle)
 │   ├── api/v1/              # API REST (Route Handlers)
 │   ├── admin/               # Panel del admin (layout raíz propio)
@@ -167,6 +166,7 @@ API REST en `/api/v1`, con Route Handlers de Next (el equivalente a las rutas de
 | `POST /api/v1/pedidos/:id/verificar`                  | Verifica un pago contra Mercado Pago (página de vuelta)                           | `{ paymentId }`                                                               |
 | `POST /api/v1/webhooks/mercadopago`                   | Aviso de Mercado Pago, con la firma validada                                      | Lo llama Mercado Pago                                                         |
 | `POST /api/v1/consultas/:id/sena`                     | Pide la seña de un evento (solo admin) → link de pago                             | `{ monto }`                                                                   |
+| `GET /api/v1/sesion`                                  | Quién está logueado (nombre y email) o `null`                                     | —                                                                             |
 | `POST /api/v1/consultas`                              | Guarda una consulta de evento → 201                                               | Cuerpo JSON validado con Zod                                                  |
 | `PATCH /api/v1/consultas/:id`                         | Cambia el estado de una consulta (solo admin)                                     | `{ "estado": "contactada" }`                                                  |
 | `DELETE /api/v1/platos/:slug` · `/experiencias/:slug` | Borra (solo admin) → 204                                                          | —                                                                             |
@@ -229,6 +229,16 @@ sequenceDiagram
 - **Señas:** el admin pide la seña de una consulta con el monto acordado; `crear_sena()` crea el pedido y da el link `/es/sena/:id` para el cliente. Al pagarse, la consulta queda "señada".
 
 **Para probar:** se paga con la cuenta de prueba compradora de Mercado Pago, en una ventana de incógnito. El webhook se configura en la app de la cuenta de prueba vendedora (Tus integraciones → Webhooks → evento _Pagos_) apuntando a `https://<dominio>/api/v1/webhooks/mercadopago`.
+
+## Cuentas de clientes
+
+- **Opcionales:** se puede comprar y consultar sin cuenta. Con cuenta, las compras (con sus códigos) y las consultas quedan en **Mi cuenta**, y los formularios vienen completos.
+- **Email y contraseña o Google** (Supabase Auth). Google usa OAuth con PKCE: vuelve a `/auth/callback` con un código de un solo uso que se cambia por la sesión.
+- **La sesión va en una cookie `httpOnly`**: el JavaScript del navegador no puede leerla. Las páginas son estáticas; el menú pregunta quién está logueado a `/api/v1/sesion`.
+- **RLS:** cada cliente lee solo sus pedidos, sus ítems y sus consultas (`usuario_id = auth.uid()`); escribir sigue siendo solo del servidor.
+- **Sin "open redirect":** a dónde volver después de ingresar (`?siguiente=`) solo acepta rutas internas del sitio.
+
+**Configuración (una vez):** Supabase → Authentication → Sign In / Providers → Google (Client ID y secreto de Google Cloud), _Confirm email_ apagado, y en URL Configuration el Site URL y las Redirect URLs del sitio, local y previews.
 
 ## Admin
 

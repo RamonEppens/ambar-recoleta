@@ -14,6 +14,12 @@ export async function clienteSesion() {
   const { url, clave } = clavesPublicas();
   const almacen = await cookies();
   return createServerClient(url, clave, {
+    // httpOnly: el JavaScript del navegador no puede leer la sesión (el sitio
+    // nunca usa Supabase desde el navegador, así que no lo necesita).
+    cookieOptions: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    },
     cookies: {
       getAll: () => almacen.getAll(),
       setAll: (aGuardar) => {

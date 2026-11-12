@@ -1,102 +1,85 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Destacados } from "@/components/home/Destacados";
+import { Foto } from "@/components/Foto";
+import { Horarios } from "@/components/Horarios";
 import { Hero } from "@/components/home/Hero";
-import { Momento } from "@/components/Momento";
-import { completar } from "@/i18n/completar";
+import type { FotoId } from "@/data/fotos";
 import { hasLocale } from "@/i18n/config";
 import { getDictionary } from "@/i18n/dictionaries";
-import { getCartas, getSemana } from "@/lib/datos";
-import { horaEnFrase } from "@/lib/hora";
+import { getSemana } from "@/lib/datos";
+import styles from "./home.module.css";
 
 /*
- * La home sigue la frase con la que Ámbar se describe en Instagram:
- * "Somos tu cena, tu previa y, si pinta, todo lo que viene después."
- * Cada sección es un momento de la noche, y el color acompaña la hora:
- * crema (tarde y cena) → terciopelo (previa) → noche (lo que viene después).
+ * La home es corta a propósito: quién es Ámbar (la portada), las tres cosas
+ * que se pueden hacer (comer, regalar, festejar) y cómo llegar.
+ * El detalle de cada cosa vive en su página; acá no se repite.
  */
 export default async function Home({ params }: PageProps<"/[lang]">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const [dict, semana, cartas] = await Promise.all([
-    getDictionary(lang),
-    getSemana(),
-    getCartas(),
-  ]);
+  const [dict, semana] = await Promise.all([getDictionary(lang), getSemana()]);
   const t = dict.home;
 
-  // Los horarios del texto salen de la misma tabla que usan "Ahora" y el pie.
-  const sabado = semana[6];
-  const djDesde = semana.find((jornada) => jornada?.djDesde)?.djDesde;
+  const accesos: {
+    clave: "carta" | "regalar" | "eventos";
+    href: string;
+    foto: FotoId;
+  }[] = [
+    { clave: "carta", href: `/${lang}/carta`, foto: "platosCenital" },
+    { clave: "regalar", href: `/${lang}/experiencias`, foto: "tragosDeLaCasa" },
+    { clave: "eventos", href: `/${lang}/eventos`, foto: "salonCortina" },
+  ];
 
   return (
     <main id="contenido">
       <Hero lang={lang} dict={dict} />
 
-      <Momento
-        id="tarde"
-        modo="crema"
-        desde="crema"
-        etiqueta={t.patio.etiqueta}
-        titulo={t.patio.titulo}
-        texto={completar(t.patio.texto, {
-          hora: sabado ? horaEnFrase(lang, sabado.abre) : "",
-        })}
-        link={{ href: `/${lang}/espacio`, texto: t.patio.link }}
-        fotos={["patioTarde", "ostrasMarmol"]}
-        alts={dict.fotos}
-        lado="izquierda"
-      />
+      <section className={styles.accesos} aria-labelledby="accesos-titulo">
+        <h2 id="accesos-titulo" className={styles.titulo}>
+          {t.accesos.titulo}
+        </h2>
+        <ul className={styles.tarjetas}>
+          {accesos.map(({ clave, href, foto }) => {
+            const a = t.accesos[clave];
+            return (
+              <li key={clave} className={styles.tarjeta}>
+                <Foto
+                  id={foto}
+                  alts={dict.fotos}
+                  sizes="(min-width: 48rem) 33vw, 100vw"
+                  className={styles.foto}
+                />
+                <h3 className={styles.nombre}>
+                  {/* Toda la tarjeta es clickeable (::after), el link es el título */}
+                  <Link href={href}>{a.titulo}</Link>
+                </h3>
+                <p className={styles.texto}>{a.texto}</p>
+                <span className={styles.ir} aria-hidden="true">
+                  {a.link} →
+                </span>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
 
-      <Momento
-        id="cena"
-        modo="crema"
-        desde="crema"
-        etiqueta={t.cena.etiqueta}
-        titulo={t.cena.titulo}
-        texto={t.cena.texto}
-        link={{ href: `/${lang}/carta`, texto: t.cena.link }}
-        fotos={["platosCenital", "salonCortina"]}
-        alts={dict.fotos}
+      <section
+        className={styles.visita}
+        data-mode="terciopelo"
+        aria-labelledby="visita-titulo"
       >
-        <Destacados
-          ids={["tartar-ciervo", "bife-poivre", "chipa-frito"]}
-          lang={lang}
-          cartas={cartas}
-        />
-      </Momento>
-
-      <Momento
-        id="previa"
-        modo="terciopelo"
-        desde="crema"
-        etiqueta={t.previa.etiqueta}
-        titulo={t.previa.titulo}
-        texto={t.previa.texto}
-        link={{ href: `/${lang}/carta#tragos`, texto: t.previa.link }}
-        fotos={["tragosDeLaCasa", "rinconCuero"]}
-        alts={dict.fotos}
-        lado="izquierda"
-      >
-        <Destacados
-          ids={["del-este", "dirty", "vermut"]}
-          lang={lang}
-          cartas={cartas}
-        />
-      </Momento>
-
-      <Momento
-        id="despues"
-        modo="noche"
-        desde="terciopelo"
-        etiqueta={t.despues.etiqueta}
-        titulo={t.despues.titulo}
-        texto={completar(t.despues.texto, {
-          hora: djDesde ? horaEnFrase(lang, djDesde) : "",
-        })}
-        link={{ href: `/${lang}/musica`, texto: t.despues.link }}
-        fotos={["djSetLiving", "espressoMartiniColonia"]}
-        alts={dict.fotos}
-      />
+        <div className={styles.visitaGrilla}>
+          <div>
+            <h2 id="visita-titulo" className={styles.visitaTitulo}>
+              {t.visita.titulo}
+            </h2>
+            <Link href={`/${lang}/espacio#visitanos`} className={styles.link}>
+              {t.visita.link} →
+            </Link>
+          </div>
+          <Horarios lang={lang} dict={dict} semana={semana} />
+        </div>
+      </section>
     </main>
   );
 }

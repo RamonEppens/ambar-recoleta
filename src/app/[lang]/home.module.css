@@ -1,0 +1,109 @@
+/* Home: portada, tres accesos y cómo llegar. */
+
+.accesos {
+  display: grid;
+  gap: var(--space-5);
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--section) var(--gutter);
+}
+
+.titulo {
+  font-size: var(--step--1);
+  font-weight: 400;
+  letter-spacing: var(--tracking-carta);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+  gap: var(--space-6) var(--space-5);
+  padding: 0;
+  list-style: none;
+}
+
+.tarjeta {
+  position: relative;
+  display: grid;
+  gap: var(--space-2);
+  align-content: start;
+}
+
+.foto {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  margin-bottom: var(--space-2);
+}
+
+.nombre {
+  font-size: var(--step-3);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: var(--accent);
+}
+
+.nombre a {
+  text-decoration: none;
+}
+
+.nombre a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.texto {
+  max-width: 34ch;
+}
+
+.ir {
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-carta);
+  text-transform: uppercase;
+}
+
+.tarjeta:hover .ir,
+.tarjeta:focus-within .ir {
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+.visita {
+  border-top: 1px solid var(--line);
+}
+
+.visitaGrilla {
+  display: grid;
+  gap: var(--space-5);
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--section) var(--gutter);
+}
+
+.visitaTitulo {
+  max-width: 20ch;
+  margin-bottom: var(--space-4);
+  font-size: var(--step-3);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.link {
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-carta);
+  text-transform: uppercase;
+  text-underline-offset: 0.3em;
+}
+
+@media (min-width: 48rem) {
+  .visitaGrilla {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}

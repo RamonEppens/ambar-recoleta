@@ -43,3 +43,20 @@ export async function exigirSesionPagina() {
     usuario: NonNullable<typeof sesion.usuario>;
   };
 }
+
+/**
+ * El id del cliente con sesión, o null. Para asociar una compra o una consulta
+ * a su cuenta. Nunca falla: si no hay sesión (o no se puede leer), es null y
+ * la compra sigue como invitado.
+ */
+export async function usuarioActualId() {
+  try {
+    const db = await clienteSesion();
+    const {
+      data: { user },
+    } = await db.auth.getUser();
+    return user?.id ?? null;
+  } catch {
+    return null;
+  }
+}

@@ -7,6 +7,7 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { enlaces } from "@/data/enlaces";
 import { IndicadorCarrito } from "./carrito/IndicadorCarrito";
+import { IndicadorCuenta } from "./cuenta/IndicadorCuenta";
 import styles from "./Navegacion.module.css";
 
 type NavegacionProps = { lang: Locale; t: Dictionary["nav"] };
@@ -29,9 +30,9 @@ function Menu({ lang, t, pathname }: NavegacionProps & { pathname: string }) {
 
   const secciones = [
     { href: `/${lang}/carta`, texto: t.carta },
-    { href: `/${lang}/espacio`, texto: t.espacio },
-    { href: `/${lang}/musica`, texto: t.musica },
     { href: `/${lang}/experiencias`, texto: t.regalar },
+    { href: `/${lang}/eventos`, texto: t.eventos },
+    { href: `/${lang}/espacio`, texto: t.espacio },
   ];
 
   // Escape cierra el menú y devuelve el foco al botón, como en cualquier menú accesible.
@@ -77,6 +78,11 @@ function Menu({ lang, t, pathname }: NavegacionProps & { pathname: string }) {
             </Link>
           </li>
         ))}
+        <IndicadorCuenta
+          lang={lang}
+          textos={{ ingresar: t.ingresar, miCuenta: t.miCuenta }}
+          className={styles.link}
+        />
         <IndicadorCarrito
           lang={lang}
           texto={t.carrito}

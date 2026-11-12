@@ -9,7 +9,10 @@ import { ErrorApi } from "@/lib/api/respuestas";
 
 vi.mock("server-only", () => ({}));
 vi.mock("@/lib/datos", () => ({}));
-vi.mock("@/lib/auth", () => ({ exigirAdminApi: vi.fn() }));
+vi.mock("@/lib/auth", () => ({
+  exigirAdminApi: vi.fn(),
+  usuarioActualId: vi.fn().mockResolvedValue(null),
+}));
 vi.mock("@/lib/revalidar", () => ({ revalidarSitio: vi.fn() }));
 
 const { exigirAdminApi } = await import("@/lib/auth");

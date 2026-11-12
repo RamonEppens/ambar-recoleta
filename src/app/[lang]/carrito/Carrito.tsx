@@ -8,6 +8,7 @@ import {
 } from "@/components/formulario/useFormulario";
 import { Contador } from "@/components/carrito/Contador";
 import { useCarrito } from "@/components/carrito/useCarrito";
+import { useSesion } from "@/components/cuenta/useSesion";
 import { completar } from "@/i18n/completar";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
@@ -24,7 +25,28 @@ type Props = {
   tAgregar: Dictionary["agregar"];
 };
 
-export function Carrito({ lang, experiencias, t, tAgregar }: Props) {
+/**
+ * Con sesión, nombre y email vienen completos. La `key` vuelve a armar el
+ * formulario cuando llega la sesión (se pide aparte: la página es estática).
+ */
+export function Carrito(props: Props) {
+  const sesion = useSesion();
+  return (
+    <Contenido
+      key={sesion?.email ?? "invitado"}
+      {...props}
+      inicial={{ nombre: sesion?.nombre ?? "", email: sesion?.email ?? "" }}
+    />
+  );
+}
+
+function Contenido({
+  lang,
+  experiencias,
+  t,
+  tAgregar,
+  inicial,
+}: Props & { inicial: { nombre: string; email: string } }) {
   const items = useCarrito();
 
   // Cada item del carrito con los datos de la experiencia (si sigue a la venta).
@@ -42,7 +64,7 @@ export function Carrito({ lang, experiencias, t, tAgregar }: Props) {
 
   const { valores, cambiar, tocar, error, estado, alEnviar } = useFormulario({
     esquema: esquemaPedido,
-    inicial: { nombre: "", email: "" },
+    inicial,
     aDatos: (v) => ({
       ...v,
       items: items.map(({ slug, cantidad }) => ({ slug, cantidad })),
