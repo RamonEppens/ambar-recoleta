@@ -10,6 +10,9 @@ import type { Pago } from "@/lib/mercadopago";
 import { baseSecuencia } from "@/test/dobles";
 
 vi.mock("server-only", () => ({}));
+vi.mock("@/lib/auth", () => ({
+  usuarioActualId: vi.fn().mockResolvedValue(null),
+}));
 vi.mock("@/lib/supabase/servicio", () => ({ clienteServicio: vi.fn() }));
 vi.mock("@/lib/mercadopago", async (original) => ({
   ...(await original<typeof import("@/lib/mercadopago")>()),

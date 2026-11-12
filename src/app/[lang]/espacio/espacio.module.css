@@ -108,3 +108,90 @@
   font-style: italic;
   color: var(--fg-muted);
 }
+
+/* ---- El lugar: tres ambientes en una grilla ---- */
+
+.lugar {
+  display: grid;
+  gap: var(--space-5);
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--space-6) var(--gutter) var(--section);
+}
+
+.seccionTitulo {
+  font-size: var(--step-3);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.lugares {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+  gap: var(--space-5);
+  padding: 0;
+  list-style: none;
+}
+
+.ambiente {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.ambiente figcaption {
+  max-width: 38ch;
+  font-size: var(--step--1);
+  line-height: 1.5;
+}
+
+.ambienteNombre {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: var(--step-0);
+  letter-spacing: var(--tracking-carta);
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.foto {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+/* ---- Música ---- */
+
+.musica {
+  scroll-margin-top: var(--space-4);
+}
+
+.musicaGrilla {
+  display: grid;
+  gap: var(--space-6);
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding: var(--section) var(--gutter);
+}
+
+.musicaTexto {
+  display: grid;
+  gap: var(--space-4);
+  align-content: start;
+}
+
+.sets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-3);
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 68rem) {
+  .musicaGrilla {
+    grid-template-columns: 2fr 3fr;
+  }
+}

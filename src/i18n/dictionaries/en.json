@@ -17,29 +17,27 @@
       "reservar": "Book a table",
       "carta": "See the menu"
     },
-    "patio": {
-      "etiqueta": "Your afternoon",
-      "titulo": "Sky above, palms all around.",
-      "texto": "On Saturdays we open at {hora}. The patio is for starting early: a vermouth, some oysters, the aperitivo menu.",
-      "link": "See the space"
+    "accesos": {
+      "titulo": "What to do at Ámbar",
+      "carta": {
+        "titulo": "Eat and drink",
+        "texto": "French cooking with a local accent, an aperitivo menu and house cocktails.",
+        "link": "See the menu"
+      },
+      "regalar": {
+        "titulo": "Gift a night",
+        "texto": "A round, a dinner for two or the whole night, for someone else.",
+        "link": "See experiences"
+      },
+      "eventos": {
+        "titulo": "Celebrate",
+        "texto": "Birthdays, company dinners and small weddings. Tell us what you have in mind.",
+        "link": "Ask about an event"
+      }
     },
-    "cena": {
-      "etiqueta": "Your dinner",
-      "titulo": "French cooking, with a local accent.",
-      "texto": "Plates to share, bold and fresh flavors. Order two at a time and let them keep coming.",
-      "link": "See the full menu"
-    },
-    "previa": {
-      "etiqueta": "Your pre-drinks",
-      "titulo": "Drinks for drinking, not for looking at.",
-      "texto": "Clear flavors, no clarifications, no ceremony. Finish it and order another.",
-      "link": "See all the drinks"
-    },
-    "despues": {
-      "etiqueta": "And, if the night calls for it",
-      "titulo": "Everything that comes after.",
-      "texto": "Fridays and Saturdays, live DJs from {hora}. Every set is recorded and aired on Colonia Radio.",
-      "link": "Listen to the sets"
+    "visita": {
+      "titulo": "Junín 1725, across from the Recoleta Cemetery.",
+      "link": "How to get here and hours"
     }
   },
   "dias": [
@@ -93,13 +91,15 @@
   "nav": {
     "principal": "Site sections",
     "carta": "Menu",
-    "espacio": "The space",
-    "musica": "Music",
+    "espacio": "Visit us",
     "reservar": "Book",
     "menu": "Menu",
     "cerrar": "Close",
     "regalar": "Gifts",
-    "carrito": "Cart ({n})"
+    "carrito": "Cart ({n})",
+    "eventos": "Events",
+    "ingresar": "Log in",
+    "miCuenta": "My account"
   },
   "carta": {
     "titulo": "The menu",
@@ -121,27 +121,21 @@
     }
   },
   "espacio": {
-    "titulo": "The space",
+    "titulo": "Visit us",
     "bajada": "Nearly 500 square meters across from the Recoleta Cemetery. Three rooms, one night.",
     "datos": ["498 m²", "Patio, dining room and bar", "Junín 1725"],
     "datosLabel": "At a glance",
     "patio": {
       "etiqueta": "The patio",
-      "titulo": "A roof that opens.",
-      "texto": "Palms lit from below that cast shadows on the wall, leather armchairs and chairs that don't match, on purpose. With the sky above when the weather allows.",
-      "link": "See the aperitivo menu"
+      "texto": "Palms lit from below that cast shadows on the wall, leather armchairs and chairs that don't match, on purpose. With the sky above when the weather allows."
     },
     "salon": {
       "etiqueta": "The dining room",
-      "titulo": "For a dinner that takes its time.",
-      "texto": "White tablecloths, globe wall lamps, candles on the tables and blue velvet curtains. Booths for staying on after dessert.",
-      "link": "Book a table"
+      "texto": "White tablecloths, globe wall lamps, candles on the tables and blue velvet curtains. Booths for staying on after dessert."
     },
     "barra": {
       "etiqueta": "The bar",
-      "titulo": "Marble, light and music.",
-      "texto": "The marble bar under the arch of light. Up front, the Colonia Radio booth faces the street: DJs play live and every set is recorded.",
-      "link": "Discover the music"
+      "texto": "The marble bar under the arch of light. Up front, the Colonia Radio booth faces the street: DJs play live and every set is recorded."
     },
     "comoLlegar": "Getting here",
     "visitanos": {
@@ -162,19 +156,14 @@
       "eventosTelefono": "Or call",
       "eventosMensaje": "Hi! I'd like to ask about a private event at Ámbar.",
       "eventosWhatsApp": "Or message us on WhatsApp"
-    }
-  },
-  "musica": {
-    "titulo": "Music",
-    "bajada": "Fridays and Saturdays, live DJs from {hora}. We don't tell the DJ what to play.",
-    "colonia": {
-      "etiqueta": "Colonia Radio",
-      "titulo": "Every set, streamed and recorded.",
-      "texto": "Colonia Radio is a streaming project for DJs, electronic and vinyl alike. The booth is up front, facing the street: whatever plays live is streamed and recorded.",
-      "link": "Go to Colonia Radio"
     },
-    "sets": {
-      "titulo": "Sets recorded at Ámbar",
+    "lugarTitulo": "The place",
+    "musica": {
+      "titulo": "Music",
+      "bajada": "Fridays and Saturdays, live DJs from {hora}. We don't tell the DJ what to play.",
+      "colonia": "Colonia Radio is a streaming project for DJs, electronic and vinyl alike. The booth is up front, facing the street: whatever plays live is streamed and recorded.",
+      "coloniaLink": "Go to Colonia Radio",
+      "sets": "Sets recorded at Ámbar",
       "reproducir": "Play",
       "nota": "No brief: no quiet dinner music, no reggaeton at midnight. Every DJ chooses."
     }
@@ -313,5 +302,59 @@
     "yaPagada": "This deposit is already paid. Thank you!",
     "cerrada": "This link is no longer valid. Ask us for a new one.",
     "error": "We couldn't start the payment. Please try again."
+  },
+  "cuenta": {
+    "ingresar": "Log in",
+    "miCuenta": "My account",
+    "ingresoTitulo": "Log in",
+    "ingresoTexto": "With an account you see your purchases, your codes and your event inquiries in one place.",
+    "registroTitulo": "Create an account",
+    "registroTexto": "It's optional: you can buy and ask without one. With an account, everything is saved.",
+    "google": "Continue with Google",
+    "o": "or with your email",
+    "nombre": "Name",
+    "email": "Email",
+    "password": "Password",
+    "passwordAyuda": "At least 8 characters.",
+    "entrar": "Log in",
+    "entrando": "Logging in…",
+    "crear": "Create account",
+    "creando": "Creating…",
+    "sinCuenta": "No account yet?",
+    "irRegistro": "Create one",
+    "conCuenta": "Already have an account?",
+    "irIngreso": "Log in",
+    "hola": "Hi, {nombre}",
+    "salir": "Log out",
+    "admin": "Go to the admin panel",
+    "comprasTitulo": "Your purchases",
+    "sinCompras": "You haven't bought anything yet.",
+    "verExperiencias": "See experiences",
+    "verPedido": "See order",
+    "consultasTitulo": "Your event inquiries",
+    "sinConsultas": "You haven't sent any inquiry yet.",
+    "consultar": "Ask about an event",
+    "personas": "{n} people",
+    "pagarSena": "Pay the deposit",
+    "estados": {
+      "pendiente": "Payment pending",
+      "pagado": "Paid",
+      "rechazado": "Didn't go through",
+      "cancelado": "Cancelled",
+      "reembolsado": "Refunded",
+      "nueva": "Received",
+      "contactada": "In conversation",
+      "senada": "Deposit paid",
+      "descartada": "Closed"
+    },
+    "errores": {
+      "credenciales": "Wrong email or password.",
+      "email_invalido": "Check the email (e.g. name@mail.com).",
+      "password_corta": "The password needs at least 8 characters.",
+      "nombre_corto": "Write your name (at least 2 letters).",
+      "ya_existe": "There's already an account with that email. Try logging in.",
+      "google": "Couldn't log in with Google. Please try again.",
+      "general": "Something went wrong. Please try again later."
+    }
   }
 }

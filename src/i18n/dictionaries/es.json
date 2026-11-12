@@ -17,29 +17,27 @@
       "reservar": "Reservá una mesa",
       "carta": "Ver la carta"
     },
-    "patio": {
-      "etiqueta": "Tu tarde",
-      "titulo": "Cielo arriba, palmeras alrededor.",
-      "texto": "Los sábados abrimos {hora}. El patio es para arrancar temprano: un vermut, unas ostras, la carta aperitiva.",
-      "link": "Conocé el espacio"
+    "accesos": {
+      "titulo": "Qué hacer en Ámbar",
+      "carta": {
+        "titulo": "Comer y tomar",
+        "texto": "Cocina francesa con acento de acá, carta aperitiva y tragos de la casa.",
+        "link": "Ver la carta"
+      },
+      "regalar": {
+        "titulo": "Regalar una noche",
+        "texto": "Una ronda, una cena para dos o la noche entera, para otra persona.",
+        "link": "Ver experiencias"
+      },
+      "eventos": {
+        "titulo": "Festejar",
+        "texto": "Cumpleaños, cenas de empresa y casamientos chicos. Contanos qué tenés en mente.",
+        "link": "Consultar por un evento"
+      }
     },
-    "cena": {
-      "etiqueta": "Tu cena",
-      "titulo": "Cocina francesa, con acento de acá.",
-      "texto": "Platos para compartir, sabores fuertes y frescos. Pedí de a dos y que vayan llegando.",
-      "link": "Ver la carta completa"
-    },
-    "previa": {
-      "etiqueta": "Tu previa",
-      "titulo": "Tragos para tomar, no para mirar.",
-      "texto": "Sabores claros, sin clarificados ni ceremonia. Te lo tomás y pedís otro.",
-      "link": "Ver todos los tragos"
-    },
-    "despues": {
-      "etiqueta": "Y, si pinta",
-      "titulo": "Todo lo que viene después.",
-      "texto": "Viernes y sábados, DJs en vivo desde {hora}. Cada set se graba y sale por Colonia Radio.",
-      "link": "Escuchar los sets"
+    "visita": {
+      "titulo": "Junín 1725, frente al Cementerio de la Recoleta.",
+      "link": "Cómo llegar y horarios"
     }
   },
   "dias": [
@@ -93,13 +91,15 @@
   "nav": {
     "principal": "Secciones del sitio",
     "carta": "La carta",
-    "espacio": "El espacio",
-    "musica": "Música",
+    "espacio": "Visitanos",
     "reservar": "Reservar",
     "menu": "Menú",
     "cerrar": "Cerrar",
     "regalar": "Para regalar",
-    "carrito": "Carrito ({n})"
+    "carrito": "Carrito ({n})",
+    "eventos": "Eventos",
+    "ingresar": "Ingresar",
+    "miCuenta": "Mi cuenta"
   },
   "carta": {
     "titulo": "La carta",
@@ -121,27 +121,21 @@
     }
   },
   "espacio": {
-    "titulo": "El espacio",
+    "titulo": "Visitanos",
     "bajada": "Casi 500 metros cuadrados frente al Cementerio de la Recoleta. Tres ambientes, una sola noche.",
     "datos": ["498 m²", "Patio, salón y barra", "Junín 1725"],
     "datosLabel": "En números",
     "patio": {
       "etiqueta": "El patio",
-      "titulo": "Un techo que se abre.",
-      "texto": "Palmeras iluminadas desde abajo que dibujan sombras en la pared, sillones de cuero y sillas que no combinan, a propósito. Con cielo arriba cuando el tiempo acompaña.",
-      "link": "Ver la carta aperitiva"
+      "texto": "Palmeras iluminadas desde abajo que dibujan sombras en la pared, sillones de cuero y sillas que no combinan, a propósito. Con cielo arriba cuando el tiempo acompaña."
     },
     "salon": {
       "etiqueta": "El salón",
-      "titulo": "Para cenar con tiempo.",
-      "texto": "Manteles blancos, apliques de globo, velas en las mesas y cortinas de terciopelo azul. Boxes para quedarse después del postre.",
-      "link": "Reservar una mesa"
+      "texto": "Manteles blancos, apliques de globo, velas en las mesas y cortinas de terciopelo azul. Boxes para quedarse después del postre."
     },
     "barra": {
       "etiqueta": "La barra",
-      "titulo": "Mármol, luz y música.",
-      "texto": "La barra de mármol bajo el arco de luz. Adelante, la cabina de Colonia Radio mira a la vereda: los DJs tocan en vivo y cada set se graba.",
-      "link": "Conocé la música"
+      "texto": "La barra de mármol bajo el arco de luz. Adelante, la cabina de Colonia Radio mira a la vereda: los DJs tocan en vivo y cada set se graba."
     },
     "comoLlegar": "Cómo llegar",
     "visitanos": {
@@ -162,19 +156,14 @@
       "eventosTelefono": "O llamá al",
       "eventosMensaje": "¡Hola! Quiero consultar por un evento privado en Ámbar.",
       "eventosWhatsApp": "O escribinos por WhatsApp"
-    }
-  },
-  "musica": {
-    "titulo": "Música",
-    "bajada": "Viernes y sábados, DJs en vivo desde {hora}. Al DJ no le decimos qué poner.",
-    "colonia": {
-      "etiqueta": "Colonia Radio",
-      "titulo": "Cada set, transmitido y grabado.",
-      "texto": "Colonia Radio es un proyecto de streaming para DJs, de electrónica y de vinilos. La cabina está adelante, mirando a la vereda: lo que suena en vivo se transmite y queda grabado.",
-      "link": "Ir a Colonia Radio"
     },
-    "sets": {
-      "titulo": "Sets grabados en Ámbar",
+    "lugarTitulo": "El lugar",
+    "musica": {
+      "titulo": "Música",
+      "bajada": "Viernes y sábados, DJs en vivo desde {hora}. Al DJ no le decimos qué poner.",
+      "colonia": "Colonia Radio es un proyecto de streaming para DJs, de electrónica y de vinilos. La cabina está adelante, mirando a la vereda: lo que suena en vivo se transmite y queda grabado.",
+      "coloniaLink": "Ir a Colonia Radio",
+      "sets": "Sets grabados en Ámbar",
       "reproducir": "Reproducir",
       "nota": "Sin consignas: ni música tranqui para la hora de la cena ni reggaetón a las 12. Cada DJ elige."
     }
@@ -313,5 +302,59 @@
     "yaPagada": "Esta seña ya está paga. ¡Gracias!",
     "cerrada": "Este link ya no está vigente. Pedinos uno nuevo.",
     "error": "No pudimos iniciar el pago. Probá de nuevo."
+  },
+  "cuenta": {
+    "ingresar": "Ingresar",
+    "miCuenta": "Mi cuenta",
+    "ingresoTitulo": "Ingresar",
+    "ingresoTexto": "Con tu cuenta ves tus compras, tus códigos y tus consultas de eventos en un solo lugar.",
+    "registroTitulo": "Crear una cuenta",
+    "registroTexto": "Es opcional: podés comprar y consultar sin cuenta. Con cuenta, todo queda guardado.",
+    "google": "Continuar con Google",
+    "o": "o con tu email",
+    "nombre": "Nombre",
+    "email": "Email",
+    "password": "Contraseña",
+    "passwordAyuda": "Mínimo 8 caracteres.",
+    "entrar": "Ingresar",
+    "entrando": "Ingresando…",
+    "crear": "Crear cuenta",
+    "creando": "Creando…",
+    "sinCuenta": "¿No tenés cuenta?",
+    "irRegistro": "Crear una",
+    "conCuenta": "¿Ya tenés cuenta?",
+    "irIngreso": "Ingresar",
+    "hola": "Hola, {nombre}",
+    "salir": "Salir",
+    "admin": "Ir al panel del admin",
+    "comprasTitulo": "Tus compras",
+    "sinCompras": "Todavía no compraste nada.",
+    "verExperiencias": "Ver experiencias",
+    "verPedido": "Ver pedido",
+    "consultasTitulo": "Tus consultas de eventos",
+    "sinConsultas": "Todavía no hiciste ninguna consulta.",
+    "consultar": "Consultar por un evento",
+    "personas": "{n} personas",
+    "pagarSena": "Pagar la seña",
+    "estados": {
+      "pendiente": "Pago pendiente",
+      "pagado": "Pagado",
+      "rechazado": "No se completó",
+      "cancelado": "Cancelado",
+      "reembolsado": "Reembolsado",
+      "nueva": "Recibida",
+      "contactada": "En conversación",
+      "senada": "Señada",
+      "descartada": "Cerrada"
+    },
+    "errores": {
+      "credenciales": "Email o contraseña incorrectos.",
+      "email_invalido": "Revisá el email (ej. nombre@mail.com).",
+      "password_corta": "La contraseña tiene que tener al menos 8 caracteres.",
+      "nombre_corto": "Escribí tu nombre (mínimo 2 letras).",
+      "ya_existe": "Ya hay una cuenta con ese email. Probá ingresar.",
+      "google": "No se pudo ingresar con Google. Probá de nuevo.",
+      "general": "Algo salió mal. Probá de nuevo en un rato."
+    }
   }
 }

@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Momento } from "@/components/Momento";
+import { Foto } from "@/components/Foto";
 import { Horarios } from "@/components/Horarios";
-import { getSemana } from "@/lib/datos";
+import { VideoSet } from "@/components/VideoSet";
+import type { FotoId } from "@/data/fotos";
+import { completar } from "@/i18n/completar";
+import { getSemana, getSets } from "@/lib/datos";
+import { horaEnFrase } from "@/lib/hora";
 import { MapaCuadra } from "@/components/MapaCuadra";
 import { enlaces, linkWhatsApp, telefonoEventos } from "@/data/enlaces";
 import { hasLocale } from "@/i18n/config";
@@ -20,19 +24,29 @@ export async function generateMetadata({
 }
 
 /*
- * Los tres ambientes, en el orden en que se usan durante la noche:
- * el patio a la tarde (crema), el salón en la cena (terciopelo) y la barra de noche.
- * Reutiliza el mismo componente Momento de la home. Al final, Visitanos:
- * cómo llegar, horarios, reservas y eventos privados.
+ * Visitanos: el lugar (tres ambientes en una grilla), la música y cómo llegar.
+ * Junta lo que antes eran dos páginas ("El espacio" y "Música").
  */
 export default async function EspacioPage({
   params,
 }: PageProps<"/[lang]/espacio">) {
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
-  const [dict, semana] = await Promise.all([getDictionary(lang), getSemana()]);
+  const [dict, semana, sets] = await Promise.all([
+    getDictionary(lang),
+    getSemana(),
+    getSets(),
+  ]);
   const t = dict.espacio;
   const v = t.visitanos;
+  const m = t.musica;
+  const djDesde = semana.find((jornada) => jornada?.djDesde)?.djDesde;
+
+  const lugares: { clave: "patio" | "salon" | "barra"; foto: FotoId }[] = [
+    { clave: "patio", foto: "patioTarde" },
+    { clave: "salon", foto: "mesaCena" },
+    { clave: "barra", foto: "djSetLiving" },
+  ];
 
   return (
     <main id="contenido">
@@ -51,42 +65,71 @@ export default async function EspacioPage({
         </ul>
       </header>
 
-      <Momento
-        id="patio"
-        modo="crema"
-        desde="crema"
-        etiqueta={t.patio.etiqueta}
-        titulo={t.patio.titulo}
-        texto={t.patio.texto}
-        link={{ href: `/${lang}/carta#aperitivo`, texto: t.patio.link }}
-        fotos={["patioTarde", "rinconCuero"]}
-        alts={dict.fotos}
-      />
+      <section className={styles.lugar} aria-labelledby="lugar-titulo">
+        <h2 id="lugar-titulo" className={styles.seccionTitulo}>
+          {t.lugarTitulo}
+        </h2>
+        <ul className={styles.lugares}>
+          {lugares.map(({ clave, foto }) => (
+            <li key={clave}>
+              <figure className={styles.ambiente}>
+                <Foto
+                  id={foto}
+                  alts={dict.fotos}
+                  sizes="(min-width: 48rem) 33vw, 100vw"
+                  className={styles.foto}
+                />
+                <figcaption>
+                  <strong className={styles.ambienteNombre}>
+                    {t[clave].etiqueta}
+                  </strong>
+                  {t[clave].texto}
+                </figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </section>
 
-      <Momento
-        id="salon"
-        modo="terciopelo"
-        desde="crema"
-        etiqueta={t.salon.etiqueta}
-        titulo={t.salon.titulo}
-        texto={t.salon.texto}
-        link={{ href: enlaces.reservas, texto: t.salon.link }}
-        fotos={["salonCortina", "mesaCena"]}
-        alts={dict.fotos}
-        lado="izquierda"
-      />
+      <section
+        id="musica"
+        className={styles.musica}
+        data-mode="noche"
+        aria-labelledby="musica-titulo"
+      >
+        <div className={styles.musicaGrilla}>
+          <div className={styles.musicaTexto}>
+            <h2 id="musica-titulo" className={styles.seccionTitulo}>
+              {m.titulo}
+            </h2>
+            <p className={styles.bajada}>
+              {completar(m.bajada, {
+                hora: djDesde ? horaEnFrase(lang, djDesde) : "",
+              })}
+            </p>
+            <p>{m.colonia}</p>
+            <p className={styles.nota}>{m.nota}</p>
+            <a className={styles.link} href={enlaces.colonia}>
+              {m.coloniaLink} ↗
+            </a>
+          </div>
+          <div>
+            <h3 className={styles.subtitulo}>{m.sets}</h3>
+            <ul className={styles.sets}>
+              {sets.map((set) => (
+                <li key={set.youtubeId}>
+                  <VideoSet
+                    youtubeId={set.youtubeId}
+                    titulo={set.titulo}
+                    reproducir={m.reproducir}
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
 
-      <Momento
-        id="barra"
-        modo="noche"
-        desde="terciopelo"
-        etiqueta={t.barra.etiqueta}
-        titulo={t.barra.titulo}
-        texto={t.barra.texto}
-        link={{ href: `/${lang}/musica`, texto: t.barra.link }}
-        fotos={["barraCopasLuz", "espressoMartiniColonia"]}
-        alts={dict.fotos}
-      />
       <section
         id="visitanos"
         className={styles.visitanos}

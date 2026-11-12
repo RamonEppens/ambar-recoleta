@@ -12,6 +12,12 @@ export async function refrescarSesion(request: NextRequest) {
   const { url, clave } = clavesPublicas();
 
   const supabase = createServerClient(url, clave, {
+    // httpOnly: el JavaScript del navegador no puede leer la sesión (el sitio
+    // nunca usa Supabase desde el navegador, así que no lo necesita).
+    cookieOptions: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+    },
     cookies: {
       getAll: () => request.cookies.getAll(),
       setAll: (aGuardar, headers) => {

@@ -1,0 +1,188 @@
+.pagina {
+  display: grid;
+  gap: var(--space-5);
+  max-width: 28rem;
+  margin-inline: auto;
+  padding: var(--space-6) var(--gutter) var(--section);
+}
+
+.titulo {
+  font-size: var(--step-4);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.caja {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.google {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid var(--fg);
+}
+
+.google:hover {
+  background: var(--bg-raised);
+}
+
+.separador {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+.separador::before,
+.separador::after {
+  content: "";
+  flex: 1;
+  border-top: 1px solid var(--line);
+}
+
+.form {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.campo {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.campo label {
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.campo input {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--bg) 60%, white);
+  color: var(--fg);
+  font: inherit;
+}
+
+.ayuda {
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+.error {
+  padding: var(--space-3);
+  border-left: 3px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  font-weight: 700;
+}
+
+.form button:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.alternar {
+  font-size: var(--step--1);
+}
+
+/* ---- Mi cuenta ---- */
+
+.cuenta {
+  display: grid;
+  gap: var(--space-6);
+  max-width: 48rem;
+  margin-inline: auto;
+  padding: var(--space-6) var(--gutter) var(--section);
+}
+
+.cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.email {
+  color: var(--fg-muted);
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.linkBoton {
+  min-height: 2.75rem;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.subtitulo {
+  margin-bottom: var(--space-3);
+  font-size: var(--step-1);
+  font-weight: 700;
+}
+
+.lista {
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.fila {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  padding-block: var(--space-3);
+  border-bottom: 1px solid var(--line);
+}
+
+.detalle {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.meta {
+  font-size: var(--step--1);
+  color: var(--fg-muted);
+}
+
+.estado {
+  font-size: var(--step--1);
+  letter-spacing: var(--tracking-carta);
+  text-transform: uppercase;
+}
+
+.estado[data-estado="pagado"],
+.estado[data-estado="senada"] {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.codigo {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  letter-spacing: 0.12em;
+}
+
+.vacio {
+  display: grid;
+  gap: var(--space-3);
+  justify-items: start;
+}

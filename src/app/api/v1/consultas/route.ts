@@ -6,6 +6,7 @@ import {
   validar,
 } from "@/lib/api/respuestas";
 import { esquemaConsulta } from "@/lib/esquemas";
+import { usuarioActualId } from "@/lib/auth";
 import { clienteServicio } from "@/lib/supabase/servicio";
 
 /**
@@ -29,6 +30,8 @@ export const POST = conErrores(async (request: Request) => {
       personas: datos.personas,
       tipo: datos.tipo,
       mensaje: datos.mensaje || null,
+      // Si tiene sesión, la consulta queda en su cuenta.
+      usuario_id: await usuarioActualId(),
     })
     .select("id")
     .single();

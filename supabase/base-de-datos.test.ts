@@ -30,8 +30,11 @@ const SIMULACION_SUPABASE = `
 `;
 
 const uno = async <T>(sql: string) => (await db.query<T>(sql)).rows[0];
-const contar = async (tabla: string) =>
-  Number((await uno<{ n: string }>(`select count(*) n from ${tabla}`)).n);
+const contar = async (tabla: string, donde = "true") =>
+  Number(
+    (await uno<{ n: string }>(`select count(*) n from ${tabla} where ${donde}`))
+      .n,
+  );
 
 /** Ejecuta `fn` con el rol y el usuario indicados, como lo haría Supabase. */
 async function como(
@@ -346,5 +349,44 @@ describe("checkout: crear_pedido y crear_sena", () => {
         { id: segunda, estado: "pendiente", total: 60000 },
       ]),
     );
+  });
+});
+
+describe("cuentas de clientes", () => {
+  it("cada cliente ve solo sus pedidos, sus items y sus consultas", async () => {
+    const ana = await crearUsuario("ana-cuenta@test.com");
+    const beto = await crearUsuario("beto-cuenta@test.com");
+    const { id } = await uno<{ id: string }>(
+      `select crear_pedido('Ana', 'ana@mail.com', '[{"slug":"cena-para-dos","cantidad":1}]'::jsonb) id`,
+    );
+    await db.exec(
+      `update pedidos set usuario_id = '${ana}' where id = '${id}'`,
+    );
+    await db.exec(
+      `insert into consultas_eventos (nombre, email, fecha, personas, tipo, usuario_id)
+       values ('Ana', 'ana@mail.com', '2026-12-24', 10, 'otro', '${ana}')`,
+    );
+
+    await como("authenticated", ana, async () => {
+      expect(await contar("pedidos")).toBe(1);
+      expect(await contar("pedido_items")).toBe(1);
+      expect(await contar("consultas_eventos")).toBe(1);
+    });
+    await como("authenticated", beto, async () => {
+      expect(await contar("pedidos")).toBe(0);
+      expect(await contar("pedido_items")).toBe(0);
+      expect(await contar("consultas_eventos")).toBe(0);
+    });
+  });
+
+  it("un cliente no puede asignarse un pedido ajeno ni marcarlo pagado", async () => {
+    const carla = await crearUsuario("carla-cuenta@test.com");
+    await como("authenticated", carla, async () => {
+      await db.exec(
+        `update pedidos set usuario_id = '${carla}', estado = 'pagado'`,
+      );
+      expect(await contar("pedidos")).toBe(0);
+    });
+    expect(await contar("pedidos", `usuario_id = '${carla}'`)).toBe(0);
   });
 });

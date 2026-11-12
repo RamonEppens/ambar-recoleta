@@ -7,7 +7,10 @@ import { ErrorApi } from "@/lib/api/respuestas";
 import { baseFalsa } from "@/test/dobles";
 
 vi.mock("server-only", () => ({}));
-vi.mock("@/lib/auth", () => ({ exigirAdminApi: vi.fn() }));
+vi.mock("@/lib/auth", () => ({
+  exigirAdminApi: vi.fn(),
+  usuarioActualId: vi.fn().mockResolvedValue(null),
+}));
 vi.mock("@/lib/supabase/servicio", () => ({ clienteServicio: vi.fn() }));
 
 const { exigirAdminApi } = await import("@/lib/auth");
@@ -62,6 +65,7 @@ describe("POST /api/v1/consultas", () => {
       personas: 40,
       tipo: "empresa",
       mensaje: "Cena y después barra.",
+      usuario_id: null, // sin sesión: queda como invitado
     });
   });
 

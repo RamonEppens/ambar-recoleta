@@ -6,6 +6,7 @@ import {
   ok,
   validar,
 } from "@/lib/api/respuestas";
+import { usuarioActualId } from "@/lib/auth";
 import { cobrarPedido, urlSitio } from "@/lib/checkout";
 import { esquemaPedido } from "@/lib/esquemas";
 import { clienteServicio } from "@/lib/supabase/servicio";
@@ -33,6 +34,14 @@ export const POST = conErrores(async (request: Request) => {
       throw new ErrorApi(409, codigo, error.message);
     throw errorDeBase(error);
   }
+
+  // Si tiene sesión, el pedido queda en su cuenta ("Mi cuenta").
+  const usuarioId = await usuarioActualId();
+  if (usuarioId)
+    await clienteServicio()
+      .from("pedidos")
+      .update({ usuario_id: usuarioId })
+      .eq("id", pedidoId);
 
   const url = await cobrarPedido(pedidoId as string, {
     sitio: urlSitio(request),
